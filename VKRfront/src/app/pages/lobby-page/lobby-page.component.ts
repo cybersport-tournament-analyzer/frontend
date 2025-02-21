@@ -7,11 +7,10 @@ import {JsonPipe} from '@angular/common';
 import {ButtonComponent} from '../../componets/globals/button/button.component';
 
 @Component({
-  selector: 'app-lobby-page',
-  standalone: true,
-  imports: [FormsModule, JsonPipe, ButtonComponent],
-  templateUrl: './lobby-page.component.html',
-  styleUrl: './lobby-page.component.css'
+    selector: 'app-lobby-page',
+    imports: [FormsModule, JsonPipe, ButtonComponent],
+    templateUrl: './lobby-page.component.html',
+    styleUrl: './lobby-page.component.css'
 })
 export class LobbyPageComponent implements OnInit{
   format:string=''

@@ -7,15 +7,14 @@ import {Observable} from 'rxjs';
 
 
 @Component({
-  selector: 'app-main-page',
-  standalone: true,
-  imports: [
-    JsonPipe,
-    AsyncPipe,
-    RouterLink
-  ],
-  templateUrl: './main-page.component.html',
-  styleUrl: './main-page.component.css'
+    selector: 'app-main-page',
+    imports: [
+        JsonPipe,
+        AsyncPipe,
+        RouterLink
+    ],
+    templateUrl: './main-page.component.html',
+    styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
 

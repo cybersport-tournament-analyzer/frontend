@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {environment} from '../../environments/environment.development';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {catchError, mapTo, Observable, of, tap, throwError} from 'rxjs';
@@ -15,6 +15,7 @@ export class AuthService {
   private  accessToken:string|null = null;
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private loggedUser: any | null=null;
+
 
   constructor(private http: HttpClient, ){
     // this.getInfo().subscribe((data)=>{
