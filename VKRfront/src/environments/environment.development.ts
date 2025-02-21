@@ -1,3 +1,7 @@
-export const environment : { authSource: string | undefined } = {
-  authSource: "Steam"
+export const environment : { authSource: string; matchSource: string } = {
+
+  authSource: 'http://localhost:8080',
+  matchSource: 'http://localhost:8081',
+
+
 };

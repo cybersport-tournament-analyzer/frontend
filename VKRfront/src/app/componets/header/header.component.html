@@ -1,5 +1,21 @@
-<header class="flex h-20 w-screen justify-between items-center bg-black" >
-  <img src="/" >
-  <h1>EsPorts</h1>
-  <app-button class="h-[40px]" title="Авторизоваться"/>
+<header class="" >
+  <nav class="bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div  class="flex items-center space-x-2">
+<!--        <Trophy class="w-8 h-8 text-yellow-500" />-->
+        <span class="text-xl font-bold">CS2 Tournaments</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div  class="hover:text-yellow-500 transition-colors">
+          Tournaments
+          </div>
+          <a routerLink="/error">error</a>
+          <a routerLink="/home">home</a>
+          <app-button (click)="getByRoute()" class="h-[40px]" title="Авторизоваться"/>
+        </div>
+      </div>
+    </div>
+  </nav>
+
 </header>

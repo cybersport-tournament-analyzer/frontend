@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {HttpService} from '../../../http.service';
+import {AuthService} from '../../../services/http.authService';
 
 @Component({
   selector: 'app-button',
@@ -7,14 +7,12 @@ import {HttpService} from '../../../http.service';
   imports: [],
   templateUrl: './button.component.html',
   styleUrl: './button.component.css',
-  providers:[HttpService]
+  providers:[AuthService]
 })
 export class ButtonComponent {
-  constructor(private httpService:HttpService) {
+  constructor(private authService:AuthService) {
   }
   @Input() title:string =""
   @Input() url:string = "/"
-  getByRoute(){
-    this.httpService.getAuth()
-  }
+
 }

@@ -1,0 +1,39 @@
+<p>lobby-page works!</p>
+{{lobbyId}}
+{{me |json}}
+<h2>Лобби</h2>
+
+<input [(ngModel)]="format" placeholder="Введите команду">
+<button (click)="join()">Присоединиться</button>
+
+
+{{lobby | json}}
+<h3>Игроки 1 :</h3>
+@for (players of team1;track players.steamId){
+  <ul>
+    {{players |json }}
+  </ul>
+  {{players.ready}}
+
+
+  @if(me.steamId===players.steamId){
+    <button (click)="changeStatus(players.ready)">Сменить статус</button>
+  }
+
+
+}
+
+<h3>Игроки 2 :</h3>
+@for (players of team2;track players){
+  <ul>
+    {{players}}
+  </ul>
+
+}
+
+
+
+<!--<app-button (click)="connectToServer( 'yezzan.dathost.net','25169')" >Присоединиться к матчу</app-button>-->
+<a [href]="'steam://connect/45.136.205.160:27032'" >Присоединиться к матчу</a>
+<a [href]="'steam://rungameid/730'" >Присоединиться к матчу</a>
+<a [href]="'steam://rungameid/730/+connect 45.136.205.160:27032'" >Присоединиться к матчу</a>

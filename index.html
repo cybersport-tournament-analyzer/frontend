@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Tournament Platform</title>
+    <style>
+        body {
+            background-color: rgb(226,231,225);
+            color: rgb(32,32,82);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: rgb(232,121,138);
+            padding: 20px;
+            text-align: center;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: rgb(32,32,82);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background-color: rgb(223,190,209);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: rgb(126,81,50);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Gaming Tournament Platform</h1>
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#lobby">Lobby</a></li>
+            <li><a href="#profile">Profile</a></li>
+        </ul>
+    </nav>
+</header>
+<main class="container">
+    <section id="home">
+        <h2>Welcome to the Tournament!</h2>
+        <p>Join exciting games and compete to be the champion.</p>
+    </section>
+    <section id="lobby">
+        <h2>Lobby</h2>
+        <div class="card">
+            <h3>Team A vs Team B</h3>
+            <p>Join a team and get ready to play.</p>
+            <button class="button">Join Team A</button>
+            <button class="button">Join Team B</button>
+            <button class="button">Ready</button>
+            <button class="button">Start Game</button>
+        </div>
+    </section>
+    <section id="profile">
+        <h2>Your Profile</h2>
+        <div class="card">
+            <h3>Player Name</h3>
+            <p>Rank: Gold</p>
+            <p>Wins: 20 | Losses: 5</p>
+        </div>
+    </section>
+</main>
+</body>
+</html>
