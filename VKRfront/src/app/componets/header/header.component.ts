@@ -4,13 +4,14 @@ import {AuthService} from '../../services/http.authService';
 import {RouterLink} from '@angular/router';
 
 @Component({
-    selector: 'app-header',
-    imports: [
-        ButtonComponent,
-        RouterLink
-    ],
-    templateUrl: './header.component.html',
-    styleUrl: './header.component.css'
+  selector: 'app-header',
+  imports: [
+    ButtonComponent,
+    RouterLink
+  ],
+  templateUrl: './header.component.html',
+  standalone: true,
+  styleUrl: './header.component.css'
 })
 export class HeaderComponent {
 

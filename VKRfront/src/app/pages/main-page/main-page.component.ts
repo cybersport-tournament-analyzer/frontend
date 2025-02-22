@@ -7,26 +7,37 @@ import {Observable} from 'rxjs';
 
 
 @Component({
-    selector: 'app-main-page',
-    imports: [
-        JsonPipe,
-        AsyncPipe,
-        RouterLink
-    ],
-    templateUrl: './main-page.component.html',
-    styleUrl: './main-page.component.css'
+  selector: 'app-main-page',
+  imports: [
+    JsonPipe,
+    AsyncPipe,
+    RouterLink
+  ],
+  templateUrl: './main-page.component.html',
+  standalone: true,
+  styleUrl: './main-page.component.css'
 })
 export class MainPageComponent {
 
   name = "Tom";
   lobbys$!:Observable<any[]> ;
   lobby:WritableSignal<any[]>=signal([]);
-  user:any=null
+  user:WritableSignal<any>=signal(null)
 
   constructor(private authService:AuthService, private socketService:WebSocketService) {
-    this.lobbys$=this.socketService.getLobbys()
-    this.authService.getInfo().subscribe()
-    this.user=this.authService.getUser();
+    this.lobbys$=this.socketService.getLobbys();
+    // this.authService.getInfo().subscribe(({attributes}:any)=>{
+    //   console.log("At",attributes)
+    //   this.user.set(this.authService.getUser())
+    // })
+
+      (async () => {
+        const userData = await this.authService.getUser();
+        this.user.set(userData); // здесь уже обычный объект
+        console.log("User:", this.user());
+      })();
+    console.log("end const")
+
   }
 
   gatToken(){

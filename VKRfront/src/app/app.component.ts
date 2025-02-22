@@ -8,16 +8,17 @@ import {AuthService} from './services/http.authService';
 
 
 @Component({
-    selector: 'app-root',
-    imports: [RouterOutlet, LoginPageComponent, HeaderComponent,],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css',
-    providers: [{
-            provide: HTTP_INTERCEPTORS,
-            useClass: authInterceptor,
-            multi: true
-        },
-    ]
+  selector: 'app-root',
+  imports: [RouterOutlet, LoginPageComponent, HeaderComponent,],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+  standalone: true,
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: authInterceptor,
+    multi: true
+  },
+  ]
 })
 export class AppComponent {
   title = 'VKRfront';

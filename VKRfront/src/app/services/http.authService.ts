@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from '../../environments/environment.development';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {catchError, mapTo, Observable, of, tap, throwError} from 'rxjs';
+import {CookieService} from 'ngx-cookie-service';
 
 
 
@@ -17,15 +18,28 @@ export class AuthService {
   private loggedUser: any | null=null;
 
 
-  constructor(private http: HttpClient, ){
+  constructor(private http: HttpClient, private cookieService:CookieService){
     // this.getInfo().subscribe((data)=>{
     //   console.log("Получили данные ")
     // })
   }
 
 
-  getUser():any{
-    console.log('.pth ')
+  //@ts-ignore
+  async getUser(): any {
+
+    console.log("getUser")
+    if (this.loggedUser == null) {
+      console.log("in if getUser")
+      await this.getInfo().toPromise().then((data: any) => {
+        return this.loggedUser = data.attributes
+      });
+      console.log(this.loggedUser)
+      console.log("end if getUser")
+      return this.loggedUser;
+
+    }
+    console.log("not if getUser")
     return this.loggedUser;
   }
 
@@ -74,8 +88,9 @@ logout() {
 }
 
 isLoggedIn() {
+    console.log("isLoggedIn")
   if (!this.accessToken){
-    // this.cookieService.get(this.JWT_TOKEN)
+    return this.cookieService.get(this.JWT_TOKEN)
   }
   return !!this.accessToken;
 }
@@ -97,7 +112,8 @@ getJwtToken() {
   // return localStorage.getItem(this.JWT_TOKEN);
   // }
   // return null;
-  return this.accessToken;
+  // return this.accessToken;
+  return this.cookieService.get(this.JWT_TOKEN)
 }
 
 private async doLoginUser(tokens: any) {
@@ -109,7 +125,7 @@ private async doLoginUser(tokens: any) {
   // });
   try {
     const user: any = await this.getInfo().toPromise(); // Ожидание завершения запроса
-    this.loggedUser = user.attributes;
+    // this.loggedUser = user.attributes;
     console.log("doLoginUser", this.loggedUser);
   } catch (error) {
     console.error("Ошибка при получении информации о пользователе", error);
@@ -131,21 +147,21 @@ private getRefreshToken() {
 
 private storeJwtToken(jwt: string) {
   // localStorage.setItem(this.JWT_TOKEN, jwt);
-  // this.cookieService.set(this.JWT_TOKEN,jwt)
+  this.cookieService.set(this.JWT_TOKEN,jwt)
   this.accessToken=jwt;
   }
 
 
 private storeTokens(tokens:any) {
   this.accessToken=tokens;
-  // this.cookieService.set(this.JWT_TOKEN,tokens)
+  this.cookieService.set(this.JWT_TOKEN,tokens)
   // localStorage.setItem(this.JWT_TOKEN, tokens);
   // localStorage.setItem(this.REFRESH_TOKEN, tokens.refreshToken);
 }
 
 private removeTokens() {
   this.accessToken=null;
-  // this.cookieService.delete(this.JWT_TOKEN)
+  this.cookieService.delete(this.JWT_TOKEN)
 
   // localStorage.removeItem(this.JWT_TOKEN);
   // localStorage.removeItem(this.REFRESH_TOKEN);
