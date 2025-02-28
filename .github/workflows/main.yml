@@ -26,4 +26,4 @@ jobs:
           docker rm my-angular-app || true
 
           # Запуск нового контейнера с переменными окружения
-          docker run -d -p 4200:80 --name my-angular-app my-angular-app:latest
+          docker run -d -p 4200:80 --env API_AUTH_URL=${{ secrets.API_AUTH_URL }} API_MATCHMAKING_URL=${{ secrets.API_MATCHMAKING_URL }} --name my-angular-app my-angular-app:latest
