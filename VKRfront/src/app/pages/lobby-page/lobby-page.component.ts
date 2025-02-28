@@ -5,27 +5,33 @@ import {ActivatedRoute} from '@angular/router';
 import {AuthService} from '../../services/http.authService';
 import {JsonPipe} from '@angular/common';
 import {ButtonComponent} from '../../componets/globals/button/button.component';
+import {UserDto} from '../../interfaces/user-dto';
+import {LobbyDto} from '../../interfaces/lobby-dto';
 
 @Component({
-    selector: 'app-lobby-page',
-    imports: [FormsModule, JsonPipe, ButtonComponent],
-    templateUrl: './lobby-page.component.html',
-    styleUrl: './lobby-page.component.css'
+  selector: 'app-lobby-page',
+  imports: [FormsModule, JsonPipe, ButtonComponent],
+  templateUrl: './lobby-page.component.html',
+  standalone: true,
+  styleUrl: './lobby-page.component.css'
 })
 export class LobbyPageComponent implements OnInit{
   format:string=''
   team1: any[] = [];
   team2: any[] = [];
-  lobby: any = null;
+  lobby: LobbyDto| null = null;
+  timer:any|null = null ;
   matchStatus: string = '';
   lobbyId!: string;
   me:any
+  user:UserDto|null=null
   rStatus:WritableSignal<boolean>=signal<boolean>(false);
 
   ngOnInit(): void {
     this.lobbyId = this.route.snapshot.paramMap.get('id')!;
     this.wsService.connect(this.lobbyId)
     this.me=this.profileService.getUser()
+    this.profileService.getUser().subscribe((user:UserDto)=>{this.user = user})
 
     // Либо использовать подписку, если id может измениться без перезагрузки компонента:
     // this.route.paramMap.subscribe(params => {
@@ -42,22 +48,40 @@ export class LobbyPageComponent implements OnInit{
       this.team2=lobby.team2
 
     });
-    this.wsService.matchStatus$.subscribe(status => this.matchStatus = status);
+    this.wsService.timer$.subscribe(timer=>{this.timer=timer})
+    // this.wsService.matchStatus$.subscribe(status => this.matchStatus = status);
 
   }
 
   changeStatus(status:any){
     console.log(status,"_________")
     console.log(!status,"_________")
-    this.wsService.setReady(this.lobbyId,this.profileService.getUser().steamId,!status)
+    this.wsService.setReady(this.lobbyId,this.user?.steamId,!status)
   }
   join() {
-    console.log(this.format, this.lobbyId,this.profileService.getUser().steamId)
-    this.wsService.joinTeam(this.lobbyId,this.profileService.getUser().steamId,this.format)
+    // console.log(this.format, this.lobbyId,this.profileService.getUser().steamId)
+    this.wsService.joinTeam(this.lobbyId,this.user?.steamId,this.format)
   }
 
   start() {
     this.wsService.startMatch();
+  }
+  actionByMap( map:string) {
+    const message:{lobbyId?:string,steamId?:string,action?:string,map?:string,side?:string}={
+    };
+    message.steamId = this.user?.steamId!;
+    message.action = this.lobby?.pickBanSession?.nextActionType;
+
+    message.lobbyId = this.lobby!.id;
+    if (this.lobby?.pickBanSession?.nextActionType == ('BAN' || 'PICK')){
+      message.map = map;
+
+    }else{
+      message.side =map ;
+    }
+
+
+    this.wsService.pickBan(message)
   }
 
 
@@ -65,4 +89,6 @@ export class LobbyPageComponent implements OnInit{
     const steamUrl = `steam://connect/${serverIP}:${serverPort}`;
     window.location.href = steamUrl;
   }
+
+  protected readonly Object = Object;
 }

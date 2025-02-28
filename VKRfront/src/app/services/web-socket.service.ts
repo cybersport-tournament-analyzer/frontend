@@ -14,7 +14,8 @@ export class WebSocketService {
 
   private client!: any;
   public players$ = new BehaviorSubject<string[]>([]);
-  public matchStatus$ = new BehaviorSubject<string>('');
+  // public matchStatus$ = new BehaviorSubject<string>('');
+  public timer$ = new BehaviorSubject<string>('');
   public me:any = null
 
   constructor(private http: HttpClient) {
@@ -94,7 +95,8 @@ export class WebSocketService {
     console.log("in websocket service")
     return this.http.post<any>(`${environment.matchSource}/create`, {
       'steamId': id,
-      'mode':mode
+      'mode':mode,
+      'format' : 'bo5'
     }).pipe(
       tap((data) => console.log(data)),
       mapTo(true),
@@ -111,7 +113,7 @@ export class WebSocketService {
     console.log('🔄 Инициализация WebSocket...');
 
     this.client = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8081/ws'),
+      webSocketFactory: () => new SockJS(`${environment.matchSource}/ws`),
       debug: (msg) => console.log('STOMP DEBUG:', msg),
       reconnectDelay: 5000,
     });
@@ -129,6 +131,11 @@ export class WebSocketService {
 
         console.log(this.players$,'ZZVZVZVZVZVZV')
       });
+      this.client.subscribe('/topic/lobby/'+lobbyId+'/time/', (message: Message) => {
+        this.timer$.next(JSON.parse(message.body));
+      });
+
+
       this.client.publish({ destination: "/app/getLobby", body: lobbyId });
     };
 
@@ -147,10 +154,10 @@ export class WebSocketService {
     //   console.error('WebSocket не подключен, повторите попытку позже');
     // }
   }
-   joinTeam(lobbyId:any, steamId:any,team:any) {
+   joinTeam(lobbyId:any, steamId:any,slot:any) {
      this.client.publish({
       destination: "/app/join",
-      body: JSON.stringify({ lobbyId, steamId, team })
+      body: JSON.stringify({ lobbyId, steamId, slot })
     });
   }
    setReady(lobbyId:any, steamId:any,ready:boolean) {
@@ -162,6 +169,12 @@ export class WebSocketService {
   }
 
 
+  pickBan(message:{lobbyId?:string,steamId?:string,action?:string,map?:string}){
+    this.client.publish({
+      destination: "/app/pickban",
+      body: JSON.stringify(message)
+    });
+  }
   startMatch() {
     this.client.publish({ destination: '/app/ready' });
   }

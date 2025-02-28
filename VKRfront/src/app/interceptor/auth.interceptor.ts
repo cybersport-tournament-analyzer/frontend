@@ -109,13 +109,14 @@ export class authInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log('intercept')
+    console.log(this.authService.getJwtToken())
     if (this.authService.getJwtToken()) {
       request = this.addToken(request, this.authService.getJwtToken());
     }
 
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log("error",error)
+        console.log("errorsssssss",error)
         if (error instanceof HttpErrorResponse && error.status === 401) {
           if (error.error.url !== '/auth/refresh') {
             return this.handle401Error(request, next);
