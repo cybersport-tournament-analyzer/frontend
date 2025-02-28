@@ -2,6 +2,6 @@
   window.env = window.env || {};
 
   // Environment variables
-  window["env"]["apiUrl"] = "${API_URL}";
-  window["env"]["debug"] = "${DEBUG}";
+  window["env"]["authSource"] = "${API_AUTH_URL}";
+  window["env"]["matchSource"] = "${API_MATCHMAKING_URL}";
 })(this);
