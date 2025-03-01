@@ -22,7 +22,7 @@ export class HeaderComponent {
     this.authService.login().subscribe({next: (data: any) => {
         console.log("hui")
         console.log(data.openIdUrl)
-        // window.location.href=data.openIdUrl
+        window.location.href=data.openIdUrl
       }});
     // this.httpService.getAuth()
   }
