@@ -13,7 +13,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Копируем билд Angular
-COPY --from=build /usr/src/app/dist/test-cicdangular/browser /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/vkrfront/browser /usr/share/nginx/html
 
 # Копируем env.template.js
 COPY public/env.template.js /usr/share/nginx/html/public/env.template.js
