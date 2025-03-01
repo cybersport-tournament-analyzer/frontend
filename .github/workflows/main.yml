@@ -10,20 +10,31 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # ✅ Шаг 1: Клонирование репозитория
       - name: Checkout Repo
         uses: actions/checkout@v3
 
-      # ✅ Шаг 2: Сборка Docker-образа
-      - name: Build Docker Image
-        run: docker build -t my-angular-app .
+      # ✅ Удаление старых версий образа перед созданием нового
+      - name: Remove previous Docker images
+        run: docker rmi -f $(docker images -q my-angular-app) || true
 
-      # ✅ Шаг 3: Остановка старого контейнера и запуск нового с переменными
-      - name: Run Docker Container
+      # ✅ Сборка Docker-образа с перезаписью старого
+      - name: Build Docker Image
+        run: docker build --rm -t my-angular-app:latest .
+
+      # ✅ Остановка старого контейнера
+      - name: Stop and Remove Old Container
         run: |
-          # Остановка и удаление старого контейнера, если он существует
           docker stop my-angular-app || true
           docker rm my-angular-app || true
 
-          # Запуск нового контейнера с переменными окружения
-          docker run -d -p 4200:80 --env API_AUTH_URL=${{ secrets.API_AUTH_URL }} --env API_MATCHMAKING_URL=${{ secrets.API_MATCHMAKING_URL }} --name my-angular-app my-angular-app:latest
+      # ✅ Запуск нового контейнера
+      - name: Run Docker Container
+        run: |
+          docker run -d -p 4200:80 \
+            --env API_AUTH_URL=${{ secrets.API_AUTH_URL }} \
+            --env API_MATCHMAKING_URL=${{ secrets.API_MATCHMAKING_URL }} \
+            --name my-angular-app my-angular-app:latest
+
+      # ✅ Очистка неиспользуемых образов после деплоя
+      - name: Remove dangling images
+        run: docker image prune -f
