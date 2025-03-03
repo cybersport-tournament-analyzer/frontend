@@ -1,89 +1,193 @@
-<div class="flex gap-5 flex-col">
-<!--{{me |json}}-->
-<h2>Лобби</h2>
-  @if (!lobby?.pickBanSession?.completed){
-    <h2>{{timer|json}}</h2>
+{{lobby |json}}
+<div class="flex gap-5 flex-col relative">
+  @if (showToast) {
+    <div
+      class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out"
+    >
+      ✅ Скопировано в буфер обмена!
+    </div>
+  }
+  <!--{{me |json}}-->
+  <h2>Лобби</h2>
+  @if (!lobby?.pickBanSession?.completed) {
+    <h2>{{ timer|json }}</h2>
   }
 
-<div > -----------</div>
-<div  class=" flex ">
-<input [(ngModel)]="format" placeholder="Введите команду">
-<button (click)="join()">Присоединиться</button>
-</div>
+  <div> -----------</div>
+  <div class=" flex ">
+    <input [(ngModel)]="format" placeholder="Введите команду">
+    <button (click)="join()">Присоединиться</button>
+  </div>
 
   <div>
     ----------------
-<h3>Игроки 1 :</h3>
-<!--{{team1 | json}}-->
-@for (players of Object.values(team1);track players){
-  <ul>
-    {{players |json }}
-    {{team1[players] | json}}
-  </ul>
-  {{players.ready}}
+    <h3>Игроки 1 :</h3>
+    <!--{{team1 | json}}-->
+    @for (players of Object.values(team1); track players) {
+      <ul>
+        {{ players |json }}
+        {{ team1[players] | json }}
+      </ul>
+      {{ players.ready }}
 
 
 
-  @if(user?.steamId===players.steamId){
-    <button (click)="changeStatus(players.ready)">Сменить статус</button>
-  }
+      @if (user?.steamId === players.steamId) {
+        <button (click)="changeStatus(players.ready)">Сменить статус</button>
+      }
 
-}
-  </div>
-
-<div>
-  ------------------
-<h3>Игроки 2 :</h3>
-@for (players of Object.values(team2);track players){
-  <ul>
-    {{players |json }}
-    {{team1[players] | json}}
-  </ul>
-    {{players.ready}}
-  @if(user?.steamId===players.steamId){
-    <button (click)="changeStatus(players.ready)">Сменить статус</button>
-  }
-}
-
-<div>
-@if (lobby?.pickBanSession?.maps != null){
-  <div>
-  {{lobby?.pickBanSession?.currentTeamTurn}}
-
-  {{lobby?.pickBanSession?.nextActionType}}
-
-  </div>
-  ---------------
-  <div class="flex flex-col gap-2">
-  @for (map of lobby?.pickBanSession?.maps; track map ){
-    <div class="bg-amber-500 w-full "
-         [class.pointer-events-none]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"
-         [class.opacity-50]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"
-         (click)="actionByMap(map)">{{map}}</div>
-
-  }
-    @if (lobby?.pickBanSession?.nextActionType == "PICK_SIDE"){
-      <div class="bg-amber-500 w-full " (click)="actionByMap('T')">T</div>
-      <div class="bg-amber-500 w-full " (click)="actionByMap('CT')">CT</div>
     }
   </div>
 
+  <div>
+    ------------------
+    <h3>Игроки 2 :</h3>
+    @for (players of Object.values(team2); track players) {
+      <ul>
+        {{ players |json }}
+        {{ team1[players] | json }}
+      </ul>
+      {{ players.ready }}
+      @if (user?.steamId === players.steamId) {
+        <button (click)="changeStatus(players.ready)">Сменить статус</button>
+      }
+    }
+
+    <div>
+      @if (lobby?.pickBanSession?.maps != null) {
+        <div>
+          {{ lobby?.pickBanSession?.currentTeamTurn }}
+
+          {{ lobby?.pickBanSession?.nextActionType }}
+
+        </div>
+        ---------------
+        <div class="flex flex-col gap-2">
+          @for (map of lobby?.pickBanSession?.maps; track map) {
+            <div class="bg-amber-500 w-full "
+                 [class.pointer-events-none]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"
+                 [class.opacity-50]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"
+                 (click)="actionByMap(map)">{{ map }}
+            </div>
+
+          }
+          @if (lobby?.pickBanSession?.nextActionType == "PICK_SIDE") {
+            <div class="bg-amber-500 w-full " (click)="actionByMap('T')">T</div>
+            <div class="bg-amber-500 w-full " (click)="actionByMap('CT')">CT</div>
+          }
+        </div>
 
 
-}
-  @if (lobby?.link!=null){
-    <a [href]="lobby?.link" >Присоединиться к матчу</a>
+      }
+      @if (lobby?.link != null) {
+        <a [href]="lobby?.link">Присоединиться к матчу</a>
+        <button (click)="copyToClipboard(lobby!.link)">
+          📋 Скопировать текст
+        </button>
+      }
+
+    </div>
+  </div>
+
+
+  {{stat |json}}
+  <div class="bg-gray-200 p-4 rounded-lg shadow mb-6 text-center">
+    <h2 class="text-xl font-semibold">Server Status</h2>
+    <p id="server-status" class="text-xl">Status: <span class="font-bold"> {{isServerBooting ? "Booting" : isMapLoading ? "Loading Map" : "Running" }}</span></p>
+    <p id="server-booting" class="text-xl">Booting: <span class="font-bold">{{isServerBooting ? "Yes" : "No"}}</span></p>
+    <p id="server-map-loading" class="text-xl">Map Loading: <span class="font-bold">{{isMapLoading ? "Yes" : "No"}}</span></p>
+  </div>
+  @if (isMatchStarted){
+  <div>
+   <h1>СТАТИСТИКА</h1>
+    {{stage}}
+
+    {{stat |json}}
+
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-2xl font-bold text-center mb-4">Live Match Stats</h1>
+
+      <!-- Match Info -->
+      <div class="bg-gray-200 p-4 rounded-lg shadow mb-6 text-center">
+        <h2 class="text-xl font-semibold">Match Status</h2>
+        <p id="match-status" class="text-xl">Status: <span class="font-bold">{{stat.match?.finished ? "Finished" : stat.match?.rounds_played > 0 ? "In Progress" : "Not Started"}}</span></p>
+        <p id="match-mode" class="text-xl">Mode: <span class="font-bold">{{stat.mode}}</span></p>
+        <p id="match-format" class="text-xl">Format: <span class="font-bold">{{stat.format}}</span></p>
+        <p id="match-score" class="text-2xl font-bold">{{stat.team1Name}} {{stat.team1Name === stat.match?.team1.name ? stat.match?.team1?.stats?.score : stat?.match?.team2?.stats?.score}} ({{stat.team1Score}}) - {{stat.team2Name}} {{stat.team2Name === stat.match?.team2?.name ? stat.match?.team2?.stats?.score : stat.match?.team1?.stats?.score}} ({{stat.team2Score}})</p>
+        <p id="match-rounds" class="text-xl">Rounds Played: <span class="font-bold">{{stat.match?.rounds_played}}</span></p>
+        <p id="match-map" class="text-xl">Map: <span class="font-bold">{{stat.match?.settings?.map}}</span></p>
+      </div>
+
+      <!-- Server Status -->
+
+
+      <!-- Players Section -->
+      <div class="flex justify-between">
+        <!-- Team 1 -->
+        <div class="w-1/2 pr-2">
+          <h2 class="text-xl font-semibold text-center mb-2">Team 1</h2>
+          <table class="w-full border-collapse border border-gray-700">
+            <thead>
+            <tr>
+              <th class="border border-gray-600 p-2">Nickname</th>
+              <th class="border border-gray-600 p-2">Kills</th>
+              <th class="border border-gray-600 p-2">Deaths</th>
+              <th class="border border-gray-600 p-2">Score</th>
+            </tr>
+            </thead>
+
+            <tbody id="team1-players">
+              @for (player of stat.match.players; track player.nickname_override){
+                @if(player.team === "team1"){
+                  <td class="border border-gray-600 p-2">{{player.nickname_override}}</td>
+                  <td class="border border-gray-600 p-2">{{player.stats.kills}}</td>
+                  <td class="border border-gray-600 p-2">{{player.stats.deaths}}</td>
+                  <td class="border border-gray-600 p-2">{{player.stats.score}}</td>
+                }
+
+              }
+
+
+            </tbody>
+          </table>
+
+        </div>
+
+        <!-- Team 2 -->
+        <div class="w-1/2 pl-2">
+          <h2 class="text-xl font-semibold text-center mb-2">Team 2</h2>
+          <table class="w-full border-collapse border border-gray-700">
+            <thead>
+            <tr>
+              <th class="border border-gray-600 p-2">Nickname</th>
+              <th class="border border-gray-600 p-2">Kills</th>
+              <th class="border border-gray-600 p-2">Deaths</th>
+              <th class="border border-gray-600 p-2">Score</th>
+            </tr>
+            </thead>
+            <tbody id="team2-players">
+              @for (player of stat.match.players; track player.steam_id_64){
+                @if(player.team === "team2"){
+                  <td class="border border-gray-600 p-2">{{player.nickname_override || player.steam_id_64}}</td>
+                  <td class="border border-gray-600 p-2">{{player.stats.kills}}</td>
+                  <td class="border border-gray-600 p-2">{{player.stats.deaths}}</td>
+                  <td class="border border-gray-600 p-2">{{player.stats.score}}</td>
+                }
+
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
   }
 
-</div>
-</div>
 
 
-
-
-<!--&lt;!&ndash;<app-button (click)="connectToServer( 'yezzan.dathost.net','25169')" >Присоединиться к матчу</app-button>&ndash;&gt;-->
-<!--<a [href]="'steam://connect/45.136.205.160:27032'" >Присоединиться к матчу</a>-->
-<!--<a [href]="'steam://rungameid/730'" >Присоединиться к матчу</a>-->
-<!--<a [href]="'steam://rungameid/730/+connect 45.136.205.160:27032'" >Присоединиться к матчу</a>-->
+  <!--&lt;!&ndash;<app-button (click)="connectToServer( 'yezzan.dathost.net','25169')" >Присоединиться к матчу</app-button>&ndash;&gt;-->
+  <!--<a [href]="'steam://connect/45.136.205.160:27032'" >Присоединиться к матчу</a>-->
+  <!--<a [href]="'steam://rungameid/730'" >Присоединиться к матчу</a>-->
+  <!--<a [href]="'steam://rungameid/730/+connect 45.136.205.160:27032'" >Присоединиться к матчу</a>-->
 
 </div>
