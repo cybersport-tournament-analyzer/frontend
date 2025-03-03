@@ -10,7 +10,7 @@
       {{lobby() | json}}
       <h1>___</h1>
       @for (lobb of lobbys$ | async ; track lobb.id){
-        <a [routerLink]="['/lobby', lobb.id]">Подробнее</a>
+        <a [routerLink]="['/lobby', lobb.id]">{{ lobb.id }}</a>
 
       }
 
