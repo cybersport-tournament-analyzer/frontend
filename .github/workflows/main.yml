@@ -1,0 +1,40 @@
+name: Angular CI/CD (With Docker Runtime Env)
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      # ✅ Удаление старых версий образа перед созданием нового
+      - name: Remove previous Docker images
+        run: docker rmi -f $(docker images -q my-angular-app) || true
+
+      # ✅ Сборка Docker-образа с перезаписью старого
+      - name: Build Docker Image
+        run: docker build --rm -t my-angular-app:latest .
+
+      # ✅ Остановка старого контейнера
+      - name: Stop and Remove Old Container
+        run: |
+          docker stop my-angular-app || true
+          docker rm my-angular-app || true
+
+      # ✅ Запуск нового контейнера
+      - name: Run Docker Container
+        run: |
+          docker run -d -p 4200:80 \
+            --env API_AUTH_URL=${{ secrets.API_AUTH_URL }} \
+            --env API_MATCHMAKING_URL=${{ secrets.API_MATCHMAKING_URL }} \
+            --name my-angular-app my-angular-app:latest
+
+      # ✅ Очистка неиспользуемых образов после деплоя
+      - name: Remove dangling images
+        run: docker image prune -f
