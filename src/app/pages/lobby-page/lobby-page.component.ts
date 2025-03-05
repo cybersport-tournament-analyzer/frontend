@@ -26,12 +26,19 @@ export class LobbyPageComponent implements OnInit{
   me:any
   user:UserDto|null=null
   rStatus:WritableSignal<boolean>=signal<boolean>(false);
+  stage: string = "pickBanStage";
+  stat:any=null;
 
   ngOnInit(): void {
     this.lobbyId = this.route.snapshot.paramMap.get('id')!;
-    this.wsService.connect(this.lobbyId)
+    this.wsService.connectToLobby(this.lobbyId)
     this.me=this.profileService.getUser()
     this.profileService.getUser().subscribe((user:UserDto)=>{this.user = user})
+    this.wsService.match$.subscribe((stat:any)=>{
+      console.log(stat)
+      console.log("!!!!!!!!!")
+      this.stat = stat
+    })
 
     // Либо использовать подписку, если id может измениться без перезагрузки компонента:
     // this.route.paramMap.subscribe(params => {
@@ -39,13 +46,31 @@ export class LobbyPageComponent implements OnInit{
     // });
   }
 
+  showToast:boolean = false
+  copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text).then(() => {
+      this.showToast = true;
+      // Скрываем уведомление через 2.5 секунды
+      setTimeout(() => {
+        this.showToast = false;
+      }, 2500);
+    }).catch(err => {
+      console.error('Ошибка копирования:', err);
+    });
+  }
   constructor(private wsService: WebSocketService,private route: ActivatedRoute, private profileService:AuthService) {
-    this.wsService.players$.subscribe((lobby:any) => {
+    this.wsService.lobby$.subscribe((lobby:any) => {
       console.log("ne robit",lobby)
       console.log("ne robit",lobby.team1)
       this.lobby=lobby
       this.team1=lobby.team1
       this.team2=lobby.team2
+      if (lobby.link != null){
+        this.stage =  "statStage"
+
+        this.startStatStage();
+      }
+
 
     });
     this.wsService.timer$.subscribe(timer=>{this.timer=timer})
@@ -53,6 +78,11 @@ export class LobbyPageComponent implements OnInit{
 
   }
 
+  startStatStage(){
+    console.log("start Stat Stage")
+    this.wsService.connectToMatch(this.lobbyId)
+
+  }
   changeStatus(status:any){
     console.log(status,"_________")
     console.log(!status,"_________")
@@ -88,6 +118,18 @@ export class LobbyPageComponent implements OnInit{
   connectToServer(serverIP:string, serverPort:string) {
     const steamUrl = `steam://connect/${serverIP}:${serverPort}`;
     window.location.href = steamUrl;
+  }
+  get isMatchStarted(): boolean {
+    return this.stat.match.events?.some((element:any) => element.event === "match_started");
+  }
+  get isServerBooting(): boolean {
+    return this.stat.match.events?.some((element:any) => element.event === "server_booting");
+  }
+  get isMapLoading(): boolean {
+    return this.stat.match.events?.some((element:any) => element.event === "map_loading");
+  }
+  get isServerReady(): boolean {
+    return this.stat.match.events.some((element:any) => element.event === "server_ready_for_players");
   }
 
   protected readonly Object = Object;
