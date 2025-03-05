@@ -34,12 +34,11 @@ export class WebSocketService {
   getClient(){
     return this.client
   }
-  createLobby(id:any,mode:string):Observable<boolean> {
+  createLobby(id:any,form:any):Observable<boolean> {
     console.log("in websocket service")
     return this.http.post<any>(`${environment.matchSource}/create`, {
       'steamId': id,
-      'mode':mode,
-      'format' : 'bo5'
+      ...form
     }).pipe(
       tap((data) => console.log(data)),
       mapTo(true),

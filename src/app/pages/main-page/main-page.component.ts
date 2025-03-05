@@ -5,6 +5,7 @@ import {AsyncPipe, JsonPipe} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../interfaces/user-dto';
+import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 
 
 @Component({
@@ -12,7 +13,8 @@ import {UserDto} from '../../interfaces/user-dto';
   imports: [
     JsonPipe,
     AsyncPipe,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule
   ],
   templateUrl: './main-page.component.html',
   standalone: true,
@@ -24,6 +26,10 @@ export class MainPageComponent {
   lobbys$!:Observable<any[]> ;
   lobby:WritableSignal<any[]>=signal([]);
   user:WritableSignal<UserDto|null>=signal(null)
+  form = new FormGroup({
+    format : new FormControl(null),
+    mode : new FormControl(null)
+  })
 
   constructor(private authService:AuthService, private socketService:WebSocketService) {
     this.lobbys$=this.socketService.getLobbys();
@@ -46,13 +52,16 @@ export class MainPageComponent {
     return this.authService.getJwtToken()
   }
 
-  createLobby() {
-    console.log(this.authService.getUser())
-    this.socketService.createLobby(this.user()?.steamId||"hui","1x1")
+  createLobby(id:any, form:any) {
+    this.socketService.createLobby(id,form)
       .subscribe((data:any)=>{
         console.log(data)
          // @ts-ignore
         this.lobby.set(this.lobby().push(data['lobbyId']))
         })
+  }
+
+  submit() {
+    this.createLobby(this.user()?.steamId,this.form.value)
   }
 }
