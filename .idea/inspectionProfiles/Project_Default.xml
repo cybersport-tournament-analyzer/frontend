@@ -1,10 +1,30 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
+    <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="myValues">
+        <value>
+          <list size="11">
+            <item index="0" class="java.lang.String" itemvalue="*ngTemplateOutlet" />
+            <item index="1" class="java.lang.String" itemvalue="appCustomColumnDirective" />
+            <item index="2" class="java.lang.String" itemvalue="appCustomColumn" />
+            <item index="3" class="java.lang.String" itemvalue="appColumnDef" />
+            <item index="4" class="java.lang.String" itemvalue="appHeaderCellDef" />
+            <item index="5" class="java.lang.String" itemvalue="appCellDef" />
+            <item index="6" class="java.lang.String" itemvalue="appCellCustom" />
+            <item index="7" class="java.lang.String" itemvalue="appHeaderCellCustom" />
+            <item index="8" class="java.lang.String" itemvalue="CustomColumnDirective" />
+            <item index="9" class="java.lang.String" itemvalue="customColumnDef" />
+            <item index="10" class="java.lang.String" itemvalue="customHeaderCellDef" />
+          </list>
+        </value>
+      </option>
+      <option name="myCustomValuesEnabled" value="true" />
+    </inspection_tool>
     <inspection_tool class="HtmlUnknownTag" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="7">
+          <list size="8">
             <item index="0" class="java.lang.String" itemvalue="nobr" />
             <item index="1" class="java.lang.String" itemvalue="noembed" />
             <item index="2" class="java.lang.String" itemvalue="comment" />
@@ -12,6 +32,7 @@
             <item index="4" class="java.lang.String" itemvalue="embed" />
             <item index="5" class="java.lang.String" itemvalue="script" />
             <item index="6" class="java.lang.String" itemvalue="loginpagecomponent" />
+            <item index="7" class="java.lang.String" itemvalue="app-tournir-bracket" />
           </list>
         </value>
       </option>

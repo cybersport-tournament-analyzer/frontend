@@ -6,6 +6,7 @@ import {RouterLink} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../interfaces/user-dto';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {TournamentBracketComponent} from '../../features/tournament-bracket/tournament-bracket.component';
 
 
 @Component({
@@ -14,7 +15,8 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
     JsonPipe,
     AsyncPipe,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TournamentBracketComponent
   ],
   templateUrl: './main-page.component.html',
   standalone: true,

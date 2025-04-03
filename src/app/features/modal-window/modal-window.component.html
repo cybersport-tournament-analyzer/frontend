@@ -1,0 +1,11 @@
+@if (isOn){
+  <div class=" absolute top-0 h-screen w-screen bg-amber-500 flex justify-center items-center">
+    <div class="w-[100px] h-[100px] bg-amber-950 text-white" (click)="closeWindow()">close</div>
+    <div class="h-1/2 w-1/2 bg-red-600">
+
+      <ng-content/>
+
+    </div>
+  </div>
+}
+
