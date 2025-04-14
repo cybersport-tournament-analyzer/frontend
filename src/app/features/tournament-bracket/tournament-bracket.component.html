@@ -168,10 +168,10 @@
         >
           @for (team of match;track $index){
 <!--            [appWinnerTeam]="$index%2==0"-->
-            <div class="team" [appWinnerTeam]="$index%2==0" cdkDrag >
+<!--  [appWinnerTeam]="$index%2==0"-->
+            <div class="team"  cdkDrag >
 
               <div class="example-custom-placeholder"  *cdkDragPlaceholder>
-
               </div>
               <span class="image"></span>
               <span class="seed">{{ team.seed }}</span>

@@ -9,6 +9,7 @@ import {
   transferArrayItem
 } from '@angular/cdk/drag-drop';
 import {WinnerTeamDirective} from './directive/winner-team.directive';
+import {InfoCardComponent} from '../../componets/info-card/info-card.component';
 
 @Component({
   selector: 'app-tournament-bracket',
@@ -21,7 +22,8 @@ import {WinnerTeamDirective} from './directive/winner-team.directive';
     CdkDragPlaceholder,
     WinnerTeamDirective,
     NgOptimizedImage,
-    JsonPipe
+    JsonPipe,
+    InfoCardComponent
   ],
   templateUrl: './tournament-bracket.component.html',
   standalone: true,
@@ -30,86 +32,107 @@ import {WinnerTeamDirective} from './directive/winner-team.directive';
 export class TournamentBracketComponent {
   list:any=[
     [
-      [{
-    "seed":1,
-      "name":"team1",
-      "score":2
-    },
-      {
-        "seed":1,
-        "name":"team2",
-        "score":2
-      },],[
-      {
-        "seed":1,
-        "name":"team3",
-        "score":2
-      },
-      {
-        "seed":1,
-        "name":"team4",
-        "score":2
-      },],
-      [
-      {
-        "seed":1,
-        "name":"team5",
-        "score":2
-      },
-      {
-        "seed":1,
-        "name":"team6",
-        "score":2
-      }],
       [
         {
-          "seed":1,
-          "name":"team7",
-          "score":2
+          "score": 2,
+          "seed": 1,
+          "name": "Vlad"
         },
         {
-          "seed":1,
-          "name":"team7",
-          "score":2
-        }],
-
-
+          "score": 0,
+          "seed": 0,
+          "name": null
+        }
+      ],
+      [
+        {
+          "score": 2,
+          "seed": 2,
+          "name": "Rodya"
+        },
+        {
+          "score": 0,
+          "seed": 0,
+          "name": null
+        }
+      ],
+      [
+        {
+          "score": 2,
+          "seed": 3,
+          "name": "Sasha"
+        },
+        {
+          "score": 0,
+          "seed": 0,
+          "name": null
+        }
+      ],
+      [
+        {
+          "score": 0,
+          "seed": 4,
+          "name": "Diana"
+        },
+        {
+          "score": 0,
+          "seed": 5,
+          "name": "Nika"
+        }
+      ]
     ],
-
-
-    [[{
-      "seed":1,
-      "name":"Orlando Jetsetters",
-      "score":2
-    },
-      {
-        "seed":1,
-        "name":"D.C. Senators",
-        "score":2
-      }],[
-      {
-        "seed":1,
-        "name":"Orlando Jetsetters",
-        "score":2
-      },
-      {
-        "seed":1,
-        "name":"D.C. Senators",
-        "score":2
-      }]],
-
-
-
-    [[{
-      "seed":1,
-      "name":"team1",
-      "score":2
-    },
-      {
-        "seed":1,
-        "name":"team2",
-        "score":2
-      }]]
+    [
+      [
+        {
+          "score": 0,
+          "seed": 1,
+          "name": "Vlad"
+        },
+        {
+          "score": 0,
+          "seed": 2,
+          "name": "Rodya"
+        }
+      ],
+      [
+        {
+          "score": 0,
+          "seed": 3,
+          "name": "Sasha"
+        },
+        {
+          "score": 0,
+          "seed": 0,
+          "name": null
+        }
+      ]
+    ],
+    [
+      [
+        {
+          "score": 0,
+          "seed": 0,
+          "name": null
+        },
+        {
+          "score": 0,
+          "seed": 0,
+          "name": null
+        }
+      ],
+      // [
+      //   {
+      //     "score": 0,
+      //     "seed": 0,
+      //     "name": null
+      //   },
+      //   {
+      //     "score": 0,
+      //     "seed": 0,
+      //     "name": null
+      //   }
+      // ]
+    ]
   ]
 
   drop(event: CdkDragDrop<string[]>) {

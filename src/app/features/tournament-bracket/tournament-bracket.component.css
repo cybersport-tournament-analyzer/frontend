@@ -23,8 +23,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-width: 240px;
-  max-width: 240px;
+  min-width: 445px;
+  max-width: 191px;
   height: 62px;
   margin: 12px 24px 12px 0;
 }
@@ -39,6 +39,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
+  background-color: theme('colors.headerBackground');
   border: 1px solid black;
   position: relative;
 }
