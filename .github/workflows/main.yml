@@ -3,7 +3,7 @@ name: Angular CI/CD (With Docker Runtime Env)
 on:
   push:
     branches:
-      - development
+      - master
 
 jobs:
   build-and-deploy:
@@ -33,6 +33,7 @@ jobs:
           docker run -d -p 4200:80 \
             --env API_AUTH_URL=${{ secrets.API_AUTH_URL }} \
             --env API_MATCHMAKING_URL=${{ secrets.API_MATCHMAKING_URL }} \
+            --env API_TOURNAMENT_URL=${{ secrets.API_TOURNAMENT_URL }} \
             --name my-angular-app my-angular-app:latest
 
       # ✅ Очистка неиспользуемых образов после деплоя
