@@ -3,7 +3,7 @@ name: Angular CI/CD (With Docker Runtime Env)
 on:
   push:
     branches:
-      - master
+      - development
 
 jobs:
   build-and-deploy:
