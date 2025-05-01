@@ -1,193 +1,403 @@
-{{lobby |json}}
-<div class="flex gap-5 flex-col relative">
-  @if (showToast) {
-    <div
-      class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out"
-    >
-      ✅ Скопировано в буфер обмена!
-    </div>
-  }
-  <!--{{me |json}}-->
-  <h2>Лобби</h2>
-  @if (!lobby?.pickBanSession?.completed) {
-    <h2>{{ timer|json }}</h2>
-  }
+<!--{{lobby |json}}-->
+<!--<div class="flex gap-5 flex-col relative">-->
+<!--  @if (showToast) {-->
+<!--    <div-->
+<!--      class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out"-->
+<!--    >-->
+<!--      ✅ Скопировано в буфер обмена!-->
+<!--    </div>-->
+<!--  }-->
+<!--  &lt;!&ndash;{{me |json}}&ndash;&gt;-->
+<!--  <h2>Лобби</h2>-->
+<!--  @if (!lobby?.pickBanSession?.completed) {-->
+<!--    <h2>{{ timer|json }}</h2>-->
+<!--  }-->
 
-  <div> -----------</div>
-  <div class=" flex ">
-    <input [(ngModel)]="format" placeholder="Введите команду">
-    <button (click)="join()">Присоединиться</button>
-  </div>
+<!--  <div> -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</div>-->
+<!--  <div class=" flex ">-->
+<!--    <input [(ngModel)]="format" placeholder="Введите команду">-->
+<!--    <button (click)="join()">Присоединиться</button>-->
+<!--  </div>-->
 
-  <div>
-    ----------------
-    <h3>Игроки 1 :</h3>
-    <!--{{team1 | json}}-->
-    @for (players of Object.values(team1); track players) {
-      <ul>
-        {{ players |json }}
-        {{ team1[players] | json }}
-      </ul>
-      {{ players.ready }}
+<!--  <div>-->
+<!--    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    <h3>Игроки 1 :</h3>-->
+<!--    &lt;!&ndash;{{team1 | json}}&ndash;&gt;-->
+<!--    @for (players of Object.values(team1); track players) {-->
+<!--      <ul>-->
+<!--        {{ players |json }}-->
+<!--        {{ team1[players] | json }}-->
+<!--      </ul>-->
+<!--      {{ players.ready }}-->
 
 
 
-      @if (user?.steamId === players.steamId) {
-        <button (click)="changeStatus(players.ready)">Сменить статус</button>
-      }
+<!--      @if (user?.steamId === players.steamId) {-->
+<!--        <button (click)="changeStatus(players.ready)">Сменить статус</button>-->
+<!--      }-->
 
-    }
-  </div>
+<!--    }-->
+<!--  </div>-->
 
-  <div>
-    ------------------
-    <h3>Игроки 2 :</h3>
-    @for (players of Object.values(team2); track players) {
-      <ul>
-        {{ players |json }}
-        {{ team1[players] | json }}
-      </ul>
-      {{ players.ready }}
-      @if (user?.steamId === players.steamId) {
-        <button (click)="changeStatus(players.ready)">Сменить статус</button>
-      }
-    }
+<!--  <div>-->
+<!--    &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--    <h3>Игроки 2 :</h3>-->
+<!--    @for (players of Object.values(team2); track players) {-->
+<!--      <ul>-->
+<!--        {{ players |json }}-->
+<!--        {{ team1[players] | json }}-->
+<!--      </ul>-->
+<!--      {{ players.ready }}-->
+<!--      @if (user?.steamId === players.steamId) {-->
+<!--        <button (click)="changeStatus(players.ready)">Сменить статус</button>-->
+<!--      }-->
+<!--    }-->
 
-    <div>
-      @if (lobby?.pickBanSession?.maps != null) {
-        <div>
-          {{ lobby?.pickBanSession?.currentTeamTurn }}
+<!--    <div>-->
+<!--      @if (lobby?.pickBanSession?.maps != null) {-->
+<!--        <div>-->
+<!--          {{ lobby?.pickBanSession?.currentTeamTurn }}-->
 
-          {{ lobby?.pickBanSession?.nextActionType }}
+<!--          {{ lobby?.pickBanSession?.nextActionType }}-->
 
+<!--        </div>-->
+<!--        -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--        <div class="flex flex-col gap-2">-->
+<!--          @for (map of lobby?.pickBanSession?.maps; track map) {-->
+<!--            <div class="bg-amber-500 w-full "-->
+<!--                 [class.pointer-events-none]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"-->
+<!--                 [class.opacity-50]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"-->
+<!--                 (click)="actionByMap(map)">{{ map }}-->
+<!--            </div>-->
+
+<!--          }-->
+<!--          @if (lobby?.pickBanSession?.nextActionType == "PICK_SIDE") {-->
+<!--            <div class="bg-amber-500 w-full " (click)="actionByMap('T')">T</div>-->
+<!--            <div class="bg-amber-500 w-full " (click)="actionByMap('CT')">CT</div>-->
+<!--          }-->
+<!--        </div>-->
+
+
+<!--      }-->
+<!--      @if (lobby?.link != null) {-->
+<!--        <a [href]="lobby?.link">Присоединиться к матчу</a>-->
+<!--        <button (click)="copyToClipboard(lobby!.link)">-->
+<!--          📋 Скопировать текст-->
+<!--        </button>-->
+<!--      }-->
+
+<!--    </div>-->
+<!--  </div>-->
+
+
+<!--  {{stat |json}}-->
+<!--  <div class="bg-gray-200 p-4 rounded-lg shadow mb-6 text-center">-->
+<!--    <h2 class="text-xl font-semibold">Server Status</h2>-->
+<!--    <p id="server-status" class="text-xl">Status: <span class="font-bold"> {{isServerBooting ? "Booting" : isMapLoading ? "Loading Map" : "Running" }}</span></p>-->
+<!--    <p id="server-booting" class="text-xl">Booting: <span class="font-bold">{{isServerBooting ? "Yes" : "No"}}</span></p>-->
+<!--    <p id="server-map-loading" class="text-xl">Map Loading: <span class="font-bold">{{isMapLoading ? "Yes" : "No"}}</span></p>-->
+<!--  </div>-->
+<!--  @if (isMatchStarted){-->
+<!--  <div>-->
+<!--   <h1>СТАТИСТИКА</h1>-->
+<!--    {{stage}}-->
+
+<!--    {{stat |json}}-->
+
+<!--    <div class="max-w-4xl mx-auto">-->
+<!--      <h1 class="text-2xl font-bold text-center mb-4">Live Match Stats</h1>-->
+
+<!--      &lt;!&ndash; Match Info &ndash;&gt;-->
+<!--      <div class="bg-gray-200 p-4 rounded-lg shadow mb-6 text-center">-->
+<!--        <h2 class="text-xl font-semibold">Match Status</h2>-->
+<!--        <p id="match-status" class="text-xl">Status: <span class="font-bold">{{stat.match?.finished ? "Finished" : stat.match?.rounds_played > 0 ? "In Progress" : "Not Started"}}</span></p>-->
+<!--        <p id="match-mode" class="text-xl">Mode: <span class="font-bold">{{stat.mode}}</span></p>-->
+<!--        <p id="match-format" class="text-xl">Format: <span class="font-bold">{{stat.format}}</span></p>-->
+<!--        <p id="match-score" class="text-2xl font-bold">{{stat.team1Name}} {{stat.team1Name === stat.match?.team1.name ? stat.match?.team1?.stats?.score : stat?.match?.team2?.stats?.score}} ({{stat.team1Score}}) - {{stat.team2Name}} {{stat.team2Name === stat.match?.team2?.name ? stat.match?.team2?.stats?.score : stat.match?.team1?.stats?.score}} ({{stat.team2Score}})</p>-->
+<!--        <p id="match-rounds" class="text-xl">Rounds Played: <span class="font-bold">{{stat.match?.rounds_played}}</span></p>-->
+<!--        <p id="match-map" class="text-xl">Map: <span class="font-bold">{{stat.match?.settings?.map}}</span></p>-->
+<!--      </div>-->
+
+<!--      &lt;!&ndash; Server Status &ndash;&gt;-->
+
+
+<!--      &lt;!&ndash; Players Section &ndash;&gt;-->
+<!--      <div class="flex justify-between">-->
+<!--        &lt;!&ndash; Team 1 &ndash;&gt;-->
+<!--        <div class="w-1/2 pr-2">-->
+<!--          <h2 class="text-xl font-semibold text-center mb-2">Team 1</h2>-->
+<!--          <table class="w-full border-collapse border border-gray-700">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th class="border border-gray-600 p-2">Nickname</th>-->
+<!--              <th class="border border-gray-600 p-2">Kills</th>-->
+<!--              <th class="border border-gray-600 p-2">Deaths</th>-->
+<!--              <th class="border border-gray-600 p-2">Score</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+
+<!--            <tbody id="team1-players">-->
+<!--              @for (player of stat.match.players; track player.nickname_override){-->
+<!--                @if(player.team === "team1"){-->
+<!--                  <td class="border border-gray-600 p-2">{{player.nickname_override}}</td>-->
+<!--                  <td class="border border-gray-600 p-2">{{player.stats.kills}}</td>-->
+<!--                  <td class="border border-gray-600 p-2">{{player.stats.deaths}}</td>-->
+<!--                  <td class="border border-gray-600 p-2">{{player.stats.score}}</td>-->
+<!--                }-->
+
+<!--              }-->
+
+
+<!--            </tbody>-->
+<!--          </table>-->
+
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Team 2 &ndash;&gt;-->
+<!--        <div class="w-1/2 pl-2">-->
+<!--          <h2 class="text-xl font-semibold text-center mb-2">Team 2</h2>-->
+<!--          <table class="w-full border-collapse border border-gray-700">-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--              <th class="border border-gray-600 p-2">Nickname</th>-->
+<!--              <th class="border border-gray-600 p-2">Kills</th>-->
+<!--              <th class="border border-gray-600 p-2">Deaths</th>-->
+<!--              <th class="border border-gray-600 p-2">Score</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody id="team2-players">-->
+<!--              @for (player of stat.match.players; track player.steam_id_64){-->
+<!--                @if(player.team === "team2"){-->
+<!--                  <td class="border border-gray-600 p-2">{{player.nickname_override || player.steam_id_64}}</td>-->
+<!--                  <td class="border border-gray-600 p-2">{{player.stats.kills}}</td>-->
+<!--                  <td class="border border-gray-600 p-2">{{player.stats.deaths}}</td>-->
+<!--                  <td class="border border-gray-600 p-2">{{player.stats.score}}</td>-->
+<!--                }-->
+
+<!--              }-->
+<!--            </tbody>-->
+<!--          </table>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  }-->
+
+
+
+<!--  &lt;!&ndash;&lt;!&ndash;<app-button (click)="connectToServer( 'yezzan.dathost.net','25169')" >Присоединиться к матчу</app-button>&ndash;&gt;&ndash;&gt;-->
+<!--  &lt;!&ndash;<a [href]="'steam://connect/45.136.205.160:27032'" >Присоединиться к матчу</a>&ndash;&gt;-->
+<!--  &lt;!&ndash;<a [href]="'steam://rungameid/730'" >Присоединиться к матчу</a>&ndash;&gt;-->
+<!--  &lt;!&ndash;<a [href]="'steam://rungameid/730/+connect 45.136.205.160:27032'" >Присоединиться к матчу</a>&ndash;&gt;-->
+
+<!--</div>-->
+
+
+
+
+
+<div class="w-full pt-10 flex flex-col items-center gap-10">
+  <h1 class="text-2xl inline-block font-md flex justify-center items-center">Информация по серии</h1>
+  @if(lobby()){
+  <div class="w-full">
+    <div class="w-full justify-between flex mb-6 ">
+      <div class="w-1/3 flex justify-between pr-4">
+        <div class="flex flex-col justify-between items-start text-md font-md">
+          <p>Команда "{{ lobby()?.team1Name }}"</p>
+<!--          <p>elo</p>-->
         </div>
-        ---------------
-        <div class="flex flex-col gap-2">
-          @for (map of lobby?.pickBanSession?.maps; track map) {
-            <div class="bg-amber-500 w-full "
-                 [class.pointer-events-none]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"
-                 [class.opacity-50]="lobby?.pickBanSession?.nextActionType === 'PICK_SIDE'"
-                 (click)="actionByMap(map)">{{ map }}
+<!--        <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>-->
+      </div>
+
+      <div class="w-1/3 flex justify-end pl-4">
+<!--        <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>-->
+        <div class="flex flex-col justify-between items-start text-md font-md ">
+          <p>Команда "{{lobby()?.team2Name}}"</p>
+<!--          <p>elo</p>-->
+        </div>
+
+      </div>
+    </div>
+    <app-info-match-block [data]="lobby()" [user]="user" (changeStatusClicked)="changeStatus($event)"/>
+  </div>
+    <div>
+<!--      {{test|json}}-->
+<!--      test?.pickBanSession?.maps != null-->
+
+      @if (lobby()?.pickBanSession?.maps != null) {
+        <div class="w-full font-md text-xl mb-6 flex justify-center items-center">
+
+          @if (lobby()?.pickBanSession?.nextActionType == 'PICK_SIDE'){
+            Команда {{lobby()?.pickBanSession?.currentTeamTurn}} выбирает сторону
+          }
+          @if (lobby()?.pickBanSession?.nextActionType == 'PICK'){
+            Команда {{lobby()?.pickBanSession?.currentTeamTurn}} выбирает карту
+          }
+          @if (lobby()?.pickBanSession?.nextActionType == 'BAN'){
+            Команда {{lobby()?.pickBanSession?.currentTeamTurn}} банит карту
+          }
+        </div>
+
+            @if (!lobby()?.pickBanSession?.completed) {
+              <div class="w-full font-md text-lg mb-6 flex justify-center items-center">
+                @if(!lobby()?.pickBanSession?.completed ){{{ timer|json }}}
+
+              </div>
+            }
+
+        <div class=" w-full flex flex-col justify-between gap-5">
+          <div class="w-full flex justify-center gap-2">
+          @for (map of lobby()?.pickBanSession?.maps; track map) {
+            <div class="hover:bg-headerBackground">
+            <img [src]="'maps/'+map+'.jfif'|imgURL" class="w-[210px] h-[100px]"
+                 [class.pointer-events-none]="lobby()?.pickBanSession?.nextActionType === 'PICK_SIDE'"
+                 [class.opacity-50]="lobby()?.pickBanSession?.nextActionType === 'PICK_SIDE'"
+                 (click)="actionByMap(map)">
             </div>
 
           }
-          @if (lobby?.pickBanSession?.nextActionType == "PICK_SIDE") {
-            <div class="bg-amber-500 w-full " (click)="actionByMap('T')">T</div>
-            <div class="bg-amber-500 w-full " (click)="actionByMap('CT')">CT</div>
+          </div>
+          @if (lobby()?.pickBanSession?.nextActionType == "PICK_SIDE" ) {
+            <div class="w-full flex justify-center items-center gap-5">
+            <app-button [title]="'Террористы'" (click)="actionByMap('T')"></app-button>
+            <app-button [title]="'Спецназ'" (click)="actionByMap('CT')"></app-button>
+            </div>
           }
         </div>
-
-
-      }
-      @if (lobby?.link != null) {
-        <a [href]="lobby?.link">Присоединиться к матчу</a>
-        <button (click)="copyToClipboard(lobby!.link)">
-          📋 Скопировать текст
-        </button>
-      }
-
-    </div>
-  </div>
-
-
-  {{stat |json}}
-  <div class="bg-gray-200 p-4 rounded-lg shadow mb-6 text-center">
-    <h2 class="text-xl font-semibold">Server Status</h2>
-    <p id="server-status" class="text-xl">Status: <span class="font-bold"> {{isServerBooting ? "Booting" : isMapLoading ? "Loading Map" : "Running" }}</span></p>
-    <p id="server-booting" class="text-xl">Booting: <span class="font-bold">{{isServerBooting ? "Yes" : "No"}}</span></p>
-    <p id="server-map-loading" class="text-xl">Map Loading: <span class="font-bold">{{isMapLoading ? "Yes" : "No"}}</span></p>
-  </div>
-  @if (isMatchStarted){
-  <div>
-   <h1>СТАТИСТИКА</h1>
-    {{stage}}
-
-    {{stat |json}}
-
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-2xl font-bold text-center mb-4">Live Match Stats</h1>
-
-      <!-- Match Info -->
-      <div class="bg-gray-200 p-4 rounded-lg shadow mb-6 text-center">
-        <h2 class="text-xl font-semibold">Match Status</h2>
-        <p id="match-status" class="text-xl">Status: <span class="font-bold">{{stat.match?.finished ? "Finished" : stat.match?.rounds_played > 0 ? "In Progress" : "Not Started"}}</span></p>
-        <p id="match-mode" class="text-xl">Mode: <span class="font-bold">{{stat.mode}}</span></p>
-        <p id="match-format" class="text-xl">Format: <span class="font-bold">{{stat.format}}</span></p>
-        <p id="match-score" class="text-2xl font-bold">{{stat.team1Name}} {{stat.team1Name === stat.match?.team1.name ? stat.match?.team1?.stats?.score : stat?.match?.team2?.stats?.score}} ({{stat.team1Score}}) - {{stat.team2Name}} {{stat.team2Name === stat.match?.team2?.name ? stat.match?.team2?.stats?.score : stat.match?.team1?.stats?.score}} ({{stat.team2Score}})</p>
-        <p id="match-rounds" class="text-xl">Rounds Played: <span class="font-bold">{{stat.match?.rounds_played}}</span></p>
-        <p id="match-map" class="text-xl">Map: <span class="font-bold">{{stat.match?.settings?.map}}</span></p>
-      </div>
-
-      <!-- Server Status -->
-
-
-      <!-- Players Section -->
-      <div class="flex justify-between">
-        <!-- Team 1 -->
-        <div class="w-1/2 pr-2">
-          <h2 class="text-xl font-semibold text-center mb-2">Team 1</h2>
-          <table class="w-full border-collapse border border-gray-700">
-            <thead>
-            <tr>
-              <th class="border border-gray-600 p-2">Nickname</th>
-              <th class="border border-gray-600 p-2">Kills</th>
-              <th class="border border-gray-600 p-2">Deaths</th>
-              <th class="border border-gray-600 p-2">Score</th>
-            </tr>
-            </thead>
-
-            <tbody id="team1-players">
-              @for (player of stat.match.players; track player.nickname_override){
-                @if(player.team === "team1"){
-                  <td class="border border-gray-600 p-2">{{player.nickname_override}}</td>
-                  <td class="border border-gray-600 p-2">{{player.stats.kills}}</td>
-                  <td class="border border-gray-600 p-2">{{player.stats.deaths}}</td>
-                  <td class="border border-gray-600 p-2">{{player.stats.score}}</td>
+              }
+                @if (lobby()?.link != null) {
+                  <a [href]="lobby()?.link">Присоединиться к матчу</a>
+                  <button (click)="copyToClipboard(lobby()!.link)">
+                    📋 Скопировать текст
+                  </button>
                 }
 
-              }
+              </div>
 
 
-            </tbody>
-          </table>
 
-        </div>
 
-        <!-- Team 2 -->
-        <div class="w-1/2 pl-2">
-          <h2 class="text-xl font-semibold text-center mb-2">Team 2</h2>
-          <table class="w-full border-collapse border border-gray-700">
-            <thead>
-            <tr>
-              <th class="border border-gray-600 p-2">Nickname</th>
-              <th class="border border-gray-600 p-2">Kills</th>
-              <th class="border border-gray-600 p-2">Deaths</th>
-              <th class="border border-gray-600 p-2">Score</th>
-            </tr>
-            </thead>
-            <tbody id="team2-players">
-              @for (player of stat.match.players; track player.steam_id_64){
-                @if(player.team === "team2"){
-                  <td class="border border-gray-600 p-2">{{player.nickname_override || player.steam_id_64}}</td>
-                  <td class="border border-gray-600 p-2">{{player.stats.kills}}</td>
-                  <td class="border border-gray-600 p-2">{{player.stats.deaths}}</td>
-                  <td class="border border-gray-600 p-2">{{player.stats.score}}</td>
+
+
+
+
+  <div class="w-full">
+    @if (lobby() != null && lobby().length!=0 && lobby()?.matches?.length !=0){
+
+    <app-tabs>
+      @if(lobby()?.matches?.length ==0){
+
+        <ng-template appTab="Матч aaaa"></ng-template>
+      } @else {
+
+
+
+      @for(map of lobby()?.matches;track $index){
+<!--        {{map|json}}-->
+        <ng-template appTab="Матч {{$index+1}}">
+          <div class="w-full">
+            <div class="w-full">
+              @switch (selectedStage){
+                @default {
+                  <div class="w-full justify-between flex mb-6 ">
+                    <div class="w-1/3 flex justify-end pr-4">
+<!--                      <div class="flex flex-col justify-between items-start text-md font-md">-->
+<!--                        <p>{{ lobby()?.team1Name }}</p>-->
+<!--                        <p>elo</p>-->
+<!--                      </div>-->
+                      <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>
+                    </div>
+
+                    <div class="w-1/3 flex justify-between pl-4">
+                      <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>
+<!--                      <div class="flex flex-col justify-between items-start text-md font-md">-->
+<!--                        <p>{{lobby()?.team2Name}}</p>-->
+<!--                        <p>elo</p>-->
+<!--                      </div>-->
+
+                    </div>
+                  </div>
+
+<!--                  {{lobby()|json}}-->
+                  <app-info-match-block  [internalData]="stat()[$index]" />
+<!--                  <app-info-match-block [internalDataSignal]="stat()" [index]="$index" />-->
                 }
+                @case ('Статистика'){
+                  <app-table [dataSource]="baseStats"  >
+                    <div  appCustomColumn class="w-auto">
+                      <ng-template  customHeaderCellDef><div class="w-[300px]   "> Команда</div> </ng-template>
+                      <ng-template  customCellDef let-element><div class="  flex justify-around w-[300px] h-full items-center mb-2 " ><img [src]="'UnknownUserImg.svg'|imgURL"> <p>{{ element.username  }}</p> <p>{{ element.role }}</p></div> </ng-template>
+                    </div>
 
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class=""> У</div> </ng-template>
+                      <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element.kill"> {{element.kill}} </div> </ng-template>
+                    </div>
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class=""> С</div> </ng-template>
+                      <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element.death"> {{ element.death }}</div> </ng-template>
+                    </div>
+
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class=" "> П</div> </ng-template>
+                      <ng-template customCellDef let-element> <div class="   flex w-full h-full items-center mb-2 gap-1">{{ element.assist}}</div> </ng-template>
+                    </div>
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class="">Урон</div></ng-template>
+                      <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1"> {{element.damage}}</div> </ng-template>
+                    </div>
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class="">ADR</div></ng-template>
+                      <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStatsResult]="element.ADR"> {{element.ADR}}</div> </ng-template>
+                    </div>
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class="">Разница ADR</div></ng-template>
+                      <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.ADR}}</div> </ng-template>
+                    </div>
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class="">HLTV</div></ng-template>
+                      <ng-template customCellDef let-element><div class=" flex w-full h-full items-center mb-2 gap-1"> {{element.HLTV}}</div> </ng-template>
+                    </div>
+                    <div appCustomColumn class="w-auto">
+                      <ng-template customHeaderCellDef><div class="">KAST</div></ng-template>
+                      <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.KAST}}</div> </ng-template>
+                    </div>
+                  </app-table>
+                }
               }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+            </div>
+
+
+
+
+
+            <div class="w-full bg-headerBackground h-[50px] flex items-center gap-3 justify-around px-4 rounded-xl mt-6 ">
+              @for (state of stages;track $index){
+                <div class="w-1/4 h-[38px] flex justify-center items-center rounded-xl cursor-pointer" (click)="selectState(state)" [ngClass]="{'border border-mainBorder bg-mainBlue':state===selectedStage}"><p>{{state}}</p></div>
+              }
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </ng-template>
+      }}
+    </app-tabs>
+    }
   </div>
   }
-
-
-
-  <!--&lt;!&ndash;<app-button (click)="connectToServer( 'yezzan.dathost.net','25169')" >Присоединиться к матчу</app-button>&ndash;&gt;-->
-  <!--<a [href]="'steam://connect/45.136.205.160:27032'" >Присоединиться к матчу</a>-->
-  <!--<a [href]="'steam://rungameid/730'" >Присоединиться к матчу</a>-->
-  <!--<a [href]="'steam://rungameid/730/+connect 45.136.205.160:27032'" >Присоединиться к матчу</a>-->
-
 </div>

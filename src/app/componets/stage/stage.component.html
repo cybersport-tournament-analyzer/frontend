@@ -1,0 +1,71 @@
+<div class="w-full h-full">
+  <div class="flex w-full gap-3 justify-center">
+    @for (stage of stages; track $index){
+      <app-info-card [cardClass]="'justify-center items-center w-[429px] h-[105px]'" (click)="selectStage(stage)">
+        <ng-template #iconTemplate>
+          <img [src]="stage.stageType+'Icon.svg'|imgURL">
+        </ng-template>
+        <div class="flex  flex-col w-full">
+          <p>Этап {{$index}} </p>
+          <p>{{stage.stageType | stages}}</p>
+        </div>
+      </app-info-card>
+      @if($index<stages.length-1){
+        <img [src]="'arrowIcon.svg'|imgURL">
+      }
+    }
+  </div>
+  <div class="border-b border-b-mainText-500 mt-6">
+
+  </div>
+  <div class="w-full mt-6 flex justify-center">
+    @switch (selectedStage?.stageType) {
+      @case ('Groups') {
+        <div class="w-1/2 flex flex-col gap-10">
+<!--          {{stageData[selectedStage.id]}}-->
+        @for (group of stageData[selectedStage.id][0];track $index){
+          <app-info-card [cardClass]="''">
+          <h1 class="mb-6">Группа {{group[0].groupLetter}}</h1>
+        <app-table [dataSource]="group"  >
+          <div  appCustomColumn="position" class="w-[200px] flex-none">
+            <ng-template  customHeaderCellDef><div class="   flex justify-start"> Команда</div> </ng-template>
+            <ng-template  customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-start"> {{ element.teamDto.teamName   }}</div> </ng-template>
+          </div>
+
+          <div appCustomColumn="name" class="w-[100px] flex-none">
+            <ng-template customHeaderCellDef><div class=" flex justify-center"> Победы</div> </ng-template>
+            <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center "> {{ element.wins }}</div> </ng-template>
+          </div>
+          <div appCustomColumn="name" class="w-[100px] flex-none">
+            <ng-template customHeaderCellDef><div class="flex justify-center"> Поражения</div> </ng-template>
+            <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center "> {{ element.losses }}</div> </ng-template>
+          </div>
+
+          <div appCustomColumn="weight" class="w-[150px] flex-none">
+            <ng-template customHeaderCellDef><div class=" flex justify-center"> Разница раундов</div> </ng-template>
+            <ng-template customCellDef let-element> <div class=" border-b-mainText-500 border-b flex justify-center">{{ element.roundDifference}}</div> </ng-template>
+          </div>
+          <div appCustomColumn="name" class="w-[100px] flex-none">
+            <ng-template customHeaderCellDef><div class="flex justify-center">Очки</div></ng-template>
+            <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center"> {{element.points}}</div> </ng-template>
+          </div>
+        </app-table>
+          </app-info-card>
+        }
+        </div>
+<!--      {{stageData[selectedStage.id] |json}}-->
+      }
+      @case ('Single Elimination') {
+
+        <div class="overflow-x-scroll" >
+          <app-tournament-bracket [list]="stageData[selectedStage.id]"/>
+        </div>
+      }
+      @default {
+        {{stageData |json}}
+
+      }
+    }
+  </div>
+
+</div>

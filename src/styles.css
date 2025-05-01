@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+html, body { height: 100%;
+  background-color: theme('colors.mainBackground') ;
+  color:theme('colors.mainText.DEFAULT') ;
+}
+/* Не пугайтесь, скролл не станет квадратным. */
+/* Вертикальный скролл сузится до 6 пунктов вширь, а горизонтальный - ввысь. */
+::-webkit-scrollbar {
+  @apply h-6 w-2;
+}
+/* Используем border, чтобы добавить отступ для ползунка. */
+::-webkit-scrollbar-thumb {
+  @apply rounded-full border-[0.5rem] border-solid  bg-mainText-300 ;
+}
+/* Уголок, в котором соединяются вертикальный и горизонтальный скроллбар лучше сделать прозрачным. */
+::-webkit-scrollbar-corner {
+  @apply bg-mainBackground;
+}
+/* Фону скроллбара можно указать цвет и скругления. */
+/* В случае этого скроллбара скруглить надо только правую сторону. */
+::-webkit-scrollbar-track {
+  @apply rounded-r-[inherit] bg-mainBackground;
+}
+body { margin: 0; font-family: Roboto, "Open Sans", "sans-serif"; }
+

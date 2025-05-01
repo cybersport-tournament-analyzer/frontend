@@ -1,0 +1,12 @@
+body::-webkit-scrollbar {
+  width: 5px;
+  height: 10px/* ширина scrollbar */
+}
+body::-webkit-scrollbar-track {
+  background: theme('colors.mainBackground');        /* цвет дорожки */
+}
+body::-webkit-scrollbar-thumb {
+  background-color: theme('colors.mainText.700');    /* цвет плашки */
+  border-radius: 20px;       /* закругления плашки */
+  /*border: 3px solid orange;  !* padding вокруг плашки *!*/
+}

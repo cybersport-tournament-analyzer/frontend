@@ -7,6 +7,7 @@ export interface LobbyDto {
   link:string,
   team1: any,
   team2: any,
-  pickBanSession: PickBanDto
+  pickBanSession: PickBanDto,
+  matches:any[]
 
 }

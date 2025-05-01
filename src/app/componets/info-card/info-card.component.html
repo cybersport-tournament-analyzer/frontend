@@ -1,0 +1,12 @@
+<div class="flex bg-headerBackground px-[18px] py-[24px]  rounded-xl font-md text-sm cursor-pointer" [class]="cardClass" [ngClass]="{'gap-5':icon!=null}">
+
+
+  <div class="">
+
+    <ng-container  *ngTemplateOutlet="icon"></ng-container>
+
+  </div>
+  <div class="w-full h-full">
+    <ng-content></ng-content>
+  </div>
+</div>

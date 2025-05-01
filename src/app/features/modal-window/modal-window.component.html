@@ -1,0 +1,18 @@
+@if (isOn){
+  <div class=" absolute top-[50px] left-0 h-screen w-full max-w-[2440px] bg-mainBackground flex justify-center items-center z-50 ">
+
+    <div class=" relative h-auto w-[629px] border border-mainText-500 rounded-xl  ">
+
+      <ng-content/>
+
+      <button
+        class="absolute top-2 right-2  text-mainBackground rounded-full w-6 h-6 flex items-center justify-center z-50"
+
+        (click)="onClose()">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.048"></g><g id="SVGRepo_iconCarrier"> <g id="Menu / Close_MD"> <path id="Vector" d="M18 18L12 12M12 12L6 6M12 12L18 6M12 12L6 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
+      </button>
+    </div>
+
+  </div>
+}
+

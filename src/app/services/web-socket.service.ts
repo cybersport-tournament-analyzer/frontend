@@ -134,5 +134,13 @@ export class WebSocketService {
   //   this.client.publish({ destination: '/app/ready' });
   // }
 
+  disconnect() {
+    if (this.client && this.client.active) {
+      this.client.deactivate().then(() => {
+        console.log('🔌 WebSocket отключен');
+        this.lobby$.next([])
+      });
+    }
+  }
 
 }

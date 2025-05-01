@@ -1,4 +1,4 @@
-import {Component, signal, WritableSignal} from '@angular/core';
+import {Component, OnInit, signal, WritableSignal} from '@angular/core';
 import {AuthService} from '../../services/http.authService';
 import {WebSocketService} from '../../services/web-socket.service';
 import {AsyncPipe, JsonPipe} from '@angular/common';
@@ -6,6 +6,9 @@ import {RouterLink} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../interfaces/user-dto';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {TournamentBracketComponent} from '../../features/tournament-bracket/tournament-bracket.component';
+import {TournamentService} from '../../services/tournament/tournament.service';
+import {Init} from 'node:v8';
 
 
 @Component({
@@ -14,13 +17,14 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
     JsonPipe,
     AsyncPipe,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TournamentBracketComponent
   ],
   templateUrl: './main-page.component.html',
   standalone: true,
   styleUrl: './main-page.component.css'
 })
-export class MainPageComponent {
+export class MainPageComponent implements OnInit{
 
   name = "Tom";
   lobbys$!:Observable<any[]> ;
@@ -30,8 +34,9 @@ export class MainPageComponent {
     format : new FormControl(null),
     mode : new FormControl(null)
   })
+  tournaments:any
 
-  constructor(private authService:AuthService, private socketService:WebSocketService) {
+  constructor(private authService:AuthService, private socketService:WebSocketService, private tournamentService:TournamentService) {
     this.lobbys$=this.socketService.getLobbys();
     // this.authService.getInfo().subscribe(({attributes}:any)=>{
     //   console.log("At",attributes)
@@ -43,7 +48,7 @@ export class MainPageComponent {
       //   this.user.set(userData); // здесь уже обычный объект
       //   console.log("User:", this.user());
       // })();
-    this.authService.getUser().subscribe(userData => this.user.set(userData));
+    // this.authService.getUser().subscribe(userData => this.user.set(userData));
     console.log("end const")
 
   }
@@ -61,7 +66,14 @@ export class MainPageComponent {
         })
   }
 
+
   submit() {
     this.createLobby(this.user()?.steamId,this.form.value)
+  }
+
+  ngOnInit(): void {
+     this.tournamentService.getAllTournament().subscribe((data:any)=>{
+       this.tournaments =data.content
+    })
   }
 }

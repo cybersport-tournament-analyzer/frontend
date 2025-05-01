@@ -1,0 +1,54 @@
+<div class="w-full">
+  <div class="mb-10">
+    <app-button [title]="showRes ? 'Статистика':'Результат'" (click)="changeStats()"></app-button>
+  </div>
+  @switch (showRes){
+    @case (false){
+      Result
+    }
+    @default {
+      <app-table [dataSource]="tournamentResult">
+        <div appCustomColumn class="w-1/12 ">
+          <ng-template customHeaderCellDef><p class="flex justify-center border-b border-b-mainText-500">#</p></ng-template>
+          <ng-template customCellDef let-element>
+            <div class="h-[92px] flex justify-center items-center border-b border-b-mainText-500">
+              @switch (element.place){
+                @case (1){
+                  <img [src]="'firstPlace.svg'|imgURL">
+                }
+                @case (2){
+                  <img [src]="'secondPlace.svg'|imgURL">
+                }
+                @case (3){
+                  <img [src]="'thirdPlace.svg'|imgURL">
+                }
+                @default {
+                  {{ element.place }}
+                }
+              }
+            </div>
+          </ng-template>
+        </div>
+        <div appCustomColumn class="w-5/6">
+          <ng-template customHeaderCellDef><div class="border-b border-b-mainText-500">Команда</div></ng-template>
+          <ng-template customCellDef let-element>
+            <div class=" h-[92px] flex items-center gap-5 border-b border-b-mainText-500">
+              <img class="w-[60px] h-[60px]" [src]="'UnknownUserImg.svg'|imgURL">
+              <div class=" flex items-center">{{element.teamName}}</div>
+            </div>
+          </ng-template>
+        </div>
+        <div appCustomColumn class="w-1/12">
+          <ng-template customHeaderCellDef><div class="border-b border-b-mainText-500">Приз</div></ng-template>
+          <ng-template customCellDef let-element>
+            <div class="h-[92px] flex items-center border-b border-b-mainText-500  " [appPrize]="element.points">@if(element.points>0){+}{{element.points}}</div>
+          </ng-template>
+        </div>
+
+
+
+      </app-table>
+    }
+  }
+
+</div>
