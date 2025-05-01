@@ -1,0 +1,55 @@
+<div class="w-full mb-6">
+  <div class="w-full bg-headerBackground h-[50px] flex items-center gap-3 justify-around px-4 rounded-xl ">
+    @for (state of scheduleStates;track $index){
+
+      <div class="w-1/4 h-[38px] flex justify-center items-center rounded-xl cursor-pointer" (click)="selectState(state.key)" [ngClass]="{'border border-mainBorder bg-mainBlue':state.key===selectedState}"><p>{{state.value}} </p></div>
+    }
+  </div>
+  <div>
+    <div class="py-4 border-b border-b-mainText-500">
+    <h1>  Матчей</h1>
+    </div>
+    <div class="w-full flex flex-col gap-3 ">
+      @for (match of printMatchList; track $index){
+        <div class=" w-full h-[140px] flex justify-between border-b border-b-mainText-500 pr-8">
+          <div class="flex flex-col justify-center h-full">
+            <div class="">
+              <p>Матч {{match.matchNumber}}</p>
+              <p>{{match.schedule.scheduledStartTime}}</p>
+            </div>
+            <app-tag>
+              {{getScheduleStatus(match.schedule.status)}}
+            </app-tag>
+          </div>
+          <div class="h-full flex flex-col">
+<!--            @for (team of match.teams;track $index){-->
+              <div class="flex gap-2 h-full justify-between items-center">
+                <div class="rounded-[50%] w-[50px] h-[50px] bg-headerBackground border border-mainBorder flex flex-col justify-center items-center">{{match.team1Score}}</div>
+                @if(null){
+                  <img class="w-[50px] h-[50px]" [src]="match.imgUrl | imgURL" >
+                } @else {
+                  <img class="w-[50px] h-[50px]" [src]="'UnknownUserImg.svg'|imgURL" >
+                }
+
+                <p class="flex items-center">{{match.team1Name}}</p>
+              </div>
+              <div class="flex gap-2 h-full justify-between items-center">
+                <div class="rounded-[50%] w-[50px] h-[50px] bg-headerBackground border border-mainBorder flex flex-col justify-center items-center">{{match.team2Score}}</div>
+                @if(null){
+                  <img class="w-[50px] h-[50px]" [src]="match.imgUrl | imgURL" >
+                } @else {
+                  <img class="w-[50px] h-[50px]" [src]="'UnknownUserImg.svg'|imgURL" >
+                }
+
+                <p class="flex items-center">{{match.team2Name}}</p>
+              </div>
+<!--            }-->
+          </div>
+          <div class="flex flex-col justify-center items-center h-full cursor-pointer">
+            <img [src]="'hrefIcon.svg'|imgURL" (click)="goToLobby(match)">
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

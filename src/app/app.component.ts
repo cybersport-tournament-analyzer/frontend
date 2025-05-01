@@ -18,6 +18,7 @@ import {AuthService} from './services/http.authService';
     useClass: authInterceptor,
     multi: true
   },
+
   ]
 })
 export class AppComponent {

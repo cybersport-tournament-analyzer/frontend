@@ -1,4 +1,5 @@
-import {ContentChild, Directive, ElementRef, Input, TemplateRef} from '@angular/core';
+import {ContentChild, ContentChildren, Directive, ElementRef, Input, QueryList, TemplateRef} from '@angular/core';
+import {StarDirective} from '../../directives/star.directive';
 
 @Directive({
   standalone: true,
@@ -6,8 +7,6 @@ import {ContentChild, Directive, ElementRef, Input, TemplateRef} from '@angular/
 })
 export class CustomHeaderCellDefDirective {
   constructor(public template: TemplateRef<any>) {
-    console.log("aaa")
-    console.log(template)
   }
 }
 @Directive({
@@ -16,6 +15,8 @@ export class CustomHeaderCellDefDirective {
 })
 export class CustomCellDefDirective {
   constructor(public template: TemplateRef<any>) { }
+  @ContentChild(StarDirective, {static: true })
+  stars!: QueryList<StarDirective>;
 }
 @Directive({
   standalone: true,
@@ -24,6 +25,11 @@ export class CustomCellDefDirective {
 export class CustomColumnDirective {
   @Input('customColumnDef') name!: string;
 
+  public classes: string;
+  constructor(public template: ElementRef<any>) {
+    this.classes = this.template.nativeElement.className;
+
+  }
   // Поиск шаблона для заголовка внутри колонки
   @ContentChild(CustomHeaderCellDefDirective, { static: true })
   headerCellDef!: CustomHeaderCellDefDirective;
@@ -31,5 +37,21 @@ export class CustomColumnDirective {
   // Поиск шаблона для ячейки внутри колонки
   @ContentChild(CustomCellDefDirective, { static: true })
   cellDef!: CustomCellDefDirective;
+  private stars: StarDirective[] = [];
+
+  registerStar(star: StarDirective) {
+    this.stars.push(star);
+  }
+
+  findMaxAndMark() {
+    if (!this.stars.length) return;
+    const maxValue = Math.max(...this.stars.map(s => s.value));
+    this.stars.forEach(star => {
+      if (star.value === maxValue) {
+        star.markAsStar();
+      }
+    });
+  }
+
 }
 

@@ -10,6 +10,7 @@ import {
 import {JsonPipe, NgClass, NgIf, NgTemplateOutlet} from '@angular/common';
 import {ModalStepDirective} from '../modal-window/modal-step.directive';
 import {StepComponent} from './step/step.component';
+import {ButtonComponent} from '../../componets/globals/button/button.component';
 
 @Component({
   selector: 'app-stepper',
@@ -19,7 +20,8 @@ import {StepComponent} from './step/step.component';
     ModalStepDirective,
     JsonPipe,
     NgClass,
-    NgIf
+    NgIf,
+    ButtonComponent
   ],
   templateUrl: './stepper.component.html',
   standalone: true,
@@ -29,9 +31,13 @@ export class StepperComponent implements AfterContentInit{
   @ContentChildren(StepComponent)
   steps! : QueryList<StepComponent>
 
+
   @Input() linear: boolean = false;
 
   currentStep = 0;
+
+  @Input()
+  endFunction!:any
 
   next() {
     if (this.currentStep < this.steps.length - 1) {
@@ -47,8 +53,11 @@ export class StepperComponent implements AfterContentInit{
 
 
   ngAfterContentInit(): void {
+    console.log("steps")
     console.log(this.steps)
-    console.log(this.steps.get(0)?.labelStep)
   }
 
+  end() {
+    this.endFunction()
+  }
 }

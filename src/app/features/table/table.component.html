@@ -1,23 +1,21 @@
-<table class="custom-table">
-  <thead>
-  <tr>
+<div class="custom-table ">
+  <div class=" w-auto flex mb-3">
     <!-- Рендер заголовков по каждой колонке -->
     <ng-container *ngFor="let column of columns">
-      <th>
+      <div class="flex-1" [class]="column.classStyle"  >
         <ng-container *ngTemplateOutlet="column.headerTemplate"></ng-container>
-      </th>
+      </div>
     </ng-container>
-  </tr>
-  </thead>
-  <tbody>
+  </div>
+  <div class=" flex-col ">
   <!-- Рендер строк таблицы из dataSource -->
-  <tr *ngFor="let row of dataSource">
-    <ng-container *ngFor="let column of columns">
-      <td>
+  <div class="flex w-auto "  *ngFor="let row of dataSource">
+    <div class="flex-1" [class]="column.classStyle"   *ngFor="let column of columns">
+
         <!-- Передаём элемент строки в контекст шаблона -->
         <ng-container *ngTemplateOutlet="column.cellTemplate; context: { $implicit: row }"></ng-container>
-      </td>
-    </ng-container>
-  </tr>
-  </tbody>
-</table>
+
+    </div>
+  </div>
+  </div>
+</div>

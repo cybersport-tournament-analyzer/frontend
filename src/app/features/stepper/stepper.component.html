@@ -1,18 +1,24 @@
-<div class="stepper-header flex justify-around">
+<div class="w-full h-full relative flex flex-col">
+<div class="stepper-header flex justify-around w-full ">
   @for(step of  steps; track $index){
 
-    <div class="flex flex-col items-center">
+<!--     'bg-stepperBlack': $index <= currentStep, 'bg-stepperBlack': $index > currentStep-->
+    <div class="flex flex-row items-center">
+    @if (step.contentStep == null){
       <div
         class="w-8 h-8 rounded-full flex items-center justify-center border border-gray-300"
         [ngClass]="{
-          'bg-blue-500 text-white': $index === currentStep,
-          'bg-green-500 text-white': $index < currentStep,
-          'bg-gray-100': $index > currentStep
+          'bg-mainBlue': $index === currentStep,
+          'bg-stepperBlack': $index != currentStep,
+
         }"
       >
         {{ $index + 1 }}
-      </div>
-      <div class="mt-2 text-sm text-center">
+      </div>} @else {
+
+        <ng-container *ngTemplateOutlet="step.contentStep"></ng-container>
+    }
+      <div class=" text-sm text-center">
         <!-- Если для шага определён шаблон labelStep, выводим его -->
         <ng-container *ngIf="step.labelStep;">
           <ng-container *ngTemplateOutlet="step.labelStep"></ng-container>
@@ -27,11 +33,11 @@
 
 
       <div
-        class="flex-1 h-1 mx-2 absolute bg-green-600-300 transition-colors z-20 left-0  "
+        class="flex-1 h-1 mx-0 absolute bg-green-600-300 top-1/2 transition-colors z-20 left-0  "
         [ngClass]="{'end-state':currentStep>$index,'start-state':currentStep<=$index}"
       ></div>
       <div
-        class="flex-1 h-1 w-full absolute mx-2 bg-gray-300 transition-colors duration-300 z-10 "
+        class="flex-1 h-1 w-full absolute mx-0 bg-mainText top-1/2 transition-colors duration-300 left-0 z-10 "
         ></div>
 
     </div>
@@ -39,17 +45,32 @@
 
 </div>
 
-{{currentStep}}
-<div class="stepper-content">
-  <ng-content/>
+<div class="stepper-content w-full flex-1 overflow-y-scroll mt-4 ">
+  @for (step of steps;track $index){
+    @if(currentStep==$index){
+      <ng-template *ngTemplateOutlet="step.content">
+
+      </ng-template>
+    }
+
+  }
 </div>
 
-<div>
-  <button (click)="next()">next</button>
-  <div>     </div>
-  <button (click)="previous()">back</button>
-</div>
+<div class="flex w-full justify-end items-center ">
+  <div class="flex  justify-end items-center gap-3">
+    <app-button (click)="previous()" [title]="'Назад'"/>
+    @if(currentStep==steps.length-1){
+      <app-button (click)="end()" [title]="'Отправить'"/>
+    } @else {
+      <app-button (click)="next()" [title]="'Вперед'"/>
+    }
 
+<!--    -->
+<!--  <button (click)="next()">next</button>-->
+<!--  <button (click)="previous()">back</button>-->
+  </div>
+</div>
+</div>
 <!--      <div class="stepper-actions">-->
 <!--        <button *ngIf="currentStep > 0" (click)="previous()">Back</button>-->
 <!--        <button *ngIf="currentStep < steps.length - 1"-->

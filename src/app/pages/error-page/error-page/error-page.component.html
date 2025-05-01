@@ -1,72 +1,80 @@
-<p>error-page works!</p>
-
-<input  [(ngModel)]="name">
-{{name}}
-
-<!--<app-button (click)="connectToServer( 'yezzan.dathost.net','25169')" >Присоединиться к матчу</app-button>-->
-<a [href]="'steam://connect/45.136.205.160:27032'" >Присоединиться к матчу</a>
-<a [href]="'steam://rungameid/730'" >Присоединиться к матчу</a>
-<a [href]="'steam://rungameid/730//+connect  65.109.147.39:25169'" >Присоединиться к матчу</a>
-
-<button (click)="copyToClipboard('connect 65.109.147.39:25169')">
-  📋 Скопировать текст
-</button>
-<div class="">
-@if(showToast){
-  <div
-    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out"
-  >
-    ✅ Скопировано в буфер обмена!
-  </div>
-}
-  <div class="bracket-container">
-<!--    <app-tournament-bracket/>-->
-  </div>
-
-
-
-  <app-modal-window [isOn]="isOpen">
-    <app-stepper>
-    <app-step>
-      <ng-template #labelStep>SETPPPPP</ng-template>
-      dd
-    </app-step>
-    <app-step>
-      zz
-    </app-step>
-    <app-step>
-      ff
-    </app-step>
-
-    </app-stepper>
-  </app-modal-window>
-  <button (click)="onModal()">Open</button>
-
-  <app-table  [dataSource]="[
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' }
-]">
-    <ng-container  appCustomColumn="position">
-      <ng-template class="bg-amber-950" customHeaderCellDef> No. </ng-template>
-      <ng-template class="bg-red-600" customCellDef let-element> {{ element |json  }} </ng-template>
-    </ng-container>
-
-    <ng-container appCustomColumn="name">
-      <ng-template customHeaderCellDef> Name </ng-template>
-      <ng-template customCellDef let-element> {{ element.name }} </ng-template>
-    </ng-container>
-
-    <ng-container appCustomColumn="weight">
-      <ng-template customHeaderCellDef> Weight </ng-template>
-      <ng-template customCellDef let-element> <div class="w-[200px] h-[200px] bg-red-600">{{ element.weight }}</div> </ng-template>
-    </ng-container>
-
-    <ng-container appCustomColumn="symbol">
-      <ng-template customHeaderCellDef> Symbol </ng-template>
-      <ng-template customCellDef let-element> {{ element.symbol }} </ng-template>
-    </ng-container>
-  </app-table>
-
+<div class="w-full h-full flex justify-center items-center flex-col">
+<h1 class="text-4xl ">404 !</h1>
+<h1 class="text-4xl ">ЭТО ПИЗДА</h1>
 </div>
+
+<!--<input  [(ngModel)]="name">-->
+<!--{{name}}-->
+
+<!--&lt;!&ndash;<app-button (click)="connectToServer( 'yezzan.dathost.net','25169')" >Присоединиться к матчу</app-button>&ndash;&gt;-->
+<!--<a [href]="'steam://connect/45.136.205.160:27032'" >Присоединиться к матчу</a>-->
+<!--<a [href]="'steam://rungameid/730'" >Присоединиться к матчу</a>-->
+<!--<a [href]="'steam://rungameid/730//+connect  65.109.147.39:25169'" >Присоединиться к матчу</a>-->
+
+<!--<button (click)="copyToClipboard('connect 65.109.147.39:25169')">-->
+<!--  📋 Скопировать текст-->
+<!--</button>-->
+<!--<div class="">-->
+<!--@if(showToast){-->
+<!--  <div-->
+<!--    class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out"-->
+<!--  >-->
+<!--    ✅ Скопировано в буфер обмена!-->
+<!--  </div>-->
+<!--}-->
+<!--  <div class="bracket-container">-->
+<!--&lt;!&ndash;    <app-tournament-bracket/>&ndash;&gt;-->
+<!--  </div>-->
+
+
+
+<!--  <app-modal-window [isOn]="isOpen">-->
+<!--    <app-stepper>-->
+<!--    <app-step>-->
+<!--      <ng-template #labelStep>SETPPPPP</ng-template>-->
+<!--      <ng-template #contentStep><div class="w-[25px] h-[25px] bg-mainBlue rounded-[50%]"></div></ng-template>-->
+
+<!--    </app-step>-->
+<!--    <app-step>-->
+
+<!--    </app-step>-->
+<!--    <app-step>-->
+
+<!--    </app-step>-->
+
+<!--    </app-stepper>-->
+<!--  </app-modal-window>-->
+<!--  <button (click)="onModal()">Open</button>-->
+
+<!--  <app-table  [dataSource]="[-->
+<!--  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },-->
+<!--  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },-->
+<!--  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' }-->
+<!--]">-->
+<!--    <ng-container  appCustomColumn="position">-->
+<!--      <ng-template class="bg-amber-950" customHeaderCellDef> Team </ng-template>-->
+<!--      <ng-template class="bg-red-600" customCellDef let-element> {{ element |json  }} </ng-template>-->
+<!--    </ng-container>-->
+
+<!--    <ng-container appCustomColumn="name">-->
+<!--      <ng-template customHeaderCellDef> Matches </ng-template>-->
+<!--      <ng-template customCellDef let-element> {{ element.name }} </ng-template>-->
+<!--    </ng-container>-->
+
+<!--    <ng-container appCustomColumn="weight">-->
+<!--      <ng-template customHeaderCellDef> Round1 </ng-template>-->
+<!--      <ng-template customCellDef let-element> <div class="w-[200px] h-[200px] bg-yellow-600">{{ element.weight }}</div> </ng-template>-->
+<!--    </ng-container>-->
+
+<!--    <ng-container appCustomColumn="symbol">-->
+<!--      <ng-template customHeaderCellDef> Round2 </ng-template>-->
+<!--      <ng-template customCellDef let-element> {{ element.symbol }} </ng-template>-->
+<!--    </ng-container>-->
+<!--    <ng-container appCustomColumn="symbol">-->
+<!--      <ng-template customHeaderCellDef> Round3 </ng-template>-->
+<!--      <ng-template customCellDef let-element> {{ element.symbol }} </ng-template>-->
+<!--    </ng-container>-->
+<!--  </app-table>-->
+
+<!--</div>-->
 

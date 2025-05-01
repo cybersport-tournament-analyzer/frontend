@@ -14,4 +14,10 @@ export class StepComponent {
 
   @ContentChild('labelStep')
   labelStep!: TemplateRef<any>;
+  @ContentChild('contentStep')
+  contentStep!: TemplateRef<any>;
+
+  @ContentChild('content')
+  content!: TemplateRef<any>;
+
 }

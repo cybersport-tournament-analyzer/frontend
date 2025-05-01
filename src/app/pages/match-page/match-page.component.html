@@ -1,0 +1,109 @@
+<div class="w-full pt-10 flex flex-col items-center gap-10">
+  <h1 class="text-2xl inline-block font-md flex justify-center items-center">Информация по серии</h1>
+  <div class="w-full"><app-info-match-block [data]="match"/></div>
+  <div class="w-full">
+    <app-tabs>
+
+      @for(map of match.matches;track $index){
+        <ng-template appTab="Матч {{$index+1}}">
+          <div class="w-full">
+            <div class="w-full">
+            @switch (selectedStage){
+              @default {
+                          <div class="w-full justify-between flex mb-6 ">
+                              <div class="w-1/3 flex justify-between pr-4">
+                                <div class="flex flex-col justify-between items-start">
+                                <p>Teamname</p>
+                                <p>elo</p>
+                                </div>
+                                <div class="flex items-end" >K/D/A</div>
+                              </div>
+
+                              <div class="w-1/3 flex justify-between pl-4">
+                                <div class="flex items-end" >K/D/A</div>
+                                <div class="flex flex-col justify-between items-start">
+                                  <p>Teamname</p>
+                                  <p>elo</p>
+                                </div>
+
+                              </div>
+                            </div>
+                            <app-info-match-block [data]="match"/>
+              }
+              @case ('Статистика'){
+                <app-table [dataSource]="baseStats"  >
+                  <div  appCustomColumn class="w-auto">
+                    <ng-template  customHeaderCellDef><div class="w-[300px]   "> Команда</div> </ng-template>
+                    <ng-template  customCellDef let-element><div class="  flex justify-around w-[300px] h-full items-center mb-2 " ><img [src]="'UnknownUserImg.svg'|imgURL"> <p>{{ element.username  }}</p> <p>{{ element.role }}</p></div> </ng-template>
+                  </div>
+
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class=""> У</div> </ng-template>
+                    <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element.kill"> {{element.kill}} </div> </ng-template>
+                  </div>
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class=""> С</div> </ng-template>
+                    <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element.death"> {{ element.death }}</div> </ng-template>
+                  </div>
+
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class=" "> П</div> </ng-template>
+                    <ng-template customCellDef let-element> <div class="   flex w-full h-full items-center mb-2 gap-1">{{ element.assist}}</div> </ng-template>
+                  </div>
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class="">Урон</div></ng-template>
+                    <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1"> {{element.damage}}</div> </ng-template>
+                  </div>
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class="">ADR</div></ng-template>
+                    <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStatsResult]="element.ADR"> {{element.ADR}}</div> </ng-template>
+                  </div>
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class="">Разница ADR</div></ng-template>
+                    <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.ADR}}</div> </ng-template>
+                  </div>
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class="">HLTV</div></ng-template>
+                    <ng-template customCellDef let-element><div class=" flex w-full h-full items-center mb-2 gap-1"> {{element.HLTV}}</div> </ng-template>
+                  </div>
+                  <div appCustomColumn class="w-auto">
+                    <ng-template customHeaderCellDef><div class="">KAST</div></ng-template>
+                    <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.KAST}}</div> </ng-template>
+                  </div>
+                </app-table>
+              }
+            }
+            </div>
+
+
+
+
+
+          <div class="w-full bg-headerBackground h-[50px] flex items-center gap-3 justify-around px-4 rounded-xl mt-6 ">
+            @for (state of stages;track $index){
+              <div class="w-1/4 h-[38px] flex justify-center items-center rounded-xl cursor-pointer" (click)="selectState(state)" [ngClass]="{'border border-mainBorder bg-mainBlue':state===selectedStage}"><p>{{state}}</p></div>
+            }
+          </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </ng-template>
+      }
+    </app-tabs>
+  </div>
+</div>

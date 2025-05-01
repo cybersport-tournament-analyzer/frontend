@@ -30,7 +30,18 @@
 
       </form>
 
+
+
+
     </div>
+  </div>
+
+  <div class="w-full flex justify-center items-center flex-col gap-5">
+    <h1 class="text-2xl">ТУРНИРЫ</h1>
+    @for (tournament of tournaments;track $index){
+
+      <a [href]="'http://localhost:4200/tournament/'+tournament.id">{{ tournament.id |json }}</a>
+    }
   </div>
 
 </div>

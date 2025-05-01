@@ -108,37 +108,70 @@ export class authInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('intercept')
-    console.log(this.authService.getJwtToken())
+    // console.log('intercept')
+    // console.log(this.authService.getJwtToken())
     if (this.authService.getJwtToken()) {
       request = this.addToken(request, this.authService.getJwtToken());
     }
 
     return next.handle(request).pipe(
       catchError((error) => {
-        console.log("errorsssssss",error)
+        // console.log("errorsssssss",error)
         if (error instanceof HttpErrorResponse && error.status === 401) {
-          if (error.error.url !== '/auth/refresh') {
+          if (error?.error?.url !== '/auth/refresh') {
             return this.handle401Error(request, next);
           } else {
+            // return this.refreshErrorHandle(request, next); // ошибка на рефреш токен
             return this.refreshErrorHandle(request, next); // ошибка на рефреш токен
           }
         } else {
+          console.log("its over ")
+
           // return this.refreshErrorHandle(request, next); // Переход на страницу ошибки
+
           return throwError(error)
         }
+        // console.log("end intercept")
       })
     );
   }
 
   private addToken(request: HttpRequest<any>, token: any) {
-    console.log(request)
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true
     });
   }
+
+  // private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+  //   // console.log("handle401Error")
+  //   if (!this.isRefreshing) {
+  //     this.isRefreshing = true;
+  //     this.refreshTokenSubject.next(null);
+  //     // console.log("refreshToken")
+  //     return this.authService.refreshToken().pipe(
+  //       switchMap((token: any) => {
+  //         this.isRefreshing = false;
+  //         this.refreshTokenSubject.next(token.accessToken);
+  //         return next.handle(this.addToken(request, token.accessToken));
+  //       }),
+  //       catchError((err) => {
+  //         this.isRefreshing = false;
+  //         return this.refreshErrorHandle(request, next);
+  //       })
+  //     );
+  //   } else {
+  //     return this.refreshTokenSubject.pipe(
+  //       filter((token) => token != null),
+  //       take(1),
+  //       switchMap((jwt) => {
+  //         return next.handle(this.addToken(request, jwt));
+  //       })
+  //     );
+  //   }
+  // }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
@@ -148,7 +181,11 @@ export class authInterceptor implements HttpInterceptor {
       return this.authService.refreshToken().pipe(
         switchMap((token: any) => {
           this.isRefreshing = false;
+
+          // 🔥 Обновляем токен в authService
+          this.authService.setJwtToken(token.accessToken);
           this.refreshTokenSubject.next(token.accessToken);
+
           return next.handle(this.addToken(request, token.accessToken));
         }),
         catchError((err) => {
@@ -168,6 +205,7 @@ export class authInterceptor implements HttpInterceptor {
   }
 
   private refreshErrorHandle(request: HttpRequest<any>, next: HttpHandler) {
+    // console.log("refreshErrorHandle")
     this.router.navigate(['/error']); // Переход на страницу ошибки
     return throwError(()=>{'Token refresh failed. Redirecting to error page.'});
   }

@@ -158,37 +158,85 @@
 <!--</div>-->
 
 
+<!--<div class="">-->
+<!--  <div class="bracket disable-image">-->
+<!--    @for (column of list; track $index){-->
+<!--      <div class= "column" cdkDropListGroup>-->
+<!--        @for (match of column;track $index){-->
+<!--        <div class="match theme-dark"  cdkDropList [cdkDropListDisabled]="list.indexOf(column)!=0"  (cdkDropListDropped)="drop($event)"-->
+<!--             [cdkDropListData]="match"-->
+<!--        >-->
+<!--          @for (team of match;track $index){-->
+<!--&lt;!&ndash;            [appWinnerTeam]="$index%2==0"&ndash;&gt;-->
+<!--&lt;!&ndash;  [appWinnerTeam]="$index%2==0"&ndash;&gt;-->
+<!--            <div class="team"  cdkDrag >-->
+
+<!--              <div class="example-custom-placeholder"  *cdkDragPlaceholder>-->
+<!--              </div>-->
+<!--              <span class="image"></span>-->
+<!--              <span class="seed">{{ team.seed }}</span>-->
+<!--              <span class="name">{{ team.name }}</span>-->
+<!--              <span class="score">{{ team.score }}</span>-->
+
+<!--            </div>-->
+
+<!--          }-->
+<!--          <div class="match-lines">-->
+<!--            <div class="line one"></div>-->
+<!--            <div class="line two"></div>-->
+<!--          </div>-->
+<!--          <div class="match-lines alt">-->
+<!--            <div class="line one"></div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        }-->
+<!--      </div>-->
+<!--    }-->
+<!--  </div>-->
+
+<!--</div>-->
+
+<!--{{list|json}}-->
+
+
+
+
+
 <div class="">
   <div class="bracket disable-image">
     @for (column of list; track $index){
       <div class= "column" cdkDropListGroup>
         @for (match of column;track $index){
-        <div class="match theme-dark"  cdkDropList [cdkDropListDisabled]="list.indexOf(column)!=0"  (cdkDropListDropped)="drop($event)"
-             [cdkDropListData]="match"
-        >
-          @for (team of match;track $index){
-<!--            [appWinnerTeam]="$index%2==0"-->
-<!--  [appWinnerTeam]="$index%2==0"-->
-            <div class="team"  cdkDrag >
-
-              <div class="example-custom-placeholder"  *cdkDragPlaceholder>
-              </div>
-              <span class="image"></span>
-              <span class="seed">{{ team.seed }}</span>
-              <span class="name">{{ team.name }}</span>
-              <span class="score">{{ team.score }}</span>
-
+          <div class="match theme-dark gap-2"
+          >
+            <div class="w-full flex justify-between"><p>Матч {{$index}}</p>
+            <img [src]="'hrefIcon.svg'|imgURL">
             </div>
+            <div class="flex flex-col gap-2" cdkDropList [cdkDropListDisabled]="list.indexOf(column)!=0"  (cdkDropListDropped)="drop($event)"
+                 [cdkDropListData]="match">
+            @for (team of match;track $index){
+              <!--            [appWinnerTeam]="$index%2==0"-->
 
-          }
-          <div class="match-lines">
-            <div class="line one"></div>
-            <div class="line two"></div>
+              <div class="team gap-3" [appWinnerTeam]="$index%2==0"  cdkDrag >
+                <div class="example-custom-placeholder"  *cdkDragPlaceholder>
+                </div>
+                <img class="" [src]="'UnknownUserImg.svg'|imgURL">
+              <div class="flex w-full justify-between items-center">
+                <span >{{ team.name }}</span>
+                <span >{{ team.score }}</span>
+              </div>
+
+              </div>
+            }
+            </div>
+            <div class="match-lines">
+              <div class="line one"></div>
+              <div class="line two"></div>
+            </div>
+            <div class="match-lines alt">
+              <div class="line one"></div>
+            </div>
           </div>
-          <div class="match-lines alt">
-            <div class="line one"></div>
-          </div>
-        </div>
         }
       </div>
     }

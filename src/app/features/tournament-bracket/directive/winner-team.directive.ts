@@ -16,7 +16,7 @@ export class WinnerTeamDirective implements AfterViewInit {
   ngAfterViewInit(): void {
     if(this.status){
       this.el.nativeElement.style.backgroundColor = '#232c36'
-      this.el.nativeElement.style.color = '#efe3e7'
+      this.el.nativeElement.style.color = '#a9a1a4'
       this.el.nativeElement.style.borderColor = '#36404e'
       this.el.nativeElement.style.zIndex =1
       this.el.nativeElement.lastChild.style.color="#03d9ce"

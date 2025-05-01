@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {JsonPipe, NgClass, NgOptimizedImage} from '@angular/common';
 import {
   CdkDrag,
@@ -10,6 +10,7 @@ import {
 } from '@angular/cdk/drag-drop';
 import {WinnerTeamDirective} from './directive/winner-team.directive';
 import {InfoCardComponent} from '../../componets/info-card/info-card.component';
+import {ImgURLPipe} from '../../pipes/img-url.pipe';
 
 @Component({
   selector: 'app-tournament-bracket',
@@ -23,117 +24,306 @@ import {InfoCardComponent} from '../../componets/info-card/info-card.component';
     WinnerTeamDirective,
     NgOptimizedImage,
     JsonPipe,
-    InfoCardComponent
+    InfoCardComponent,
+    ImgURLPipe
   ],
   templateUrl: './tournament-bracket.component.html',
   standalone: true,
   styleUrl: './tournament-bracket.component.css'
 })
 export class TournamentBracketComponent {
-  list:any=[
-    [
-      [
-        {
-          "score": 2,
-          "seed": 1,
-          "name": "Vlad"
-        },
-        {
-          "score": 0,
-          "seed": 0,
-          "name": null
-        }
-      ],
-      [
-        {
-          "score": 2,
-          "seed": 2,
-          "name": "Rodya"
-        },
-        {
-          "score": 0,
-          "seed": 0,
-          "name": null
-        }
-      ],
-      [
-        {
-          "score": 2,
-          "seed": 3,
-          "name": "Sasha"
-        },
-        {
-          "score": 0,
-          "seed": 0,
-          "name": null
-        }
-      ],
-      [
-        {
-          "score": 0,
-          "seed": 4,
-          "name": "Diana"
-        },
-        {
-          "score": 0,
-          "seed": 5,
-          "name": "Nika"
-        }
-      ]
-    ],
-    [
-      [
-        {
-          "score": 0,
-          "seed": 1,
-          "name": "Vlad"
-        },
-        {
-          "score": 0,
-          "seed": 2,
-          "name": "Rodya"
-        }
-      ],
-      [
-        {
-          "score": 0,
-          "seed": 3,
-          "name": "Sasha"
-        },
-        {
-          "score": 0,
-          "seed": 0,
-          "name": null
-        }
-      ]
-    ],
-    [
-      [
-        {
-          "score": 0,
-          "seed": 0,
-          "name": null
-        },
-        {
-          "score": 0,
-          "seed": 0,
-          "name": null
-        }
-      ],
-      // [
-      //   {
-      //     "score": 0,
-      //     "seed": 0,
-      //     "name": null
-      //   },
-      //   {
-      //     "score": 0,
-      //     "seed": 0,
-      //     "name": null
-      //   }
-      // ]
-    ]
-  ]
+  @Input()
+  list:any
+  // list:any=[
+  //   [
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 1,
+  //         "name": "Vlad"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 2,
+  //         "name": "Rodya"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 3,
+  //         "name": "Sasha"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 4,
+  //         "name": "Diana"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 5,
+  //         "name": "Nika"
+  //       }
+  //     ],
+  //
+  //   ],
+  //   [
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 1,
+  //         "name": "Vlad"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 2,
+  //         "name": "Rodya"
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 3,
+  //         "name": "Sasha"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //   ],
+  //   [
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //   ],
+  // ]
+  // list:any=[
+  //   [
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 1,
+  //         "name": "Vlad"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 2,
+  //         "name": "Rodya"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 3,
+  //         "name": "Sasha"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 4,
+  //         "name": "Diana"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 5,
+  //         "name": "Nika"
+  //       }
+  //     ],[
+  //     {
+  //       "score": 2,
+  //       "seed": 1,
+  //       "name": "Vlad"
+  //     },
+  //     {
+  //       "score": 0,
+  //       "seed": 0,
+  //       "name": null
+  //     }
+  //   ],
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 2,
+  //         "name": "Rodya"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 2,
+  //         "seed": 3,
+  //         "name": "Sasha"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 4,
+  //         "name": "Diana"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 5,
+  //         "name": "Nika"
+  //       }
+  //     ]
+  //   ],
+  //   [
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 1,
+  //         "name": "Vlad"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 2,
+  //         "name": "Rodya"
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 3,
+  //         "name": "Sasha"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],[
+  //     {
+  //       "score": 0,
+  //       "seed": 1,
+  //       "name": "Vlad"
+  //     },
+  //     {
+  //       "score": 0,
+  //       "seed": 2,
+  //       "name": "Rodya"
+  //     }
+  //   ],
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 3,
+  //         "name": "Sasha"
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ]
+  //   ],
+  //   [
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ],
+  //     [
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       },
+  //       {
+  //         "score": 0,
+  //         "seed": 0,
+  //         "name": null
+  //       }
+  //     ]
+  //     // [
+  //     //   {
+  //     //     "score": 0,
+  //     //     "seed": 0,
+  //     //     "name": null
+  //     //   },
+  //     //   {
+  //     //     "score": 0,
+  //     //     "seed": 0,
+  //     //     "name": null
+  //     //   }
+  //     // ]
+  //   ],[[
+  //     {
+  //       "score": 0,
+  //       "seed": 0,
+  //       "name": null
+  //     },
+  //     {
+  //       "score": 0,
+  //       "seed": 0,
+  //       "name": null
+  //     }
+  //   ]]
+  // ]
 
   drop(event: CdkDragDrop<string[]>) {
     // console.log(event.previousContainer === event.container)

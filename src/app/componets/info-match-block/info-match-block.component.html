@@ -1,0 +1,213 @@
+
+<!--{{data.team1| json}}-->
+<!--{{Object.values(data.team1) | json}}-->
+<!--@for(player of  Object.values(data.team1);track $index){-->
+<!--  {{player|json}}-->
+<!--}-->
+@if(data && data.team1 && data.team2){
+
+<div class="w-full flex gap-3">
+  <div class="w-1/3 flex flex-col justify-center items-center gap-3">
+    @for(player of Object.values(data?.team1);track $index){
+      <div class="w-full h-[82px] flex flex-row bg-headerBackground px-4 rounded-xl gap-2">
+        <div class="flex items-center shrink-0 gap-2 ">
+          @if(player.captain){
+            <img class="w-[15px] h-[15px] " [src]="'Star.svg' | imgURL" >
+          }
+          @if(player.imgUrl){
+            <img class="w-[50px] h-[50px]" [src]="player.imgUrl | imgURL" >
+          } @else {
+            <img class=" flex w-[50px] h-[50px] shrink-0" [src]="'UnknownUserImg.svg'|imgURL" >
+          }
+        </div>
+        <div class="flex flex-col justify-center items-start w-full">
+          <p>{{player.playerUsername}}</p>
+          @if (player.inGameRoles){
+            <p>{{player.inGameRoles}}</p>}
+        </div>
+        @if (player.stats){
+          <div class="flex flex-col justify-center items-end ">
+            <p>{{player.stats}}</p>
+
+          </div>
+        }
+
+              @if (Number(user?.steamId) == Number(player.playerSteamId)) {
+                <div class="h-full flex justify-center items-center  ">
+                  @if (player.ready){
+                    <app-button [classButton]="' flex justify-center ' " (click)="onButtonClick(player.ready)" [title]="'Готов'"></app-button>
+                  } @else {
+                    <app-button [classButton]="'w-[110px] flex justify-center !bg-headerBackground' " (click)="onButtonClick(player.ready)" [title]="'Не готов'"></app-button>
+                  }
+
+                </div>
+              } @else {
+                <div class="flex flex-col justify-center items-center shrink-0 ">
+                  @if (player.ready != null){
+                  @if(player.ready){
+                    Готов
+                  } @else {
+                    Не готов
+                  }}
+                </div>
+              }
+
+      </div>
+    }
+  </div>
+  <div class="w-1/3 flex flex-col justify-between items-center bg-headerBackground rounded-xl py-2 px-4">
+    <app-tag>
+      @switch (data.format){
+        @case ("bo3"){
+          Best of 3
+        }
+        @case ("bo5"){
+          Best of 5
+        }
+        @case ("bo1"){
+          Best of 1
+        }
+      }
+
+    </app-tag>
+    <div class="flex justify-center items-center font-lg text-4xl">
+      {{data.team1Score}}:{{data.team2Score}}
+    </div>
+    <div class="flex justify-between w-full items-center font-md text-md border-t text-mainText-700 border-t-mainText-500 py-2">
+      @if(data.status){<div>{{data.status}}</div>}
+      @if(data.date){
+        <div>{{data.date}}</div>
+      }
+    </div>
+  </div>
+  <div class="w-1/3 flex flex-col justify-center items-center gap-3">
+    @for(player of Object.values(data?.team2);track $index){
+      <div class="w-full h-[82px] flex flex-row bg-headerBackground px-4 rounded-xl gap-2 justify-end">
+        @if (Number(user?.steamId) == Number(player.playerSteamId)) {
+          <div class="h-full flex justify-center items-center  ">
+            @if (player.ready){
+              <app-button [classButton]="' flex justify-center ' " (click)="onButtonClick(player.ready)" [title]="'Готов'"></app-button>
+            } @else {
+              <app-button [classButton]="'w-[110px] flex justify-center !bg-headerBackground' " (click)="onButtonClick(player.ready)" [title]="'Не готов'"></app-button>
+            }
+
+          </div>
+        } @else {
+          <div class="flex flex-col justify-center items-center shrink-0">
+            @if (player.ready != null){
+              @if(player.ready){
+                Готов
+              } @else {
+                Не готов
+              }}
+          </div>
+        }
+        @if (player.stats){
+          <div class="flex flex-col justify-center items-start ">
+            <p>{{player.stats}}</p>
+          </div>
+        }
+        <div class="flex flex-col justify-center items-end w-full">
+          <p>{{player.playerUsername}}</p>
+          @if (player.inGameRoles){
+          <p>{{player.inGameRoles}}</p>}
+        </div>
+        <div class="flex items-center shrink-0 gap-2 ">
+          @if(player.imgUrl){
+            <img class="w-[50px] h-[50px]" [src]="player.imgUrl | imgURL" >
+          } @else {
+            <img class="w-[50px] h-[50px]" [src]="'UnknownUserImg.svg'|imgURL" >
+          }
+          @if(player.captain){
+            <img class="w-[15px] h-[15px] " [src]="'Star.svg' | imgURL" >
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>
+} @else if (statsMatch){
+  <div class="w-full flex gap-3">
+    <div class="w-1/3 flex flex-col justify-center items-center gap-3">
+
+      @for(player of statsMatch.players;track $index){
+        @if(player.team === 'team1'){
+        <div class="w-full h-[82px] flex flex-row bg-headerBackground px-4 rounded-xl gap-2">
+          <div class="flex items-center shrink-0 ">
+            @if(player.imgUrl){
+              <img class="w-[50px] h-[50px]" [src]="player.imgUrl | imgURL" >
+            } @else {
+              <img class=" flex w-[50px] h-[50px] shrink-0" [src]="'UnknownUserImg.svg'|imgURL" >
+            }
+          </div>
+          <div class="flex flex-col justify-center items-start w-full">
+            <p>{{player.nickname_override}}</p>
+            @if (player.inGameRoles){
+              <p>{{player.inGameRoles}}</p>}
+          </div>
+          @if (player.stats){
+            <div class="flex items-center justify-center  ">
+              <p>{{player.stats.kills}}/</p>
+              <p>{{player.stats.assists}}/</p>
+              <p>{{player.stats.deaths}}</p>
+            </div>
+          }
+        </div>
+        }
+      }
+    </div>
+    <div class="w-1/3 flex flex-col justify-between items-center bg-headerBackground rounded-xl py-2 px-4">
+      <app-tag>
+<!--        @switch (data.format){-->
+<!--          @case ("bo3"){-->
+<!--            Best of 3-->
+<!--          }-->
+<!--          @case ("bo2"){-->
+<!--            Best of 2-->
+<!--          }-->
+<!--          @case ("bo1"){-->
+<!--            Best of 1-->
+<!--          }-->
+<!--        }-->
+        {{statsMatch?.settings?.map |maps}}
+      </app-tag>
+      <div class="flex justify-center items-center font-lg text-4xl">
+        {{statsMatch.team1?.stats.score}}:{{statsMatch.team2?.stats.score}}
+      </div>
+      <div class="flex justify-between w-full items-center font-md text-md border-t text-mainText-700 border-t-mainText-500 py-2">
+<!--        @if(data.status){<div>{{data.status}}</div>}-->
+<!--        @if(data.date){-->
+<!--          <div>{{data.date}}</div>-->
+<!--        }-->
+      </div>
+    </div>
+    <div class="w-1/3 flex flex-col justify-center items-center gap-3">
+      @for(player of statsMatch.players;track $index){
+        @if(player.team === 'team2'){
+        <div class="w-full h-[82px] flex flex-row bg-headerBackground px-4 rounded-xl gap-2 justify-end">
+
+          @if (player.stats){
+            <div class="flex items-center justify-center ">
+              <p>{{player.stats.kills}}/</p>
+              <p>{{player.stats.assists}}/</p>
+              <p>{{player.stats.deaths}}</p>
+            </div>
+          }
+          <div class="flex flex-col justify-center items-end w-full">
+            <p>{{player.nickname_override}}</p>
+            @if (player.inGameRoles){
+              <p>{{player.inGameRoles}}</p>}
+          </div>
+          <div class="flex items-center shrink-0 ">
+            @if(player.imgUrl){
+              <img class="w-[50px] h-[50px]" [src]="player.imgUrl | imgURL" >
+            } @else {
+              <img class="w-[50px] h-[50px]" [src]="'UnknownUserImg.svg'|imgURL" >
+            }
+          </div>
+        </div>
+        }
+      }
+    </div>
+  </div>
+}

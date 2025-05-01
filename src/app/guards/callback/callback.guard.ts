@@ -12,8 +12,11 @@ export const callbackGuard: CanActivateFn = async (route, state) => {
 
     try {
       // Предположительно, auth() — это асинхронная операция (например, запрос на сервер)
-      authService.auth(route.queryParams["accessToken"]).subscribe();
-      router.navigate(['home']); // Навигация после успешного завершения запроса
+      authService.auth(route.queryParams["accessToken"]).subscribe((data:any)=>{
+       router.navigate(['home'])
+
+      });
+       // Навигация после успешного завершения запроса
     } catch (error) {
       console.error("Ошибка при авторизации:", error);
       router.navigate(['error']);

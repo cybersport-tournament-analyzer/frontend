@@ -1,0 +1,21 @@
+<div class="w-full">
+  <div class="w-full flex justify-left " #parentContainer>
+  @for(item of tabs;track $index){
+    <div #tabItem class="border-b-2 min-w-[50px] px-4 h-[55px] flex justify-center items-center text-lg font-semibold cursor-pointer  " [ngClass]="{'border-b-mainText-500 text-mainText-700':item!==selectedElement,'border-b-mainBorder':item===selectedElement}" (click)="selectTab(item)">{{item.title}}</div>
+  }
+
+    @if (showSpacer){
+      <div
+
+        class="flex-grow border-b-2 border-b-mainText-500 flex-shrink-0 h-[55px]"
+      ></div>
+    }
+  </div>
+
+  <div class="w-full pt-10">
+<!--  @for(item of tabs;track $index){-->
+    @if (selectedElement?.template){
+    <ng-container *ngTemplateOutlet="selectedElement?.template"/>}
+<!--  }-->
+  </div>
+</div>

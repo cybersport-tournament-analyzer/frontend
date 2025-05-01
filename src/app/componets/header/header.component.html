@@ -1,21 +1,46 @@
-<header class="" >
-  <nav class="bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div  class="flex items-center space-x-2">
+<header class="bg-headerBackground w-full px-56" >
+  <nav class=" w-full text-mainText-700 ">
+      <div class="flex items-center justify-between h-16 ">
+        <div  class="flex items-center space-x-2 gap-10">
 <!--        <Trophy class="w-8 h-8 text-yellow-500" />-->
-        <span class="text-xl font-bold">CS2 Tournaments</span>
-        </div>
-        <div class="flex items-center space-x-4">
-          <div  class="hover:text-yellow-500 transition-colors">
-          Tournaments
+        <img [src]="'GPoint.svg'|imgURL" (click)="goHome()" class="cursor-pointer">
+          <div class="cursor-pointer">
+            Ваши турниры
           </div>
-          <a routerLink="/error">error</a>
-          <a routerLink="/home">home</a>
+          @if (user()){
+            {{user().steamId|json}}
+          }
+
+          @if (user()){
+            <app-button (click)="logout()" class="h-[40px]" title="Выйти"/>
+          }
+
+        </div>
+
+
+        <div class="flex items-center space-x-4">
+          <app-button title="Создать турнир" class="h-[40px]" (click)="onModal()"></app-button>
+<!--          @if (!isLogin()){-->
           <app-button (click)="getByRoute()" class="h-[40px]" title="Авторизоваться"/>
+<!--          } @else {-->
+<!--            <div>{{ getUserInfo().steamId}}</div>-->
+<!--          }-->
+
         </div>
       </div>
-    </div>
   </nav>
 
 </header>
+
+
+<app-modal-window [(isOn)]="isOpen" >
+  <div class="w-full h-[183px] rounded-t-xl overflow-y-hidden relative">
+    <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center">Создание турнира</div>
+    <img class="w-full  z-1 " [src]="'CS2.png'|imgURL">
+
+
+  </div>
+  <div class="flex-1 h-[491px]">
+  <app-tournament-create [resetForm]="isOpen" />
+  </div>
+</app-modal-window>
