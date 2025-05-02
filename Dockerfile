@@ -15,11 +15,11 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Копируем билд Angular
 COPY --from=build /usr/src/app/dist/vkrfront/browser /usr/share/nginx/html
 
-# Копируем env.template.js
-COPY public/env.template.js /usr/share/nginx/html/public/env.template.js
+# Копируем шаблон env-файла в корень сайта
+COPY public/env.template.js /usr/share/nginx/html/env.template.js
 
-# Подставляем переменные окружения
-CMD ["/bin/sh", "-c", "envsubst < /usr/share/nginx/html/public/env.template.js > /usr/share/nginx/html/public/env.js && exec nginx -g 'daemon off;'"]
+# Подставляем переменные окружения перед запуском NGINX
+CMD ["/bin/sh", "-c", "envsubst < /usr/share/nginx/html/env.template.js > /usr/share/nginx/html/env.js && exec nginx -g 'daemon off;'"]
 
 #EXPOSE 80
 #CMD ["nginx", "-g", "daemon off;"]
