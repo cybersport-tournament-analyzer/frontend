@@ -209,6 +209,6 @@ export class TournamentService {
     );
   }
   getLinkToTournament(tournamentId:string){
-    return `${environment.host}/tournament/${tournamentId}`
+    // return `${environment.host}/tournament/${tournamentId}`
   }
 }
