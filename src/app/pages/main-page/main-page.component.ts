@@ -1,14 +1,18 @@
 import {Component, OnInit, signal, WritableSignal} from '@angular/core';
 import {AuthService} from '../../services/http.authService';
 import {WebSocketService} from '../../services/web-socket.service';
-import {AsyncPipe, JsonPipe} from '@angular/common';
-import {RouterLink} from '@angular/router';
+import {AsyncPipe, DatePipe, JsonPipe} from '@angular/common';
+import {Router, RouterLink} from '@angular/router';
 import {Observable} from 'rxjs';
 import {UserDto} from '../../interfaces/user-dto';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {TournamentBracketComponent} from '../../features/tournament-bracket/tournament-bracket.component';
 import {TournamentService} from '../../services/tournament/tournament.service';
 import {Init} from 'node:v8';
+import {environment} from '../../../environments/environment';
+import {InfoCardComponent} from '../../componets/info-card/info-card.component';
+import {TournamentStatusPipe} from '../../pipes/tournament-status.pipe';
+import {ImgURLPipe} from '../../pipes/img-url.pipe';
 
 
 @Component({
@@ -18,7 +22,11 @@ import {Init} from 'node:v8';
     AsyncPipe,
     RouterLink,
     ReactiveFormsModule,
-    TournamentBracketComponent
+    TournamentBracketComponent,
+    InfoCardComponent,
+    TournamentStatusPipe,
+    DatePipe,
+    ImgURLPipe
   ],
   templateUrl: './main-page.component.html',
   standalone: true,
@@ -36,7 +44,7 @@ export class MainPageComponent implements OnInit{
   })
   tournaments:any
 
-  constructor(private authService:AuthService, private socketService:WebSocketService, private tournamentService:TournamentService) {
+  constructor(private authService:AuthService, private socketService:WebSocketService, private tournamentService:TournamentService, private  router :Router) {
     this.lobbys$=this.socketService.getLobbys();
     // this.authService.getInfo().subscribe(({attributes}:any)=>{
     //   console.log("At",attributes)
@@ -76,4 +84,12 @@ export class MainPageComponent implements OnInit{
        this.tournaments =data.content
     })
   }
+  getLinkToTournament(tournamentId:string){
+    return this.tournamentService.getLinkToTournament(tournamentId)
+  }
+  goToTournament(tournamentId:string){
+    this.router.navigate([`/tournament/${tournamentId}`])
+  }
+
+  protected readonly environment = environment;
 }

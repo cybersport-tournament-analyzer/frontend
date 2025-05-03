@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-100 py-8">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">CS2 Tournaments</h1>
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Быстрый доступ к лобакам </h1>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
       <h1>___</h1>
@@ -10,25 +10,25 @@
       }
 
 
-      <h2>Создать лобби</h2>
-      <form [formGroup]="form"  (ngSubmit)="submit()">
-        <label >Режим:
-        <select formControlName="mode" >
-          <option value="1x1">1x1</option>
-          <option value="2x2">2x2</option>
-          <option value="5x5">5x5</option>
-        </select>
-        </label>
-        <label >Формат:
-          <select formControlName="format" >
-            <option value="bo1">bo1</option>
-            <option value="bo3">bo3</option>
-            <option value="bo5">bo5</option>
-          </select>
-        </label>
-        <button type="submit">Создать</button>
+<!--      <h2>Создать лобби</h2>-->
+<!--      <form [formGroup]="form"  (ngSubmit)="submit()">-->
+<!--        <label >Режим:-->
+<!--        <select formControlName="mode" >-->
+<!--          <option value="1x1">1x1</option>-->
+<!--          <option value="2x2">2x2</option>-->
+<!--          <option value="5x5">5x5</option>-->
+<!--        </select>-->
+<!--        </label>-->
+<!--        <label >Формат:-->
+<!--          <select formControlName="format" >-->
+<!--            <option value="bo1">bo1</option>-->
+<!--            <option value="bo3">bo3</option>-->
+<!--            <option value="bo5">bo5</option>-->
+<!--          </select>-->
+<!--        </label>-->
+<!--        <button type="submit">Создать</button>-->
 
-      </form>
+<!--      </form>-->
 
 
 
@@ -39,8 +39,33 @@
   <div class="w-full flex justify-center items-center flex-col gap-5">
     <h1 class="text-2xl">ТУРНИРЫ</h1>
     @for (tournament of tournaments;track $index){
+<!--      {{tournament|json}}-->
+      <app-info-card (click)="goToTournament(tournament.id)">
+        <div class=" min-w-[1162px] min-h-[150px] flex justify-between items-center px-4 gap-10">
+        <div  class="flex flex-col w-[300px]">
+          <p class="font-lg text-xl ">{{ tournament.tournamentName }}</p>
+          <p class="font-md text-lg text-mainBlue">{{ tournament.tournamentStatus |tournamentStatus }}</p>
+        </div>
+        <div class="flex flex-col">
+          <p class="font-sm text-lg text-mainText-700 ">Режим</p>
+          <p class="font-md text-lg text-mainText-800">{{ tournament.tournamentMode }}</p>
+        </div>
+          <div class="flex flex-col">
+            <p class="font-sm text-lg text-mainText-700 ">Команд</p>
+            <p class="font-md text-lg text-mainText-800">{{ tournament.teamsCount }}</p>
+          </div>
+          <div class="flex flex-col">
+            <p class="font-sm text-lg text-mainText-700 ">Даты проведения</p>
+            <p class="font-md text-lg text-mainText-800">{{ tournament.registrationStartTime |date:'shortDate'}} - {{tournament.tournamentStartTime |date:'shortDate' }}</p>
+          </div>
+          <div class="flex flex-col">
+            <p class="font-sm text-lg text-mainText-700 ">Стадии</p>
+            <p class="font-md text-lg text-mainText-800">{{ tournament.stages.length }}</p>
+          </div>
+          <p><img class="w-[15px] h-[15px]" [src]="'hrefIcon.svg'|imgURL"></p>
+        </div>
+      </app-info-card>
 
-      <a [href]="'http://localhost:4200/tournament/'+tournament.id">{{ tournament.id |json }}</a>
     }
   </div>
 
