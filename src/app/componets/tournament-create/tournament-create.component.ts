@@ -39,7 +39,7 @@ export class TournamentCreateComponent implements OnInit{
     this.form = this.fb.group({
 
       tournamentName: [],
-          creatorId: [null,],
+          creatorId: ["",],
           teamsCount: [null, ],
           substitutionsNumber: [],
       tournamentMode: [''] ,// Храним выбранное значение
@@ -114,7 +114,10 @@ export class TournamentCreateComponent implements OnInit{
 
   ngOnInit(): void {
     this.authService.getUser().subscribe((data:any)=>{
-      this.form.get('creatorId')?.setValue(Number(data?.steamId));
+
+      this.form.get('creatorId')?.setValue(data?.steamId);
+      console.log("creatorId")
+      console.log(this.form.get('creatorId'))
 
     })
 
