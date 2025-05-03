@@ -7,9 +7,9 @@
           <div class="cursor-pointer">
             Ваши турниры
           </div>
-          @if (user()){
-            {{user().steamId|json}}
-          }
+<!--          @if (user()){-->
+<!--            {{user().steamId|json}}-->
+<!--          }-->
 
           @if (user()){
             <app-button (click)="logout()" class="h-[40px]" title="Выйти"/>
@@ -18,10 +18,21 @@
         </div>
 
 
-        <div class="flex items-center space-x-4">
-          <app-button title="Создать турнир" class="h-[40px]" (click)="onModal()"></app-button>
+        <div class="flex items-center space-x-4 gap-5">
+          @if (user()){
+            <app-button title="Создать турнир" class="h-[40px] flex shrink-0" (click)="onModal()"></app-button>
+
+            <p class="shrink-0 flex">{{user().steamUsername}}</p>
+            <div class="flex w-[50px] h-[50px] rounded-full shrink-0">
+              <img class="w-full h-full rounded-full" [src]="user().avatarImageLink">
+            </div>
+          } @else {
+            <app-button (click)="getByRoute()" class="h-[40px]" title="Авторизоваться"/>
+          }
+
+<!--          <app-button title="Создать турнир" class="h-[40px]" (click)="onModal()"></app-button>-->
 <!--          @if (!isLogin()){-->
-          <app-button (click)="getByRoute()" class="h-[40px]" title="Авторизоваться"/>
+<!--          <app-button (click)="getByRoute()" class="h-[40px]" title="Авторизоваться"/>-->
 <!--          } @else {-->
 <!--            <div>{{ getUserInfo().steamId}}</div>-->
 <!--          }-->
