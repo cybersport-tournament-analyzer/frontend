@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit, signal} from '@angular/core';
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
 import {TagComponent} from '../../componets/globals/tag/tag.component';
 import {TabsComponent} from '../../features/tabs/tabs.component';
@@ -16,6 +16,11 @@ import {StarDirective} from '../../directives/star.directive';
 import {WinnerTeamDirective} from '../../features/tournament-bracket/directive/winner-team.directive';
 import {PrizeDirective} from '../../directives/prize.directive';
 import {StatsResultDirective} from '../../directives/stats-result.directive';
+import {state} from '@angular/animations';
+import {MatchService} from '../../services/match/match-service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ButtonComponent} from '../../componets/globals/button/button.component';
+
 
 @Component({
   selector: 'app-match-page',
@@ -35,13 +40,14 @@ import {StatsResultDirective} from '../../directives/stats-result.directive';
     StarDirective,
     WinnerTeamDirective,
     PrizeDirective,
-    StatsResultDirective
+    StatsResultDirective,
+    ButtonComponent
   ],
   templateUrl: './match-page.component.html',
   standalone: true,
   styleUrl: './match-page.component.css'
 })
-export class MatchPageComponent {
+export class MatchPageComponent implements OnInit{
   protected match:any={
     team1:[
       {name:'Username',elo:100, imgUrl:null,stats:"1/2/3"},
@@ -129,4 +135,19 @@ export class MatchPageComponent {
       KAST:95,
     }
   ]
+
+  constructor(private matchService:MatchService, private route:ActivatedRoute) {
+  }
+  public seriesData: any = signal(null)
+  public matches: any = signal(null)
+  ngOnInit(): void {
+
+    this.matchService.getInfoSeries(this.route.snapshot.paramMap.get('id')!).subscribe((data:any)=>{
+      this.seriesData.set(data)
+      this.matches.set(Object.values(this.seriesData()?.matches))
+    })
+  }
+
+
+  protected readonly Object = Object;
 }
