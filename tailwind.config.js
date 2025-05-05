@@ -33,7 +33,13 @@ module.exports = {
 
     colors: {
       'mainBackground':
-        'rgba(23,23,23,1)',
+        {
+          DEFAULT: 'rgba(23,23,23,1)',
+          400: 'rgba(255, 255, 255, 0.4)',
+          100: 'rgba(255,255,255,0)',
+        }
+        ,
+
       'stepperBlack':
         'rgba(42, 42, 42, 1)',
       'mainText':
@@ -62,7 +68,9 @@ module.exports = {
       'mainHover':'rgba(18, 156, 255, 1)',
       'highRates':'rgba(31, 162, 255, 1)',
       'mediumRates':'rgba(31, 255, 72, 0.9)',
-      'lowRates': 'rgba(255, 31, 35, 0.9)'
+      'lowRates': 'rgba(255, 31, 35, 0.9)',
+      'yellow':'rgba(255, 184, 31, 0.9)'
+
 
 
 // rgba(255, 255, 255, 0.5)

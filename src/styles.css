@@ -4,7 +4,7 @@
 
 
 html, body { height: 100%;
-  background-color: theme('colors.mainBackground') ;
+  background-color: theme('colors.mainBackground.DEFAULT') ;
   color:theme('colors.mainText.DEFAULT') ;
 }
 /* Не пугайтесь, скролл не станет квадратным. */

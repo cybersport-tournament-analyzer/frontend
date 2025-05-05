@@ -209,6 +209,46 @@ export class TournamentService {
     );
   }
   getLinkToTournament(tournamentId:string){
-    return `${environment.host}/tournament/${tournamentId}`
+    // return `${environment.host}/tournament/${tournamentId}`
+  }
+  createTeamOnTournament(tournamentId:string,form:any){
+
+    return this.http.post<any>(`${environment.tournamentSource}/teams/${tournamentId}/create`,{
+      ...form
+    }).pipe(
+      // tap(data => {
+      //
+      //   console.log("getAllTournamentgetAllTournamentgetAllTournamentgetAllTournament")
+      //   console.log( data.stages.map((stage:any)=> {return stage.matches}))}),
+      // mapTo(true),
+      //   map((data:any)=>{
+      //     d
+      // }),
+      catchError(error => {
+        console.error("Ошибка создания команды:", error);
+        return of(false);
+      })
+    );
+
+
+  }
+  getStandingsTournament(tournamentId:string){
+
+    console.log("getStandingsTournament")
+    console.log(`${environment.tournamentSource} /tournaments/${tournamentId}/standings`)
+    return this.http.get<any>(`${environment.tournamentSource}/tournaments/${tournamentId}/standings`).pipe(
+      // tap(data => {
+      //
+      //   console.log("getAllTournamentgetAllTournamentgetAllTournamentgetAllTournament")
+      //   console.log( data.stages.map((stage:any)=> {return stage.matches}))}),
+      // mapTo(true),
+      //   map((data:any)=>{
+      //     d
+      // }),
+      catchError(error => {
+        console.error("Ошибка при получении результатов турнира :", error);
+        return of(false);
+      })
+    );
   }
 }

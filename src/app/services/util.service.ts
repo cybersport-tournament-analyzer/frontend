@@ -76,10 +76,10 @@ export class UtilService {
     }
 
     // Форматируем время события
-    // const time = `${targetDate.getUTCHours().toString().padStart(2, "0")}:${targetDate.getUTCMinutes().toString().padStart(2, "0")}`;
+    const time = `${targetDate.getUTCHours().toString().padStart(2, "0")}:${targetDate.getUTCMinutes().toString().padStart(2, "0")}`;
 
-    // return `${timePart}, ${time}`;
-    return `${timePart}, `;
+    return `${timePart}, ${time}`;
+    // return `${timePart}, `;
   }
 
 // Вспомогательная функция для склонения
