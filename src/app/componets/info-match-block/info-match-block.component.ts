@@ -5,6 +5,7 @@ import {JsonPipe} from '@angular/common';
 import {UserDto} from '../../interfaces/user-dto';
 import {ButtonComponent} from '../globals/button/button.component';
 import {MapsPipe} from '../../pipes/maps.pipe';
+import {TimePipe} from '../../pipes/time.pipe';
 
 @Component({
   selector: 'app-info-match-block',
@@ -13,7 +14,8 @@ import {MapsPipe} from '../../pipes/maps.pipe';
     TagComponent,
     JsonPipe,
     ButtonComponent,
-    MapsPipe
+    MapsPipe,
+    TimePipe
   ],
   templateUrl: './info-match-block.component.html',
   standalone: true,

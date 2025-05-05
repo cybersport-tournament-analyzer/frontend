@@ -26,7 +26,14 @@ import {StepperComponent} from '../stepper/stepper.component';
 })
 export class ModalWindowComponent implements AfterContentInit{
   @Input() isOn: boolean = false;
-  @Output() isOnChange:any = new EventEmitter<any>();
+  @Output() isOnChange = new EventEmitter<boolean>();
+
+// При закрытии модалки
+  close() {
+    this.isOn = false;
+    this.isOnChange.emit(this.isOn);
+  }
+
 
   onClose():any {
     this.isOnChange.emit();
