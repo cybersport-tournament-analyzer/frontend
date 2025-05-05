@@ -1,15 +1,30 @@
+<app-modal-window [(isOn)]="isOpen" (isOnChange)="onModalToggle($event)">
+  <div class="w-full h-[183px] rounded-t-xl overflow-y-hidden relative bg-mainBlue-300">
+    <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center">Регистрация команды</div>
+    <img class="w-full  z-1 " [src]="'CS2.png'|imgURL">
+  </div>
+  <div class="flex-1 h-[491px]">
+<!--    aaa-->
+         <app-team-registration [mode]="data()?.tournamentMode[0]" [tournamentId]="data()?.id" [substitutionsCount]="data()?.substitutionsNumber"/>
+  </div>
+</app-modal-window>
+
 <div class="w-[1400px] flex flex-col mx-auto  rounded-lg shadow-md p-6">
+  {{data() |json}}
   <!-- Заголовок -->
   <div class="flex w-full gap-3 mb-7 ">
     <div class="h-[186px] w-[186px] bg-mainBlue rounded-[50%]  border-4 border-mainBorder"></div>
     <div class="flex-col flex justify-center">
 
-      <h1 class="text-3xl font-xl ">{{ data.tournamentMode }} - {{ data.tournamentName }}</h1>
-      <p class="text-md font-sm text-mainText-700">Приблизительно через 1 час - {{ this.utilService.formatDateToRussianGMT3(this.data.tournamentStartTime) }}</p>
+      <h1 class="text-3xl font-xl ">{{ data()?.tournamentMode }} - {{ data()?.tournamentName }}</h1>
+      <p class="text-md font-sm text-mainText-700">Приблизительно через 1 час - {{ this.utilService.formatDateToRussianGMT3(this.data()?.tournamentStartTime) }}</p>
       <!--      <div class="mt-2 flex items-center text-green-500">-->
       <!--        <span class="mr-2">●</span>-->
       <!--        <span class="font-medium">Начнется через 59:23</span>-->
       <!--      </div>-->
+    </div>
+    <div class="flex-1 flex justify-end items-center">
+    <app-button [title]="'Регистрация'" (click)="onModal()" />
     </div>
   </div>
 
@@ -52,7 +67,7 @@
                 }
               </div>
             <div class="flex flex-col pr-10 gap-5 mt-3 ">
-              <div class="text-md font-md flex " [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.title}} @if($index==2){ <p class="w-[200px] ml-2"> * {{this.data.formatTournamentStartTime}}</p>}</div>
+              <div class="text-md font-md flex " [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.title}} @if($index==2){ <p class="w-[200px] ml-2"> * {{this.data()?.formatTournamentStartTime}}</p>}</div>
               <div class="text-sm font-md flex" [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.content}}</div>
 
             </div>
@@ -131,7 +146,7 @@
           <section class="flex gap-5 w-full bg-headerBackground rounded-xl  justify-between px-12 py-5">
             <div class="flex flex-col justify-center items-center">
               <p class="font-sm text-sm">Участников</p>
-              <p class=""><b>1</b></p>
+              <p class=""><b>{{data()?.teams.length}}</b></p>
             </div>
             <div class="flex flex-col justify-center items-center">
               <p class="font-sm text-sm">Че писать</p>
@@ -139,7 +154,7 @@
             </div>
             <div class="flex flex-col justify-center items-center">
               <p class="font-sm text-sm">Замен</p>
-              <p class=""><b>1</b></p>
+              <p class=""><b>{{ data()?.substitutionsNumber }}</b></p>
             </div>
           </section>
 
@@ -174,13 +189,13 @@
 
     </ng-template>
     <ng-template appTab="Стадии">
-      <app-stage [stages]="data.stages"/>
+      <app-stage [stages]="data().stages"/>
     </ng-template>
     <ng-template appTab="Расписание матчей">
       <app-tournament-match-schedule [matchList]="matchSchedule"/>
     </ng-template>
     <ng-template appTab="Результаты турнира">
-      <app-tournament-stats/>
+      <app-tournament-stats [tournamentResult]="stages()" />
     </ng-template>
   </app-tabs>
 

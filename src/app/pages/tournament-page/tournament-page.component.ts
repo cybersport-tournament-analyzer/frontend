@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {TabsComponent} from '../../features/tabs/tabs.component';
 import {TabDirective} from '../../features/tabs/tab.directive';
 import {JsonPipe, NgClass, NgIf, NgTemplateOutlet} from '@angular/common';
@@ -15,6 +15,9 @@ import {ActivatedRoute} from '@angular/router';
 import {TournamentStatus} from '../../enums/tournament-status';
 import {TagComponent} from '../../componets/globals/tag/tag.component';
 import {UtilService} from '../../services/util.service';
+import {ModalWindowComponent} from '../../features/modal-window/modal-window.component';
+import {TournamentCreateComponent} from '../../componets/tournament-create/tournament-create.component';
+import {TeamRegistrationComponent} from '../../componets/team-registration/team-registration.component';
 
 @Component({
   selector: 'app-tournament-page',
@@ -31,7 +34,10 @@ import {UtilService} from '../../services/util.service';
     TournamentMatchScheduleComponent,
     TournamentStatsComponent,
     TagComponent,
-    JsonPipe
+    JsonPipe,
+    ModalWindowComponent,
+    TournamentCreateComponent,
+    TeamRegistrationComponent
   ],
   templateUrl: './tournament-page.component.html',
   standalone: true,
@@ -44,6 +50,15 @@ export class TournamentPageComponent implements OnInit{
     {title:'Старт',content:'Начало соревнования.',stage:2},
     {title:'Завершение',content:'Конец соревнования.',stage:3},
   ]
+
+  @ViewChild(TeamRegistrationComponent)
+  teamRegistrationComponent!: TeamRegistrationComponent;
+
+  onModalToggle(isOpen: boolean) {
+    if (!isOpen) {
+      this.teamRegistrationComponent.resetForm();
+    }
+  }
 
   private _currentStep:any=0
   set currentStep(stage:TournamentStatus){
@@ -73,20 +88,22 @@ export class TournamentPageComponent implements OnInit{
 
     return this._currentStep
   }
-  data:any={}
+  data:any=signal(null)
   matchSchedule:any[]=[]
   constructor(private tournamentService:TournamentService,private route: ActivatedRoute, protected utilService:UtilService) {
   }
+  stages:any=signal(null)
 
   ngOnInit(): void {
     this.tournamentService.getTournamentData(this.route.snapshot.paramMap.get('id')!).subscribe((data:any)=>{
       console.log("TOURNAMENT INIT")
       console.log(data)
-    this.data=data
+      this.data.set(data)
+    // this.data=data
     // this.data.tournamentStatus='REGISTRATION'
-      this.currentStep=this.data.tournamentStatus
-      this.matchSchedule = this.data.matchSchedule
-      this.data.formatTournamentStartTime=this.utilService.formatTimeRemaining(this.data.tournamentStartTime)
+      this.currentStep=this.data().tournamentStatus
+      this.matchSchedule = this.data().matchSchedule
+      this.data().formatTournamentStartTime=this.utilService.formatTimeRemaining(this.data().tournamentStartTime)
       // this.data.formatregistrationEndTime={this.utilService.getTimeRemaining(data.tournamentStartTime)
       // this.data.formatregistrationStartTime={this.utilService.getTimeRemaining(data.tournamentStartTime)
       // this.data.formatcreatedAt={this.utilService.getTimeRemaining(data.tournamentStartTime)
@@ -96,6 +113,10 @@ export class TournamentPageComponent implements OnInit{
 
 
     })
+    this.tournamentService.getStandingsTournament(this.route.snapshot.paramMap.get('id')!).subscribe((data:any)=>{
+      console.log(data)
+      this.stages.set(data)
+    })
 
     // this.tournamentService.getTournamentData("a7d05b4c-9602-4a61-b9d5-3155600d1e79")
   }
@@ -103,5 +124,10 @@ export class TournamentPageComponent implements OnInit{
   getMatchSchedule(){
     console.log(this.tournamentService.getMatchSchedule)
     return this.tournamentService.getMatchSchedule()
+  }
+  isOpen = false;
+
+  onModal() {
+    this.isOpen = true;
   }
 }

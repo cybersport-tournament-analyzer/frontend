@@ -34,7 +34,7 @@
           <ng-template customCellDef let-element>
             <div class=" h-[92px] flex items-center gap-5 border-b border-b-mainText-500">
               <img class="w-[60px] h-[60px]" [src]="'UnknownUserImg.svg'|imgURL">
-              <div class=" flex items-center">{{element.teamName}}</div>
+              <div class=" flex items-center">{{element.teamDto.teamName}}</div>
             </div>
           </ng-template>
         </div>
