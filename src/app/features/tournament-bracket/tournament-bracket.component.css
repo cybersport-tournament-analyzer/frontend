@@ -127,7 +127,7 @@
   margin-bottom: 0px;
 }
 .theme-dark {
-  background:theme('colors.mainBackground');
+  background:theme('colors.mainBackground.DEFAULT');
   border-color: #040607;
 }
 .theme-dark .match-lines .line {

@@ -35,6 +35,7 @@
 
               @if (Number(user?.steamId) == Number(player.playerSteamId)) {
                 <div class="h-full flex justify-center items-center  ">
+
                   @if (player.ready){
                     <app-button [classButton]="' flex justify-center ' " (click)="onButtonClick(player.ready)" [title]="'Готов'"></app-button>
                   } @else {
@@ -43,14 +44,22 @@
 
                 </div>
               } @else {
-                <div class="flex flex-col justify-center items-center shrink-0 ">
-                  @if (player.ready != null){
-                  @if(player.ready){
-                    Готов
-                  } @else {
-                    Не готов
-                  }}
-                </div>
+                @if (data.team1Kda){
+                  <div class="flex items-center justify-center  ">
+                    <p>{{data.team1Kda[$index+1].kills}}/</p>
+                    <p>{{data.team1Kda[$index+1].assists}}/</p>
+                    <p>{{data.team1Kda[$index+1].deaths}}</p>
+                  </div>
+                } @else {
+                  <div class="flex flex-col justify-center items-center shrink-0 ">
+                    @if (player.ready != null){
+                      @if(player.ready){
+                        Готов
+                      } @else {
+                        Не готов
+                      }}
+                  </div>
+                }
               }
 
       </div>
@@ -75,9 +84,9 @@
       {{data.team1Score}}:{{data.team2Score}}
     </div>
     <div class="flex justify-between w-full items-center font-md text-md border-t text-mainText-700 border-t-mainText-500 py-2">
-      @if(data.status){<div>{{data.status}}</div>}
-      @if(data.date){
-        <div>{{data.date}}</div>
+      @if(data.status){<div>Завершен</div>}
+      @if(data.dateTime){
+        <div>{{data.dateTime |time}}</div>
       }
     </div>
   </div>
@@ -94,6 +103,13 @@
 
           </div>
         } @else {
+          @if (data.team2Kda){
+            <div class="flex items-center justify-center  ">
+              <p>{{data.team2Kda[Object.values(data?.team1).length+$index+1].kills}}/</p>
+              <p>{{data.team2Kda[Object.values(data?.team1).length+$index+1].assists}}/</p>
+              <p>{{data.team2Kda[Object.values(data?.team1).length+$index+1].deaths}}</p>
+            </div>
+          } @else {
           <div class="flex flex-col justify-center items-center shrink-0">
             @if (player.ready != null){
               @if(player.ready){
@@ -101,7 +117,7 @@
               } @else {
                 Не готов
               }}
-          </div>
+          </div>}
         }
         @if (player.stats){
           <div class="flex flex-col justify-center items-start ">

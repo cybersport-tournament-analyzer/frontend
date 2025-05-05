@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {TableComponent} from '../../features/table/table.component';
 
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
@@ -9,6 +9,7 @@ import {
   CustomColumnDirective,
   CustomHeaderCellDefDirective
 } from '../../features/table/custom-column.directive';
+import {TournamentService} from '../../services/tournament/tournament.service';
 
 @Component({
   selector: 'app-tournament-stats',
@@ -28,6 +29,7 @@ import {
 })
 export class TournamentStatsComponent {
   showRes:boolean=true
+  @Input()
   tournamentResult:any[]=[
     {
       teamName:"TeamName 1",
@@ -55,6 +57,10 @@ export class TournamentStatsComponent {
       points: -80
     }
   ]
+
+  constructor(private tournamentService:TournamentService) {
+
+  }
 
   changeStats() {
     this.showRes=!this.showRes

@@ -1,0 +1,209 @@
+<div class="w-full h-full px-10 py-5">
+  <form [formGroup]="form" class="w-full h-full">
+    <app-stepper [endFunction]="onSubmit.bind(this)">
+      <app-step>
+        <!--      <ng-template #labelStep>SETPPPPP</ng-template>-->
+        <!--      <ng-template #contentStep><div class="w-[25px] h-[25px] bg-mainBlue rounded-[50%]"></div></ng-template>-->
+
+
+        <ng-template #content>
+          <div class="flex flex-col w-full h-full justify-start items-center gap-4">
+            <div class="w-full">
+              <label class="block text-white text-md font-md mb-1">Настройки команды</label>
+              <p class="text-mainText-700 text-sm font-sm mb-4">Введи название команды и регион</p>
+            </div>
+            <!--        {{steamIds.controls|json}}-->
+            <label class="w-full">
+              <input formControlName="teamName"
+                     type="text"
+                     placeholder="Название команды"
+                     class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border-b-2 border-b-mainText-500  p-2 w-full">
+            </label>
+            <label class="w-full">
+              <input formControlName="flag"
+                     type="text"
+                     placeholder="Флаг команды"
+                     class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border-b-2 border-b-mainText-500  p-2 w-full">
+            </label>
+            <label class="w-full flex-col flex mt-6 gap-2 text-mainText-700 text-sm font-sm mb-4">
+              Выбери свою роль в команде
+              <select
+                formControlName="inGameRole"
+                class="bg-mainBackground text-mainText-500 border border-mainText-500 rounded-md p-2 min-w-[150px]"
+              >
+                <option value="" disabled selected>Роль в команде</option>
+                <option value="Lurker">Люркер</option>
+                <option value="Support">Поддержка</option>
+                <option value="In Game Leader">Капитан</option>
+                <option value="Riffler">Рифлер</option>
+                <option value="AWPer">Снайпер</option>
+              </select>
+            </label>
+          </div>
+          <!--      @for ()-->
+          <!--      <div>-->
+          <!--&lt;!&ndash;        [formControl]="control"&ndash;&gt;-->
+          <!--        <input type="text"-->
+          <!--               placeholder="Search for a street"-->
+          <!--               [matAutocomplete]="auto"-->
+          <!--               class=" example-input bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500-->
+          <!--                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">-->
+          <!--        >-->
+          <!--        <mat-autocomplete #auto="matAutocomplete">-->
+          <!--          @for (street of filteredUsers; track street) {-->
+          <!--            <mat-option [value]="street.steamUsername">{{street.steamUsername}}</mat-option>-->
+          <!--          }-->
+          <!--        </mat-autocomplete>-->
+
+          <!--&lt;!&ndash;                  @for (street of filteredUsers; track street) {&ndash;&gt;-->
+          <!--&lt;!&ndash;                   <p>{{street.steamUsername}}</p>&ndash;&gt;-->
+          <!--&lt;!&ndash;                  }&ndash;&gt;-->
+          <!--      </div>-->
+
+        </ng-template>
+      </app-step>
+      <app-step>
+        <ng-template #content>
+          <div class="flex flex-col w-full h-full justify-start items-center ">
+            <div class="w-full">
+              <label class="block text-white text-md font-md mb-1">Игроки в команде</label>
+              <p class="text-mainText-700 text-sm font-sm mb-4">Выбери своих легенд</p>
+            </div>
+            <!--        <div formArrayName="steamIds">-->
+            <!--          <div *ngFor="let i of [].constructor(Number(mode) - 1); let idx = index" [formGroupName]="idx" class="mb-4">-->
+            <!--            <input-->
+            <!--              formControlName="steamId"-->
+            <!--              placeholder="Выберите игрока"-->
+            <!--              [matAutocomplete]="auto"-->
+            <!--              class="bg-mainBackground text-mainText-500 border border-mainText-500 rounded-md p-2 w-full"-->
+            <!--            />-->
+            <!--            <select-->
+            <!--              formControlName="inGameRole"-->
+            <!--              class="bg-mainBackground text-mainText-500 border border-mainText-500 rounded-md p-2 min-w-[150px]"-->
+            <!--            >-->
+            <!--              <option value="" disabled selected>Роль</option>-->
+            <!--              <option value="LURKER">Lurker</option>-->
+            <!--              <option value="SUPPORT">Support</option>-->
+            <!--              <option value="IGL">In Game Leader</option>-->
+            <!--              <option value="RIFFLER">Riffler</option>-->
+            <!--              <option value="AWPER">AWPer</option>-->
+            <!--            </select>-->
+
+            <!--            <mat-autocomplete-->
+            <!--              #auto="matAutocomplete"-->
+            <!--              [displayWith]="displayFn"-->
+            <!--              (optionSelected)="onUserSelected($event.option.value, idx)"-->
+            <!--            >-->
+            <!--              <mat-option *ngFor="let user of filteredUsers[idx] | async" [value]="user">-->
+            <!--                {{ user.steamUsername }}-->
+            <!--              </mat-option>-->
+            <!--            </mat-autocomplete>-->
+            <!--          </div>-->
+
+            <!--          <p class="text-white font-bold mt-6 mb-2" *ngIf="substitutionsCount > 0">Запасные игроки</p>-->
+            <!--          <div *ngFor="let i of [].constructor(substitutionsCount); let idx = index" class="mb-4">-->
+            <!--            <input-->
+            <!--              [formControlName]="idx + (Number(mode) - 1)"-->
+            <!--              placeholder="Выберите запасного"-->
+            <!--              [matAutocomplete]= "auto"-->
+            <!--              class="bg-mainBackground text-mainText-500 border border-dashed border-mainText-500 rounded-md p-2 w-full"-->
+            <!--            />-->
+            <!--            <select-->
+            <!--              formControlName="inGameRole"-->
+            <!--              class="bg-mainBackground text-mainText-500 border border-mainText-500 rounded-md p-2 min-w-[150px]"-->
+            <!--            >-->
+            <!--              <option value="" disabled selected>Роль</option>-->
+            <!--              <option value="LURKER">Lurker</option>-->
+            <!--              <option value="SUPPORT">Support</option>-->
+            <!--              <option value="IGL">In Game Leader</option>-->
+            <!--              <option value="RIFFLER">Riffler</option>-->
+            <!--              <option value="AWPER">AWPer</option>-->
+            <!--            </select>-->
+            <!--            <mat-autocomplete-->
+            <!--              #auto="matAutocomplete"-->
+            <!--              [displayWith]="displayFn"-->
+            <!--              (optionSelected)="onUserSelected($event.option.value, idx + (Number(mode) - 1))"-->
+            <!--            >-->
+            <!--              <mat-option *ngFor="let user of filteredUsers[idx + (Number(mode) - 1)] | async" [value]="user">-->
+            <!--                {{ user.steamUsername }}-->
+            <!--              </mat-option>-->
+            <!--            </mat-autocomplete>-->
+            <!--          </div>-->
+            <!--        </div>-->
+
+
+            <div formArrayName="steamIds" class="w-full flex-col justify-center items-center">
+
+              <div *ngFor="let group of steamIds.controls; let idx = index" [formGroupName]="idx">
+                <div *ngIf="idx < (Number(mode) - 1)" class="mb-4">
+                  <div class="flex gap-2 items-center">
+                    <input
+                      formControlName="steamId"
+                      placeholder="Выберите игрока"
+                      [matAutocomplete]="auto"
+                      class="bg-mainBackground text-mainText-500 border border-mainText-500 rounded-md p-2 w-full"
+                    />
+                    <select
+                      formControlName="inGameRole"
+                      class="bg-mainBackground text-mainText-500 border border-mainText-500 rounded-md p-2 min-w-[180px]"
+                    >
+                      <option value="" disabled selected>Роль в команде</option>
+                      <option value="Lurker">Люркер</option>
+                      <option value="Support">Поддержка</option>
+                      <option value="In Game Leader">Капитан</option>
+                      <option value="Riffler">Рифлер</option>
+                      <option value="AWPer">Снайпер</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mt-10">
+                  @if (substitutionsCount > 0) {
+
+                    <div *ngIf="idx >= (Number(mode) - 1)" class="mb-4">
+
+                      <div class="w-full">
+                        <label class="block text-white text-md font-md mb-1">Запасной игрок {{ idx+2 }}</label>
+<!--                        <p class="text-mainText-700 text-sm font-sm mb-4">Не первый по важности, но и не последний</p>-->
+                      </div>
+                      <div class="flex gap-2 items-center">
+                        <input
+                          formControlName="steamId"
+                          placeholder="Запасной игрок"
+                          [matAutocomplete]="auto"
+                          class="bg-mainBackground text-mainText-500 border border-dashed border-mainText-500 rounded-md p-2 w-full"
+                        />
+                        <select
+                          formControlName="inGameRole"
+                          class="bg-mainBackground text-mainText-500 border border-dashed border-mainText-500 rounded-md p-2 min-w-[180px]"
+                        >
+                          <option value="" disabled selected>Роль в команде</option>
+                          <option value="Lurker">Люркер</option>
+                          <option value="Support">Поддержка</option>
+                          <option value="In Game Leader">Капитан</option>
+                          <option value="Riffler">Рифлер</option>
+                          <option value="AWPer">Снайпер</option>
+                        </select>
+                      </div>
+                    </div>
+                  }
+                </div>
+                <mat-autocomplete
+                  #auto="matAutocomplete"
+                  [displayWith]="displayFn"
+                  (optionSelected)="onUserSelected($event.option.value, idx)"
+                >
+                  <mat-option *ngFor="let user of filteredUsers[idx] | async" [value]="user">
+                    {{ user.steamUsername }}
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+            </div>
+
+
+          </div>
+
+        </ng-template>
+      </app-step>
+    </app-stepper>
+  </form>
+</div>

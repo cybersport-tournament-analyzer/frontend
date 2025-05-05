@@ -21,9 +21,9 @@
               {{getScheduleStatus(match.schedule.status)}}
             </app-tag>
           </div>
-          <div class="h-full flex flex-col">
+          <div class="h-full flex flex-col min-w-[300px]">
 <!--            @for (team of match.teams;track $index){-->
-              <div class="flex gap-2 h-full justify-between items-center">
+              <div class="flex gap-4 h-full justify-start items-center">
                 <div class="rounded-[50%] w-[50px] h-[50px] bg-headerBackground border border-mainBorder flex flex-col justify-center items-center">{{match.team1Score}}</div>
                 @if(null){
                   <img class="w-[50px] h-[50px]" [src]="match.imgUrl | imgURL" >
@@ -33,7 +33,7 @@
 
                 <p class="flex items-center">{{match.team1Name}}</p>
               </div>
-              <div class="flex gap-2 h-full justify-between items-center">
+              <div class="flex gap-4 h-full justify-start items-center">
                 <div class="rounded-[50%] w-[50px] h-[50px] bg-headerBackground border border-mainBorder flex flex-col justify-center items-center">{{match.team2Score}}</div>
                 @if(null){
                   <img class="w-[50px] h-[50px]" [src]="match.imgUrl | imgURL" >

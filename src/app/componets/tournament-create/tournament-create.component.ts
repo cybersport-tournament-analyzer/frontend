@@ -32,14 +32,14 @@ export class TournamentCreateComponent implements OnInit{
   resetForm!:boolean
 
   form: FormGroup;
-  interestsList = ['1vs1', '2vs2', '3vs3'];
+  interestsList = ['1vs1', '2vs2', '5vs5'];
 
   constructor(private fb: FormBuilder, private tournamentService:TournamentService, private authService:AuthService) {
 
     this.form = this.fb.group({
 
       tournamentName: [],
-          creatorId: ["",],
+          creatorId: [null,],
           teamsCount: [null, ],
           substitutionsNumber: [],
       tournamentMode: [''] ,// Храним выбранное значение
@@ -108,16 +108,13 @@ export class TournamentCreateComponent implements OnInit{
 
     console.log('Отправка данных:', payload);
     this.tournamentService.createTournament(payload).subscribe()
-    // this.form.reset()
+    this.form.reset()
 
   }
 
   ngOnInit(): void {
     this.authService.getUser().subscribe((data:any)=>{
-
       this.form.get('creatorId')?.setValue(data?.steamId);
-      console.log("creatorId")
-      console.log(this.form.get('creatorId'))
 
     })
 

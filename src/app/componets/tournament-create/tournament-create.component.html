@@ -88,25 +88,33 @@
             <p class="text-mainText-700 text-sm font-sm mb-4">Введите, даты проведения турнира</p>
           </div>
 
-
+<label>
+  Введите дату начала регистрации
           <input
             type="datetime-local"
             placeholder="Введите дату начала регистрации"
             formControlName="registrationStartTime"
             class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500 rounded-md p-2 w-full appearance-none focus:outline-none focus:ring-2 focus:ring-mainText-500 [&::-webkit-calendar-picker-indicator]:invert"
           />
+       </label>
+          <label>
+            Введите дату окончания регистрации
           <input
             type="datetime-local"
             formControlName="registrationEndTime"
             placeholder="Введите дату окончания регистрации"
             class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500 rounded-md p-2 w-full appearance-none [&::-webkit-calendar-picker-indicator]:invert"
           />
+            </label>
+          <label>
+            Введите дату начала турнира
           <input
             type="datetime-local"
             formControlName="tournamentStartTime"
             placeholder="Введите дату начала турнира"
             class="bg-mainBackground text-mainText-5000 placeholder-mainText-500 border border-mainText-500 rounded-md p-2 w-full appearance-none [&::-webkit-calendar-picker-indicator]:invert"
           />
+          </label>
 
         </div>
 
