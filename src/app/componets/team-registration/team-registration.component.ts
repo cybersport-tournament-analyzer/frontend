@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {TournamentService} from '../../services/tournament/tournament.service';
 import {AuthService} from '../../services/http.authService';
@@ -6,7 +6,7 @@ import {AsyncPipe, JsonPipe, NgForOf, NgIf} from '@angular/common';
 import {StepComponent} from '../../features/stepper/step/step.component';
 import {StepperComponent} from '../../features/stepper/stepper.component';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
-import {map, Observable, of, startWith} from 'rxjs';
+import {catchError, map, Observable, of, startWith, tap} from 'rxjs';
 import {UserService} from '../../services/user/user.service';
 
 @Component({
@@ -32,6 +32,8 @@ export class TeamRegistrationComponent implements OnInit{
   @Input() tournamentId! : string
 
   @Input() substitutionsCount: number = 0;
+
+  @Output() onSend :EventEmitter<boolean> = new EventEmitter<boolean>();
 
   form: FormGroup;
   allUsers: any[] = [];
@@ -133,8 +135,17 @@ export class TeamRegistrationComponent implements OnInit{
     };
 
     console.log('Отправка данных:', payload);
-    this.tournamentService.createTeamOnTournament(this.tournamentId,payload).subscribe()
-
+    this.tournamentService.createTeamOnTournament(this.tournamentId, payload)
+      .subscribe({
+        next: (res) => {
+          console.log("SUCCESS", res);
+          this.onSend.emit(true);
+        },
+        error: (err) => {
+          console.error("ERROR", err);
+          this.onSend.emit(false);
+        }
+      });
   }
   private tryInitialize(): void {
     if (this.initialized) return;

@@ -172,7 +172,7 @@ export class TournamentService {
 
       catchError(error => {
         console.error("Ошибка создания турнира:", error);
-        return throwError(() => new Error('Не удалось создать турнир'));
+        return throwError(error);
       })
     );
   }
@@ -215,20 +215,7 @@ export class TournamentService {
 
     return this.http.post<any>(`${environment.tournamentSource}/teams/${tournamentId}/create`,{
       ...form
-    }).pipe(
-      // tap(data => {
-      //
-      //   console.log("getAllTournamentgetAllTournamentgetAllTournamentgetAllTournament")
-      //   console.log( data.stages.map((stage:any)=> {return stage.matches}))}),
-      // mapTo(true),
-      //   map((data:any)=>{
-      //     d
-      // }),
-      catchError(error => {
-        console.error("Ошибка создания команды:", error);
-        return of(false);
-      })
-    );
+    })
 
 
   }

@@ -160,30 +160,50 @@
               <input formControlName="finalMatchFormat" type="text"
                      placeholder="Формат финала"
                      class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500
-                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">}
+                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">} @else if (this.form.value.stages[i].stageType=='Groups'){
+
+                  <input formControlName="teamsToAdvance" type="text"
+                         placeholder="Проходящих команд"
+                         class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500
+                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">
+              }
             </div>
           </div>
 
 
           <div class="w-full flex flex-row gap-2">
-          <div class="form-field space-y-2 w-1/2">
+          <div class="form-field space-y-2 w-full">
 <!--            <label class="text-mainText-500 block">Формат матча</label>-->
             <input formControlName="matchFormat" type="text"
                    placeholder="Формат матча"
                    class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500
                   rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">
           </div>
-            <div class="form-field space-y-2 w-1/2">
+
               <!--            <label class="text-mainText-500 block">Проходящих команд</label>-->
 
 
 
-              @if(this.form.value.stages[i].stageType=='Groups'){
-              <input formControlName="teamsToAdvance" type="text"
-                     placeholder="Проходящих команд"
-                     class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500
-                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">}
-            </div>
+
+              @if (this.form.value.stages[i].stageType=='Single Elimination'){
+                <div class="form-field space-y-2 w-1/2 flex justify-start items-center">
+                <div class="form-field flex items-center gap-1 relative  flex-0">
+                  <input
+                    type="checkbox"
+                    formControlName="matchForTheThirdPlace"
+                    class="absolute opacity-0 w-5 h-5 cursor-pointer peer"
+                  />
+                  <!-- Кастомный индикатор выбора -->
+                  <span class="w-5 h-5 rounded-full border-2 border-mainText-700 peer-checked:border-mainBlue peer-checked:bg-mainHover flex items-center justify-center pointer-events-none">
+    <svg class="w-3 h-3 text-white hidden peer-checked:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+  </span>
+                  <span class="text-mainText-700 font-medium ">Матч за 3 место</span>
+                </div>
+                </div>
+              }
+
 
 
 <!--            <input formControlName="matchForTheThirdPlace" type="checkbox"-->
@@ -212,21 +232,7 @@
                   rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">}
           </div>
 
-            <div class="form-field flex items-center gap-1 relative  flex-0">
-              @if(this.form.value.stages[i].stageType=='Single Elimination'){
-              <input
-                type="checkbox"
-                formControlName="matchForTheThirdPlace"
-                class="absolute opacity-0 w-5 h-5 cursor-pointer peer"
-              />}
-              <!-- Кастомный индикатор выбора -->
-              <span class="w-5 h-5 rounded-full border-2 border-mainText-700 peer-checked:border-mainBlue peer-checked:bg-mainHover flex items-center justify-center pointer-events-none">
-    <svg class="w-3 h-3 text-white hidden peer-checked:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-    </svg>
-  </span>
-              <span class="text-mainText-700 font-medium ">Матч за 3 место</span>
-            </div>
+
           </div>
 
           <app-button [title]="'Удалить стадию'" (click)="removeStage(i)" class="bg-headerBackground"
@@ -237,10 +243,15 @@
       </div>
       </div>
 
-
+        <div class="w-full text-lowRates flex justify-center">
+          {{errors()}}
+        </div>
       </ng-template>
+
     </app-step>
 
   </app-stepper>
+
   </form>
+
 </div>
