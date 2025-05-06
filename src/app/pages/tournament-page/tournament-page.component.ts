@@ -18,6 +18,7 @@ import {UtilService} from '../../services/util.service';
 import {ModalWindowComponent} from '../../features/modal-window/modal-window.component';
 import {TournamentCreateComponent} from '../../componets/tournament-create/tournament-create.component';
 import {TeamRegistrationComponent} from '../../componets/team-registration/team-registration.component';
+import {SpinnerComponent} from '../../features/spinner/spinner.component';
 
 @Component({
   selector: 'app-tournament-page',
@@ -37,7 +38,8 @@ import {TeamRegistrationComponent} from '../../componets/team-registration/team-
     JsonPipe,
     ModalWindowComponent,
     TournamentCreateComponent,
-    TeamRegistrationComponent
+    TeamRegistrationComponent,
+    SpinnerComponent
   ],
   templateUrl: './tournament-page.component.html',
   standalone: true,
@@ -129,5 +131,13 @@ export class TournamentPageComponent implements OnInit{
 
   onModal() {
     this.isOpen = true;
+  }
+
+  onChanged($event: boolean) {
+    console.log("onChanged")
+    console.log($event)
+    if ($event){
+      this.isOpen=false
+    }
   }
 }

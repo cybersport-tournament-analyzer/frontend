@@ -44,14 +44,14 @@
 </header>
 
 
-<app-modal-window [(isOn)]="isOpen" >
+<app-modal-window [(isOn)]="isOpen" (isOnChange)="onModalToggle($event)" >
   <div class="w-full h-[183px] rounded-t-xl overflow-y-hidden relative">
-    <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center">Создание турнира</div>
+    <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center rounded-t-xl">Создание турнира</div>
     <img class="w-full  z-1 " [src]="'CS2.png'|imgURL">
 
 
   </div>
   <div class="flex-1 h-[491px]">
-  <app-tournament-create [resetForm]="isOpen" />
+  <app-tournament-create (onSend)="onChanged($event)" />
   </div>
 </app-modal-window>

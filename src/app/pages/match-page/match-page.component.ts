@@ -21,6 +21,7 @@ import {MatchService} from '../../services/match/match-service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ButtonComponent} from '../../componets/globals/button/button.component';
 import {InfoCardComponent} from '../../componets/info-card/info-card.component';
+import {SpinnerComponent} from '../../features/spinner/spinner.component';
 
 
 @Component({
@@ -43,7 +44,8 @@ import {InfoCardComponent} from '../../componets/info-card/info-card.component';
     PrizeDirective,
     StatsResultDirective,
     ButtonComponent,
-    InfoCardComponent
+    InfoCardComponent,
+    SpinnerComponent
   ],
   templateUrl: './match-page.component.html',
   standalone: true,

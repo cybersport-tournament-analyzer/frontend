@@ -195,7 +195,7 @@
 
 
 
-
+@if (lobby()){
 <div class="w-full pt-10 flex flex-col items-center gap-10">
   <h1 class="text-2xl inline-block font-md flex justify-center items-center">Информация по серии</h1>
   @if(lobby()){
@@ -400,4 +400,6 @@
     }
   </div>
   }
-</div>
+</div>} @else {
+  <app-spinner/>
+}

@@ -109,236 +109,240 @@
 <!--  </div>-->
 <!--</div>-->
 
-
-<div class="w-full pt-10 flex flex-col items-center gap-10">
-  <h1 class="text-2xl inline-block font-md flex justify-center items-center">Информация по серии</h1>
-  @if(seriesData()){
-    <div class="w-full">
-      <div class="w-full justify-between flex mb-6 ">
-        <div class="w-1/3 flex justify-between pr-4">
-          <div class="flex flex-col justify-between items-start text-md font-md">
-            <p>Команда "{{ seriesData()?.team1Name }}"</p>
-            <!--          <p>elo</p>-->
-          </div>
-          <!--        <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>-->
-        </div>
-
-        <div class="w-1/3 flex justify-end pl-4">
-          <!--        <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>-->
-          <div class="flex flex-col justify-between items-start text-md font-md ">
-            <p>Команда "{{seriesData()?.team2Name}}"</p>
-            <!--          <p>elo</p>-->
-          </div>
-
-        </div>
-      </div>
-<!--      <app-info-match-block [data]="seriesData()" [user]="user" (changeStatusClicked)="changeStatus($event)"/>-->
-      <app-info-match-block [data]="seriesData()" />
-    </div>
-    <div class="flex w-full flex-col justify-center items-center relative">
-      <p (click)="openPickBanSession()" class="cursor-pointer " [ngClass]="{'text-mainBlue':pickBanSessionIsOpen,'text-mainText':!pickBanSessionIsOpen}">История пик/банов карт</p>
-      <div class=" ease-in-out mb-5" [ngClass]="{'triangle-up':pickBanSessionIsOpen,'triangle-close ':!pickBanSessionIsOpen}"></div>
-      <div class=" absolute top-[40px] w-[270px]  flex flex-col items-center justify-center  gap-3 overflow-y-hidden  ease-in-out transition-all bg-mainBackground border  border-mainText rounded-xl" [ngClass]="{' py-2':pickBanSessionIsOpen,'border-0 ':!pickBanSessionIsOpen}"
-           [style.height.px]="pickBanSessionIsOpen ? calculateContainerHeight() : 0"
-      >
-        @for (action of seriesData().pickBanSession.actionsLogs; track $index){
-          <app-info-card [cardClass]="'w-[236px] h-[65px] !py-2'">
-            <div class="w-full h-full flex justify-between items-center gap-1">
-              <div class="flex flex-col justify-around items-start h-full">
-                <p class="text-esm font-lg text-mainText " >{{ action.mapOrSide }}</p>
-                <p class="text-esm font-md text-mainText-700">{{action.team}}</p>
-              </div>
-              <p class="text-esm font-lg " [ngClass]="{'text-mediumRates':action.action == 'PICK','text-lowRates':action.action == 'BAN', 'text-yellow':action.action == 'PICK_SIDE'}">{{action.action}}</p>
+@if (seriesData()){
+  <div class="w-full pt-10 flex flex-col items-center gap-10">
+    <h1 class="text-2xl inline-block font-md flex justify-center items-center">Информация по серии</h1>
+    @if(seriesData()){
+      <div class="w-full">
+        <div class="w-full justify-between flex mb-6 ">
+          <div class="w-1/3 flex justify-between pr-4">
+            <div class="flex flex-col justify-between items-start text-md font-md">
+              <p>Команда "{{ seriesData()?.team1Name }}"</p>
+              <!--          <p>elo</p>-->
             </div>
-          </app-info-card>
+            <!--        <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>-->
+          </div>
+
+          <div class="w-1/3 flex justify-end pl-4">
+            <!--        <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>-->
+            <div class="flex flex-col justify-between items-start text-md font-md ">
+              <p>Команда "{{seriesData()?.team2Name}}"</p>
+              <!--          <p>elo</p>-->
+            </div>
+
+          </div>
+        </div>
+        <!--      <app-info-match-block [data]="seriesData()" [user]="user" (changeStatusClicked)="changeStatus($event)"/>-->
+        <app-info-match-block [data]="seriesData()" />
+      </div>
+      <div class="flex w-full flex-col justify-center items-center relative">
+        <p (click)="openPickBanSession()" class="cursor-pointer " [ngClass]="{'text-mainBlue':pickBanSessionIsOpen,'text-mainText':!pickBanSessionIsOpen}">История пик/банов карт</p>
+        <div class=" ease-in-out mb-5" [ngClass]="{'triangle-up':pickBanSessionIsOpen,'triangle-close ':!pickBanSessionIsOpen}"></div>
+        <div class=" absolute top-[40px] w-[270px]  flex flex-col items-center justify-center  gap-3 overflow-y-hidden  ease-in-out transition-all bg-mainBackground border  border-mainText rounded-xl" [ngClass]="{' py-2':pickBanSessionIsOpen,'border-0 ':!pickBanSessionIsOpen}"
+             [style.height.px]="pickBanSessionIsOpen ? calculateContainerHeight() : 0"
+        >
+          @for (action of seriesData().pickBanSession.actionsLogs; track $index){
+            <app-info-card [cardClass]="'w-[236px] h-[65px] !py-2'">
+              <div class="w-full h-full flex justify-between items-center gap-1">
+                <div class="flex flex-col justify-around items-start h-full">
+                  <p class="text-esm font-lg text-mainText " >{{ action.mapOrSide }}</p>
+                  <p class="text-esm font-md text-mainText-700">{{action.team}}</p>
+                </div>
+                <p class="text-esm font-lg " [ngClass]="{'text-mediumRates':action.action == 'PICK','text-lowRates':action.action == 'BAN', 'text-yellow':action.action == 'PICK_SIDE'}">{{action.action}}</p>
+              </div>
+            </app-info-card>
+          }
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+      <div class="w-full">
+        @if (seriesData()){
+
+
+          <app-tabs>
+            @if(seriesData()?.matches?.length ==0){
+
+              <ng-template appTab="Матч aaaa"></ng-template>
+            } @else {
+
+
+
+              @for(match of matches() ;track $index){
+
+                <ng-template appTab="Матч {{$index+1}}">
+                  <div class="w-full">
+                    <div class="w-full">
+                      @switch (selectedStage){
+                        @default {
+                          <div class="w-full justify-between flex mb-6 ">
+                            <div class="w-1/3 flex justify-end pr-4">
+                              <!--                      <div class="flex flex-col justify-between items-start text-md font-md">-->
+                              <!--                        <p>{{ lobby()?.team1Name }}</p>-->
+                              <!--                        <p>elo</p>-->
+                              <!--                      </div>-->
+                              <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>
+                            </div>
+
+                            <div class="w-1/3 flex justify-between pl-4">
+                              <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>
+                              <!--                      <div class="flex flex-col justify-between items-start text-md font-md">-->
+                              <!--                        <p>{{lobby()?.team2Name}}</p>-->
+                              <!--                        <p>elo</p>-->
+                              <!--                      </div>-->
+
+                            </div>
+                          </div>
+
+
+                          <!--                        <app-info-match-block  [data]="map" />-->
+                          <app-info-match-block  [internalData]="match.match" />
+                        }
+                        @case ('Статистика'){
+                          <div class="w-full flex flex-col gap-10">
+                            <div class="flex flex-col justify-between items-start text-md font-md ">
+                              <p>Команда "{{seriesData()?.team1Name}}"</p>
+                              <!--          <p>elo</p>-->
+                            </div>
+                            <app-table [dataSource]="baseStatsInMatches()[$index].team1"  >
+                              <div  appCustomColumn class="w-auto">
+
+                                <ng-template  customHeaderCellDef><div class="w-[300px] flex gap-3   "> Игроки  <p [ngClass]="{'text-mediumRates':seriesData().team1Score > seriesData().team2Score,'text-lowRates':!(seriesData().team1Score > seriesData().team2Score)}">{{seriesData().team1Score > seriesData().team2Score ? 'ПОБЕДА':'ПОРАЖЕНИЕ'}}</p></div> </ng-template>
+                                <ng-template  customCellDef let-element><div class="  flex justify-around w-[300px] h-full items-center mb-2 " ><img [src]="'UnknownUserImg.svg'|imgURL"> <p>{{ element.nickname_override  }}</p> <p>{{ element?.role }}</p></div> </ng-template>
+                              </div>
+
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class=""> У</div> </ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element?.stats?.kills"> {{element?.stats?.kills}} </div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class=""> С</div> </ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" > {{ element?.stats?.deaths }}</div> </ng-template>
+                              </div>
+
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class=" "> П</div> </ng-template>
+                                <ng-template customCellDef let-element> <div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.assists">{{element?.stats?.assists}}</div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class="">Урон</div></ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.damage_dealt" > {{element?.stats?.damage_dealt}}</div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class="">Званий лучшего</div></ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.mvps"> {{element?.stats?.mvps}}</div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class="">Счет</div></ng-template>
+                                <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.score"> {{element?.stats?.score}}</div> </ng-template>
+                              </div>
+                              <!--                            <div appCustomColumn class="w-auto">-->
+                              <!--                              <ng-template customHeaderCellDef><div class="">HLTV</div></ng-template>-->
+                              <!--                              <ng-template customCellDef let-element><div class=" flex w-full h-full items-center mb-2 gap-1"> {{element.HLTV}}</div> </ng-template>-->
+                              <!--                            </div>-->
+                              <!--                            <div appCustomColumn class="w-auto">-->
+                              <!--                              <ng-template customHeaderCellDef><div class="">KAST</div></ng-template>-->
+                              <!--                              <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.KAST}}</div> </ng-template>-->
+                              <!--                            </div>-->
+                            </app-table>
+                            <!--                          <div class="w-full flex justify-center">-->
+                            <!--                          <div class="w-3/4 h-[1px] bg-mainText-700">-->
+
+                            <!--                          </div>-->
+                            <!--                          </div>-->
+
+                            <div class="flex flex-col justify-between items-start text-md font-md ">
+                              <p>Команда "{{seriesData()?.team2Name}}"</p>
+                              <!--          <p>elo</p>-->
+                            </div>
+                            <app-table [dataSource]="baseStatsInMatches()[$index].team2"  >
+                              <div  appCustomColumn class="w-auto">
+                                <ng-template  customHeaderCellDef><div class="w-[300px] flex gap-3  "> Игроки <p [ngClass]="{'text-mediumRates':seriesData().team1Score < seriesData().team2Score,'text-lowRates':!(seriesData().team1Score < seriesData().team2Score)}">{{seriesData().team1Score < seriesData().team2Score ? 'ПОБЕДА':'ПОРАЖЕНИЕ'}}</p></div> </ng-template>
+                                <ng-template  customCellDef let-element><div class="  flex justify-around w-[300px] h-full items-center mb-2 " ><img [src]="'UnknownUserImg.svg'|imgURL"> <p>{{ element.nickname_override  }}</p> <p>{{ element?.role }}</p></div> </ng-template>
+                              </div>
+
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class=""> У</div> </ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element?.stats?.kills"> {{element?.stats?.kills}} </div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class=""> С</div> </ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" > {{ element?.stats?.deaths }}</div> </ng-template>
+                              </div>
+
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class=" "> П</div> </ng-template>
+                                <ng-template customCellDef let-element> <div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.assists">{{element?.stats?.assists}}</div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class="">Урон</div></ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.damage_dealt"> {{element?.stats?.damage_dealt}}</div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class="">Званий лучшего</div></ng-template>
+                                <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.mvps"> {{element?.stats?.mvps}}</div> </ng-template>
+                              </div>
+                              <div appCustomColumn class="w-auto">
+                                <ng-template customHeaderCellDef><div class="">Счет</div></ng-template>
+                                <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.score"> {{element?.stats?.score}}</div> </ng-template>
+                              </div>
+                              <!--                            <div appCustomColumn class="w-auto">-->
+                              <!--                              <ng-template customHeaderCellDef><div class="">HLTV</div></ng-template>-->
+                              <!--                              <ng-template customCellDef let-element><div class=" flex w-full h-full items-center mb-2 gap-1"> {{element.HLTV}}</div> </ng-template>-->
+                              <!--                            </div>-->
+                              <!--                            <div appCustomColumn class="w-auto">-->
+                              <!--                              <ng-template customHeaderCellDef><div class="">KAST</div></ng-template>-->
+                              <!--                              <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.KAST}}</div> </ng-template>-->
+                              <!--                            </div>-->
+                            </app-table>
+                          </div>
+
+
+                        }
+                      }
+                    </div>
+
+
+
+
+
+                    <div class="w-full bg-headerBackground h-[50px] flex items-center gap-3 justify-around px-4 rounded-xl mt-6 ">
+                      @for (state of stages;track $index){
+                        <div class="w-1/4 h-[38px] flex justify-center items-center rounded-xl cursor-pointer" (click)="selectState(state)" [ngClass]="{'border border-mainBorder bg-mainBlue':state===selectedStage}"><p>{{state}}</p></div>
+                      }
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </ng-template>
+              }}
+          </app-tabs>
         }
       </div>
+    }
+  </div>
+} @else {
+  <app-spinner/>
+}
 
-    </div>
-
-
-
-
-
-
-
-    <div class="w-full">
-      @if (seriesData()){
-
-
-        <app-tabs>
-          @if(seriesData()?.matches?.length ==0){
-
-            <ng-template appTab="Матч aaaa"></ng-template>
-          } @else {
-
-
-
-            @for(match of matches() ;track $index){
-
-              <ng-template appTab="Матч {{$index+1}}">
-                <div class="w-full">
-                  <div class="w-full">
-                    @switch (selectedStage){
-                      @default {
-                        <div class="w-full justify-between flex mb-6 ">
-                          <div class="w-1/3 flex justify-end pr-4">
-                            <!--                      <div class="flex flex-col justify-between items-start text-md font-md">-->
-                            <!--                        <p>{{ lobby()?.team1Name }}</p>-->
-                            <!--                        <p>elo</p>-->
-                            <!--                      </div>-->
-                            <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>
-                          </div>
-
-                          <div class="w-1/3 flex justify-between pl-4">
-                            <div class="flex items-end text-sm font-md text-mainText-700" >K/D/A</div>
-                            <!--                      <div class="flex flex-col justify-between items-start text-md font-md">-->
-                            <!--                        <p>{{lobby()?.team2Name}}</p>-->
-                            <!--                        <p>elo</p>-->
-                            <!--                      </div>-->
-
-                          </div>
-                        </div>
-
-
-<!--                        <app-info-match-block  [data]="map" />-->
-                        <app-info-match-block  [internalData]="match.match" />
-                      }
-                      @case ('Статистика'){
-                        <div class="w-full flex flex-col gap-10">
-                          <div class="flex flex-col justify-between items-start text-md font-md ">
-                            <p>Команда "{{seriesData()?.team1Name}}"</p>
-                            <!--          <p>elo</p>-->
-                          </div>
-                          <app-table [dataSource]="baseStatsInMatches()[$index].team1"  >
-                            <div  appCustomColumn class="w-auto">
-
-                              <ng-template  customHeaderCellDef><div class="w-[300px] flex gap-3   "> Игроки  <p [ngClass]="{'text-mediumRates':seriesData().team1Score > seriesData().team2Score,'text-lowRates':!(seriesData().team1Score > seriesData().team2Score)}">{{seriesData().team1Score > seriesData().team2Score ? 'ПОБЕДА':'ПОРАЖЕНИЕ'}}</p></div> </ng-template>
-                              <ng-template  customCellDef let-element><div class="  flex justify-around w-[300px] h-full items-center mb-2 " ><img [src]="'UnknownUserImg.svg'|imgURL"> <p>{{ element.nickname_override  }}</p> <p>{{ element?.role }}</p></div> </ng-template>
-                            </div>
-
-                            <div appCustomColumn class="w-auto">
-                              <ng-template customHeaderCellDef><div class=""> У</div> </ng-template>
-                              <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element?.stats?.kills"> {{element?.stats?.kills}} </div> </ng-template>
-                            </div>
-                            <div appCustomColumn class="w-auto">
-                              <ng-template customHeaderCellDef><div class=""> С</div> </ng-template>
-                              <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" > {{ element?.stats?.deaths }}</div> </ng-template>
-                            </div>
-
-                            <div appCustomColumn class="w-auto">
-                              <ng-template customHeaderCellDef><div class=" "> П</div> </ng-template>
-                              <ng-template customCellDef let-element> <div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.assists">{{element?.stats?.assists}}</div> </ng-template>
-                            </div>
-                            <div appCustomColumn class="w-auto">
-                              <ng-template customHeaderCellDef><div class="">Урон</div></ng-template>
-                              <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.damage_dealt" > {{element?.stats?.damage_dealt}}</div> </ng-template>
-                            </div>
-                            <div appCustomColumn class="w-auto">
-                              <ng-template customHeaderCellDef><div class="">Званий лучшего</div></ng-template>
-                              <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.mvps"> {{element?.stats?.mvps}}</div> </ng-template>
-                            </div>
-                            <div appCustomColumn class="w-auto">
-                              <ng-template customHeaderCellDef><div class="">Счет</div></ng-template>
-                              <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.score"> {{element?.stats?.score}}</div> </ng-template>
-                            </div>
-<!--                            <div appCustomColumn class="w-auto">-->
-<!--                              <ng-template customHeaderCellDef><div class="">HLTV</div></ng-template>-->
-<!--                              <ng-template customCellDef let-element><div class=" flex w-full h-full items-center mb-2 gap-1"> {{element.HLTV}}</div> </ng-template>-->
-<!--                            </div>-->
-<!--                            <div appCustomColumn class="w-auto">-->
-<!--                              <ng-template customHeaderCellDef><div class="">KAST</div></ng-template>-->
-<!--                              <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.KAST}}</div> </ng-template>-->
-<!--                            </div>-->
-                          </app-table>
-<!--                          <div class="w-full flex justify-center">-->
-<!--                          <div class="w-3/4 h-[1px] bg-mainText-700">-->
-
-<!--                          </div>-->
-<!--                          </div>-->
-
-                          <div class="flex flex-col justify-between items-start text-md font-md ">
-                            <p>Команда "{{seriesData()?.team2Name}}"</p>
-                            <!--          <p>elo</p>-->
-                          </div>
-                        <app-table [dataSource]="baseStatsInMatches()[$index].team2"  >
-                          <div  appCustomColumn class="w-auto">
-                            <ng-template  customHeaderCellDef><div class="w-[300px] flex gap-3  "> Игроки <p [ngClass]="{'text-mediumRates':seriesData().team1Score < seriesData().team2Score,'text-lowRates':!(seriesData().team1Score < seriesData().team2Score)}">{{seriesData().team1Score < seriesData().team2Score ? 'ПОБЕДА':'ПОРАЖЕНИЕ'}}</p></div> </ng-template>
-                            <ng-template  customCellDef let-element><div class="  flex justify-around w-[300px] h-full items-center mb-2 " ><img [src]="'UnknownUserImg.svg'|imgURL"> <p>{{ element.nickname_override  }}</p> <p>{{ element?.role }}</p></div> </ng-template>
-                          </div>
-
-                          <div appCustomColumn class="w-auto">
-                            <ng-template customHeaderCellDef><div class=""> У</div> </ng-template>
-                            <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" [appStar]="element?.stats?.kills"> {{element?.stats?.kills}} </div> </ng-template>
-                          </div>
-                          <div appCustomColumn class="w-auto">
-                            <ng-template customHeaderCellDef><div class=""> С</div> </ng-template>
-                            <ng-template customCellDef let-element><div class="    flex w-full h-full items-center  mb-2 gap-1" > {{ element?.stats?.deaths }}</div> </ng-template>
-                          </div>
-
-                          <div appCustomColumn class="w-auto">
-                            <ng-template customHeaderCellDef><div class=" "> П</div> </ng-template>
-                            <ng-template customCellDef let-element> <div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.assists">{{element?.stats?.assists}}</div> </ng-template>
-                          </div>
-                          <div appCustomColumn class="w-auto">
-                            <ng-template customHeaderCellDef><div class="">Урон</div></ng-template>
-                            <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.damage_dealt"> {{element?.stats?.damage_dealt}}</div> </ng-template>
-                          </div>
-                          <div appCustomColumn class="w-auto">
-                            <ng-template customHeaderCellDef><div class="">Званий лучшего</div></ng-template>
-                            <ng-template customCellDef let-element><div class="    flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.mvps"> {{element?.stats?.mvps}}</div> </ng-template>
-                          </div>
-                          <div appCustomColumn class="w-auto">
-                            <ng-template customHeaderCellDef><div class="">Счет</div></ng-template>
-                            <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1" [appStar]="element?.stats?.score"> {{element?.stats?.score}}</div> </ng-template>
-                          </div>
-                          <!--                            <div appCustomColumn class="w-auto">-->
-                          <!--                              <ng-template customHeaderCellDef><div class="">HLTV</div></ng-template>-->
-                          <!--                              <ng-template customCellDef let-element><div class=" flex w-full h-full items-center mb-2 gap-1"> {{element.HLTV}}</div> </ng-template>-->
-                          <!--                            </div>-->
-                          <!--                            <div appCustomColumn class="w-auto">-->
-                          <!--                              <ng-template customHeaderCellDef><div class="">KAST</div></ng-template>-->
-                          <!--                              <ng-template customCellDef let-element><div class="   flex w-full h-full items-center mb-2 gap-1"> {{element.KAST}}</div> </ng-template>-->
-                          <!--                            </div>-->
-                        </app-table>
-                        </div>
-
-
-                      }
-                    }
-                  </div>
-
-
-
-
-
-                  <div class="w-full bg-headerBackground h-[50px] flex items-center gap-3 justify-around px-4 rounded-xl mt-6 ">
-                    @for (state of stages;track $index){
-                      <div class="w-1/4 h-[38px] flex justify-center items-center rounded-xl cursor-pointer" (click)="selectState(state)" [ngClass]="{'border border-mainBorder bg-mainBlue':state===selectedStage}"><p>{{state}}</p></div>
-                    }
-                  </div>
-                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              </ng-template>
-            }}
-        </app-tabs>
-      }
-    </div>
-  }
-</div>

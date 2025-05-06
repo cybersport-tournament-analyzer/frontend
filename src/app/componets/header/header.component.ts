@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit, signal, ViewChild} from '@angular/core';
 import {ButtonComponent} from '../globals/button/button.component';
 import {AuthService} from '../../services/http.authService';
 import {Router, RouterLink} from '@angular/router';
@@ -8,6 +8,7 @@ import {StepperComponent} from '../../features/stepper/stepper.component';
 import {TournamentCreateComponent} from '../tournament-create/tournament-create.component';
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
 import {JsonPipe} from '@angular/common';
+import {TeamRegistrationComponent} from '../team-registration/team-registration.component';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +34,21 @@ export class HeaderComponent implements OnInit{
     this.router.navigate(["/home"])
   }
 
+  @ViewChild(TournamentCreateComponent)
+  tournamentCreateComponent!: TournamentCreateComponent;
+
+  onModalToggle(isOpen: boolean) {
+    if (!isOpen) {
+      this.tournamentCreateComponent.resetForm();
+    }
+  }
+  onChanged($event: boolean) {
+    console.log("onChanged")
+    console.log($event)
+    if ($event){
+      this.isOpen=false
+    }
+  }
 
 
 
