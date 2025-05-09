@@ -69,7 +69,9 @@ module.exports = {
       'highRates':'rgba(31, 162, 255, 1)',
       'mediumRates':'rgba(31, 255, 72, 0.9)',
       'lowRates': 'rgba(255, 31, 35, 0.9)',
-      'yellow':'rgba(255, 184, 31, 0.9)'
+      'yellow':'rgba(255, 184, 31, 0.9)',
+      'progress1':'rgba(31, 162, 255, 1)',
+      'progress2':'rgba(250,57,60,0.9)',
 
 
 

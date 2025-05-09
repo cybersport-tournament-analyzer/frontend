@@ -238,4 +238,21 @@ export class TournamentService {
       })
     );
   }
+
+  test(){
+    return this.http.get<any>(`http://176.98.178.99:8083/stats/tournaments/1d0d1118-d419-4b03-8a20-018b172e012a`).pipe(
+      // tap(data => {
+      //
+      //   console.log("getAllTournamentgetAllTournamentgetAllTournamentgetAllTournament")
+      //   console.log( data.stages.map((stage:any)=> {return stage.matches}))}),
+      // mapTo(true),
+      //   map((data:any)=>{
+      //     d
+      // }),
+      catchError(error => {
+        console.error("Ошибка при получении результатов турнира :", error);
+        return of(false);
+      })
+    );
+  }
 }

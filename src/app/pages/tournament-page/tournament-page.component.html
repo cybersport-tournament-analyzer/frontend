@@ -25,7 +25,11 @@
         <!--      </div>-->
       </div>
       <div class="flex-1 flex justify-end items-center">
-        <app-button [title]="'Регистрация'" (click)="onModal()" />
+
+        @if( data()?.tournamentStatus=='REGISTRATION'){
+          <app-button [title]="'Регистрация'" (click)="onModal()" />
+        }
+
       </div>
     </div>
 
@@ -68,7 +72,11 @@
                   }
                 </div>
                 <div class="flex flex-col pr-10 gap-5 mt-3 ">
-                  <div class="text-md font-md flex " [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.title}} @if($index==2){ <p class="w-[200px] ml-2"> * {{this.data()?.formatTournamentStartTime}}</p>}</div>
+                  <div class="text-md font-md flex " [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.title}}
+                    @if($index==2){ <p class=" ml-2 flex shrink-0"> * {{this.data()?.formatTournamentStartTime}}</p>}
+                    @if($index==1){ <p class="w-[200px] ml-2"> * {{this.data()?.registrationStartTime |time}}</p>}
+
+                  </div>
                   <div class="text-sm font-md flex" [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.content}}</div>
 
                 </div>
@@ -106,40 +114,51 @@
           <section class="grow" >
             <h1 class=" w-full font-lg text-xl mb-2">Формат</h1>
             <section class="flex gap-2 flex-wrap">
-              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
-                <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'ammoIcon.svg'| imgURL" alt=""/></div></ng-template>
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default'">
+                <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start "><img [src]="'ammoIcon.svg'| imgURL" alt=""/></div></ng-template>
                 <p>
                   Игра и регион
-                  CS 2, Global
+
                 </p>
+                <p>CS 2, Global</p>
               </app-info-card>
-              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default'">
                 <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'calendarIcon.svg'| imgURL" alt=""/></div></ng-template>
                 <p>
                   Подтверждение готовности
                   45 минут до начала
                 </p>
               </app-info-card>
-              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default' ">
                 <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'peopleIcon.svg'| imgURL" alt=""/></div></ng-template>
-                <p>
-                  Размер команды
-                  5 на 5
-                </p>
+                <p> Размер команды</p>
+                <p>{{ data()?.mode }} </p>
+
+
               </app-info-card>
-              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default'">
                 <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'stageIcon.svg' | imgURL" alt=""/></div></ng-template>
                 <p>
-                  Выбывание после 1 поражения
                   Формат
+                  Выбывание после 1 поражения
                 </p>
               </app-info-card>
             </section>
 
-            <h1 class="font-lg text-xl mb-2">Организатор</h1>
-            <section class="flex gap-5">
-              <app-button [iconURL]="'settingsIcon.svg'" [title]="'помощь блять'"/>
-            </section>
+            <h1 class="font-lg text-xl mb-2 mt-10">Организатор</h1>
+            <app-info-card [cardClass]="'cursor-default'">
+              <div class="w-full h-full flex justify-between items-center ">
+                <div class="h-full flex items-center justify-center gap-5 ">
+                <img class="w-[50px] h-[50px] rounded-full" [src]="data()?.creator.avatarImageLink">
+                <p>{{ data()?.creator.steamUsername }}</p>
+                </div>
+                <div class="flex-1 flex justify-end items-center gap-5">
+                  <app-button [iconURL]="'settingsIcon.svg'" (click)="goTest()" [title]="'помощь блять'"/>
+                  <a class="w-[30px] h-[30px] "  target="_blank" [href]="data()?.creator.steamProfileLink"><img class="w-full h-full" [src]="'steamIcon.svg' |imgURL"></a>
+                </div>
+              </div>
+            </app-info-card>
+
           </section>
 
           <section class="shrink-0 w-[445px] ">
@@ -161,7 +180,7 @@
 
             <h1 class="font-lg text-xl mb-2 mt-20">Настройки игры</h1>
             <section class="">
-              <app-info-card [cardClass]="'flex-col'">
+              <app-info-card [cardClass]="'flex-col cursor-default'">
                 <ng-template #iconTemplate>
                   <div class=" w-[400px] h-[200px]"><img src="assets/setingsImg.png"></div>
                 </ng-template>
@@ -228,7 +247,8 @@
 
   </div>
 }@else{
-  <app-spinner/>
+  <div class="h-screen"><app-spinner/></div>
+
 
 
 
