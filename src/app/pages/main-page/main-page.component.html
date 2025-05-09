@@ -1,42 +1,115 @@
-@if(tournaments){
+
 <div class="min-h-screen bg-gray-100 py-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">Быстрый доступ к лобакам </h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!--  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">-->
+<!--    <h1 class="text-3xl font-bold text-gray-900 mb-8">Быстрый доступ к лобакам </h1>-->
+<!--    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">-->
 
-      <h1>___</h1>
-      @for (lobb of lobbys$ | async ; track lobb.id){
-        <a [routerLink]="['/lobby', lobb.id]">{{ lobb.id }}</a>
+<!--      <h1>___</h1>-->
+<!--      @for (lobb of lobbys$ | async ; track lobb.id){-->
+<!--        <a [routerLink]="['/lobby', lobb.id]">{{ lobb.id }}</a>-->
 
-      }
-
-
-<!--      <h2>Создать лобби</h2>-->
-<!--      <form [formGroup]="form"  (ngSubmit)="submit()">-->
-<!--        <label >Режим:-->
-<!--        <select formControlName="mode" >-->
-<!--          <option value="1x1">1x1</option>-->
-<!--          <option value="2x2">2x2</option>-->
-<!--          <option value="5x5">5x5</option>-->
-<!--        </select>-->
-<!--        </label>-->
-<!--        <label >Формат:-->
-<!--          <select formControlName="format" >-->
-<!--            <option value="bo1">bo1</option>-->
-<!--            <option value="bo3">bo3</option>-->
-<!--            <option value="bo5">bo5</option>-->
-<!--          </select>-->
-<!--        </label>-->
-<!--        <button type="submit">Создать</button>-->
-
-<!--      </form>-->
+<!--      }-->
 
 
+<!--&lt;!&ndash;      <h2>Создать лобби</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;      <form [formGroup]="form"  (ngSubmit)="submit()">&ndash;&gt;-->
+<!--&lt;!&ndash;        <label >Режим:&ndash;&gt;-->
+<!--&lt;!&ndash;        <select formControlName="mode" >&ndash;&gt;-->
+<!--&lt;!&ndash;          <option value="1x1">1x1</option>&ndash;&gt;-->
+<!--&lt;!&ndash;          <option value="2x2">2x2</option>&ndash;&gt;-->
+<!--&lt;!&ndash;          <option value="5x5">5x5</option>&ndash;&gt;-->
+<!--&lt;!&ndash;        </select>&ndash;&gt;-->
+<!--&lt;!&ndash;        </label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <label >Формат:&ndash;&gt;-->
+<!--&lt;!&ndash;          <select formControlName="format" >&ndash;&gt;-->
+<!--&lt;!&ndash;            <option value="bo1">bo1</option>&ndash;&gt;-->
+<!--&lt;!&ndash;            <option value="bo3">bo3</option>&ndash;&gt;-->
+<!--&lt;!&ndash;            <option value="bo5">bo5</option>&ndash;&gt;-->
+<!--&lt;!&ndash;          </select>&ndash;&gt;-->
+<!--&lt;!&ndash;        </label>&ndash;&gt;-->
+<!--&lt;!&ndash;        <button type="submit">Создать</button>&ndash;&gt;-->
+
+<!--&lt;!&ndash;      </form>&ndash;&gt;-->
 
 
+
+
+<!--    </div>-->
+<!--  </div>-->
+
+<!--  <div class="w-full absolute top-[64px] left-0 h-[905px]  flex justify-center items-center  ">-->
+<!--    <div class="max-w-[1920px] w-full h-[905px]  rounded-t-xl overflow-y-hidden relative">-->
+<!--      <div class="max-w-[1920px] w-full h-[905px]  absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center rounded-t-xl ">-->
+<!--        <div class="max-w-[1920px] w-full h-full flex justify-center items-center">-->
+<!--            <div class="w-[1400px] h-[568px] flex flex-col">-->
+<!--              <div class="w-full flex justify-around ">-->
+<!--                <div class="w-1/2">-->
+<!--                  <p class="font-lg text-3xl">GPoint — твоя арена для киберспортивных баттлов в CS2!</p>-->
+<!--                  <p class="font-md text-xl">GPoint — это не просто платформа, это твой шанс заявить о себе в мире киберспорта. Ты можешь начать свой первый турнир прямо сейчас. Не жди, что кто-то сделает это за тебя. Собери своих, настрой правила и докажи, что ты — топчик.</p>-->
+<!--                </div>-->
+<!--                <div class="w-[565px] h-[321px] border border-mainBlue rounded-xl mt-2"></div>-->
+<!--              </div>-->
+<!--              <div class="w-full "></div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <img class="w-[1920px]  h-[905px]  " [src]="'bagImage.png'|imgURL">-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <div class="w-full h-[905px] relative top-[64px]  ">
+
+  </div>
+  <div class="w-full absolute top-[64px] left-0 h-[905px]  flex justify-center items-center  ">
+    <div class=" w-full h-[905px]   overflow-y-hidden relative">
+      <div class=" w-full h-[905px]  absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center ">
+        <div class="max-w-[1920px] w-full h-full flex justify-center items-center">
+          <div class="w-[1400px] h-[568px] flex flex-col gap-10">
+            <div class="w-full flex justify-between ">
+              <div class="w-1/2 flex flex-col gap-2">
+                <p class="font-lg text-3xl">GPoint — твоя арена для киберспортивных баттлов в CS2!</p>
+                <p class="font-md text-xl">GPoint — это не просто платформа, это твой шанс заявить о себе в мире киберспорта. Ты можешь начать свой первый турнир прямо сейчас. Не жди, что кто-то сделает это за тебя. Собери своих, настрой правила и докажи, что ты — топчик.</p>
+              </div>
+              <div class="w-[560px] h-[315px] border border-mainBlue rounded-xl mt-2">
+<!--                <video preload="auto" crossorigin controls autoplay-->
+<!--                       style="width: 1920px;height: 1080px;top: 0px;left:0px;z-index:1; position: absolute;">-->
+<!--                  <source src="{{'video_2025-05-08_23-26-54.mp4'|json}}">-->
+<!--                </video>-->
+                <video width="560" height="315" class="w-[560px] h-[315px] rounded-xl" [src] = "'../../../assets/video_2025-05-08_23-26-54.mp4'" controls autoplay="autoplay" loop [volume]="'0.1'">
+                  Your browser does not support HTML5 video.
+                </video>
+                 </div>
+            </div>
+            <div class="w-full flex gap-2 justify-between">
+              <app-info-card [cardClass]="'w-[445px] h-[129px] bg-mainBlue border border-mainBorder rounded-xl flex flex-row py-2'">
+
+                <ng-template #iconTemplate ><div class=" h-full flex  justify-center items-center"><img [src]="'whiteCup.svg'| imgURL" alt=""/></div></ng-template>
+                <div class="h-full flex items-center">Ты тут, потому что знаешь: настоящий кайф — это не просто играть, а соревноваться, побеждать и доказывать, что ты лучший.</div>
+
+              </app-info-card>
+              <app-info-card [cardClass]="'w-[445px] h-[129px] bg-mainBlue border border-mainBorder rounded-xl flex flex-row py-2'">
+
+                <ng-template #iconTemplate ><div class=" h-full flex  justify-center items-center"><img [src]="'swords.svg'| imgURL" alt=""/></div></ng-template>
+                <div class="h-full flex items-center">С GPoint ты можешь замутить свой турнир, собрать свою команду или устроить баттл
+                  с друзьями — всё в пару кликов.</div>
+
+              </app-info-card>
+              <app-info-card [cardClass]="'w-[445px] h-[129px] bg-mainBlue border border-mainBorder rounded-xl flex flex-row py-2'">
+
+                <ng-template #iconTemplate ><div class=" h-full flex  justify-center items-center"><img [src]="'flag.svg'| imgURL" alt=""/></div></ng-template>
+                <div class="h-full flex items-center">Здесь нет скучных правил и долгих подготовок. Ты создаешь турнир, зовешь своих, и вперед — к победам и адреналину.</div>
+
+              </app-info-card>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <img class=" w-full min-h-[905px] " [src]="'bagImage.png'|imgURL">
     </div>
   </div>
 
+  @if(tournaments){
   <div class="w-full flex justify-center items-center flex-col gap-5">
     <h1 class="text-2xl">ТУРНИРЫ</h1>
     @for (tournament of tournaments;track $index){
@@ -69,7 +142,8 @@
 
     }
   </div>
-
-</div>} @else {
+  } @else {
   <app-spinner/>
 }
+</div>
+

@@ -96,4 +96,7 @@ export class HeaderComponent implements OnInit{
 
   }
 
+  goToProfile(steamId: any) {
+    this.router.navigate(['/profile',steamId])
+  }
 }
