@@ -28,7 +28,7 @@ export class TimePipe implements PipeTransform {
     const hours = adjustedDate.getUTCHours().toString().padStart(2, '0');
     const minutes = adjustedDate.getUTCMinutes().toString().padStart(2, '0');
 
-    return `${dayOfWeek}, ${monthName} ${day}, ${hours}:${minutes} GMT+3`;
+    return `${dayOfWeek}, ${monthName} ${day}, ${hours}:${minutes} `;
   }
 
 }

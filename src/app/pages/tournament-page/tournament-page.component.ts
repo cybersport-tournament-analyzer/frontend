@@ -1,4 +1,4 @@
-import {Component, OnInit, signal, ViewChild} from '@angular/core';
+import {Component, OnInit, signal, ViewChild, WritableSignal} from '@angular/core';
 import {TabsComponent} from '../../features/tabs/tabs.component';
 import {TabDirective} from '../../features/tabs/tab.directive';
 import {JsonPipe, NgClass, NgIf, NgTemplateOutlet} from '@angular/common';
@@ -18,6 +18,10 @@ import {UtilService} from '../../services/util.service';
 import {ModalWindowComponent} from '../../features/modal-window/modal-window.component';
 import {TournamentCreateComponent} from '../../componets/tournament-create/tournament-create.component';
 import {TeamRegistrationComponent} from '../../componets/team-registration/team-registration.component';
+import {SpinnerComponent} from '../../features/spinner/spinner.component';
+import test from "node:test";
+import {TimePipe} from '../../pipes/time.pipe';
+import {UserService} from '../../services/user/user.service';
 
 @Component({
   selector: 'app-tournament-page',
@@ -37,7 +41,9 @@ import {TeamRegistrationComponent} from '../../componets/team-registration/team-
     JsonPipe,
     ModalWindowComponent,
     TournamentCreateComponent,
-    TeamRegistrationComponent
+    TeamRegistrationComponent,
+    SpinnerComponent,
+    TimePipe
   ],
   templateUrl: './tournament-page.component.html',
   standalone: true,
@@ -45,8 +51,8 @@ import {TeamRegistrationComponent} from '../../componets/team-registration/team-
 })
 export class TournamentPageComponent implements OnInit{
   steps=[
-    {title:'Окно готовности окрывается',content:'Подтвердите готовность и подтвердите, что можете играть',stage:0},
-    {title:'Распределение',content:'Начальные матчи были распределены и готовы к старту турнира',stage:1},
+    {title:'Окно готовности окрывается',content:'Регистрация начнется через',stage:0},
+    {title:'Регистрация',content:'Регистрация составов',stage:1},
     {title:'Старт',content:'Начало соревнования.',stage:2},
     {title:'Завершение',content:'Конец соревнования.',stage:3},
   ]
@@ -88,9 +94,9 @@ export class TournamentPageComponent implements OnInit{
 
     return this._currentStep
   }
-  data:any=signal(null)
+  data:WritableSignal<any|null>=signal(null)
   matchSchedule:any[]=[]
-  constructor(private tournamentService:TournamentService,private route: ActivatedRoute, protected utilService:UtilService) {
+  constructor(private tournamentService:TournamentService,private route: ActivatedRoute, protected utilService:UtilService, private userService:UserService) {
   }
   stages:any=signal(null)
 
@@ -104,12 +110,23 @@ export class TournamentPageComponent implements OnInit{
       this.currentStep=this.data().tournamentStatus
       this.matchSchedule = this.data().matchSchedule
       this.data().formatTournamentStartTime=this.utilService.formatTimeRemaining(this.data().tournamentStartTime)
+      this.data().mode= (data.tournamentMode.split('vs')[0]+'на'+data.tournamentMode.split('vs')[0])
       // this.data.formatregistrationEndTime={this.utilService.getTimeRemaining(data.tournamentStartTime)
       // this.data.formatregistrationStartTime={this.utilService.getTimeRemaining(data.tournamentStartTime)
       // this.data.formatcreatedAt={this.utilService.getTimeRemaining(data.tournamentStartTime)
       // registrationEndTime
       // registrationStartTime
       // createdAt
+      this.userService.getUserById(data.creatorId).subscribe((data:any)=>{
+        if(data){
+          this.data.update((dat)=>{
+            return{
+              ...dat,
+              creator:data
+            }
+          })
+        }
+      })
 
 
     })
@@ -117,6 +134,7 @@ export class TournamentPageComponent implements OnInit{
       console.log(data)
       this.stages.set(data)
     })
+
 
     // this.tournamentService.getTournamentData("a7d05b4c-9602-4a61-b9d5-3155600d1e79")
   }
@@ -129,5 +147,19 @@ export class TournamentPageComponent implements OnInit{
 
   onModal() {
     this.isOpen = true;
+  }
+
+  onChanged($event: boolean) {
+    console.log("onChanged")
+    console.log($event)
+    if ($event){
+      this.isOpen=false
+    }
+  }
+
+    protected readonly test = test;
+
+  goTest() {
+    this.tournamentService.test().subscribe()
   }
 }

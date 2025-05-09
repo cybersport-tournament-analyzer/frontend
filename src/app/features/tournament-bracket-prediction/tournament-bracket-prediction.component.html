@@ -1,0 +1,200 @@
+<!--<div class="bracket-container">-->
+<!--  <div class="bracket disable-image flex gap-8 overflow-x-auto">-->
+<!--    @for (column of list; track $index) {-->
+<!--      <div class="column flex flex-col gap-4" cdkDropListGroup>-->
+<!--        @for (match of column; track $index) {-->
+<!--          <div class="match bg-gray-800 text-white p-3 rounded-lg shadow-lg w-64">-->
+<!--            <div class="w-full flex justify-between items-center mb-2">-->
+<!--              <p>Матч {{ $index }}</p>-->
+<!--              <img [src]="'hrefIcon.svg' | imgURL" width="20">-->
+<!--            </div>-->
+
+<!--            <div class="flex flex-col gap-2"-->
+<!--                 cdkDropList-->
+<!--                 [cdkDropListData]="match"-->
+<!--                 [cdkDropListDisabled]="isDropDisabled(column, match)"-->
+<!--                 (cdkDropListDropped)="drop($event)">-->
+<!--              &lt;!&ndash;              {{match|json}}&ndash;&gt;-->
+<!--              @for (team of match; track $index) {-->
+
+<!--                <div class="team flex items-center gap-3 p-2 bg-gray-700 rounded"-->
+<!--                     [appWinnerTeam]="$index === 0"-->
+<!--                     cdkDrag-->
+<!--                     *ngIf="team.name || team.seed !== 0">-->
+<!--                  <div class="example-custom-placeholder" *cdkDragPlaceholder></div>-->
+<!--                  <img [src]="'UnknownUserImg.svg' | imgURL" width="24">-->
+<!--                  <div class="flex w-full justify-between items-center">-->
+<!--                    <span>{{ team.name || '...' }}</span>-->
+<!--                    <span>{{ team.score }}</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              }-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Декоративные линии &ndash;&gt;-->
+<!--            <div class="match-lines">-->
+<!--              <div class="line one"></div>-->
+<!--              <div class="line two"></div>-->
+<!--            </div>-->
+<!--            <div class="match-lines alt">-->
+<!--              <div class="line one"></div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        }-->
+<!--      </div>-->
+<!--    }-->
+<!--  </div>-->
+<!--</div>-->
+
+<!--<div class="">-->
+<!--  <div class="bracket disable-image">-->
+<!--    @for (column of list; track $index) {-->
+<!--      <div class="column" >-->
+<!--        @for (match of column; track $index) {-->
+<!--          <div class="match theme-dark gap-2"-->
+<!--          >-->
+<!--            <div class="w-full flex justify-between"><p>Матч {{ $index }}</p>-->
+<!--              <img [src]="'hrefIcon.svg'|imgURL">-->
+<!--            </div>-->
+<!--            <div class="flex flex-col gap-2" cdkDropList-->
+<!--                 (cdkDropListDropped)="drop($event)"-->
+<!--            >-->
+<!--              @for (team of match; track $index) {-->
+<!--                &lt;!&ndash;            [appWinnerTeam]="$index%2==0"&ndash;&gt;-->
+
+<!--                <div class="team gap-3" [appWinnerTeam]="$index%2==0" cdkDrag-->
+<!--                    >-->
+<!--                  <div class="example-custom-placeholder" *cdkDragPlaceholder>-->
+<!--                  </div>-->
+<!--                  <img class="" [src]="'UnknownUserImg.svg'|imgURL">-->
+<!--                  <div class="flex w-full justify-between items-center">-->
+<!--                    <span>{{ team.name }}</span>-->
+<!--                    <span>{{ team.score }}</span>-->
+<!--                  </div>-->
+
+<!--                </div>-->
+<!--              }-->
+<!--            </div>-->
+<!--            <div class="match-lines">-->
+<!--              <div class="line one"></div>-->
+<!--              <div class="line two"></div>-->
+<!--            </div>-->
+<!--            <div class="match-lines alt">-->
+<!--              <div class="line one"></div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        }-->
+<!--      </div>-->
+<!--    }-->
+<!--  </div>-->
+
+<!--</div>-->
+
+
+<!--<div class="bracket-container overflow-x-auto p-4">-->
+<!--  <div class="bracket disable-image">-->
+<!--    @for (column of list;  let colIndex = $index;track column;) {-->
+<!--      <div class="column " cdkDropListGroup>-->
+<!--        @for (match of column; track match; let matchIndex = $index) {-->
+<!--          <div class="match theme-dark gap-2">-->
+<!--            <div class="w-full flex justify-between">-->
+<!--              <p>Матч {{ matchIndex }}</p>-->
+<!--              <img [src]="'hrefIcon.svg' | imgURL" width="20">-->
+<!--            </div>-->
+
+<!--&lt;!&ndash;            [cdkDropListDisabled]="isDropDisabled(colIndex, match)"&ndash;&gt;-->
+<!--            <div class="flex flex-col gap-2"-->
+<!--                 [attr.id]="'match-' + colIndex + '-' + matchIndex"-->
+<!--                 cdkDropList-->
+<!--                 [cdkDropListConnectedTo]="connectedDropLists"-->
+<!--                 [cdkDropListData]="match"-->
+
+<!--                 (cdkDropListDropped)="drop($event)">-->
+<!--              @for (team of match; track team; let teamIndex = $index) {-->
+<!--                <div class="team gap-3"-->
+<!--                     cdkDrag-->
+<!--                     >-->
+<!--&lt;!&ndash;                  <div class="example-custom-placeholder" *cdkDragPlaceholder></div>&ndash;&gt;-->
+<!--                  <img [src]="'UnknownUserImg.svg' | imgURL" width="24">-->
+<!--                  <div class="flex w-full justify-between items-center">-->
+<!--                    <span>{{ team.name || '...' }}</span>-->
+<!--                    <span>{{ team.score }}</span>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              }-->
+<!--                          </div>-->
+<!--                          <div class="match-lines">-->
+<!--                            <div class="line one"></div>-->
+<!--                            <div class="line two"></div>-->
+<!--                          </div>-->
+<!--                          <div class="match-lines alt">-->
+<!--                            <div class="line one"></div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--        }-->
+<!--      </div>-->
+<!--    }-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="bracket-container">
+  <div class="bracket disable-image">
+    @for (column of list; track columnIndex; let columnIndex= $index) {
+      <div class="column" cdkDropListGroup>
+        <div class="round-title">
+          @if (columnIndex === 0) {
+            First Round
+          } @else if (columnIndex === list.length - 1) {
+            Final
+          } @else {
+            Round {{ columnIndex + 1 }}
+          }
+        </div>
+        @for (match of column; track matchIndex; let matchIndex= $index) {
+          <div class="match theme-dark">
+            <div class="w-full flex justify-between">
+              <p>Match {{ matchIndex + 1 }}</p>
+              <img [src]="'hrefIcon.svg' | imgURL" alt="Link icon">
+            </div>
+            <div
+              class="teams-container"
+              cdkDropList
+              [id]="getDropListId(columnIndex, matchIndex)"
+              [cdkDropListData]="match"
+              [cdkDropListConnectedTo]="getConnectedDropLists(columnIndex)"
+              (cdkDropListDropped)="drop($event)">
+              @for (team of match; track teamIndex; let teamIndex= $index) {
+                <div
+                  class="team"
+                  [class.winner]="match.length > 1 && isWinner(team, match[1 - teamIndex])"
+                  [class.empty]="team.name === null"
+                  cdkDrag
+                  [cdkDragDisabled]=" !canDrag(team)">
+                  {{columnIndex}}, {{!canDrag(team)}} , {{columnIndex > 0 || !canDrag(team)}}
+                  <div class="drag-placeholder" *cdkDragPlaceholder></div>
+                  <img class="team-img" [src]="'UnknownUserImg.svg' | imgURL" alt="User">
+                  <div class="team-info">
+                    <span class="team-name">{{ team.name || 'TBD' }}</span>
+                    <span class="team-score">{{ team.score }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+            <!-- Линии соединения матчей -->
+            @if (columnIndex < list.length - 1) {
+              <div class="match-lines right">
+                <div class="line horizontal"></div>
+              </div>
+            }
+            @if (columnIndex > 0) {
+              <div class="match-lines left">
+                <div class="line horizontal"></div>
+                <div class="line vertical"></div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

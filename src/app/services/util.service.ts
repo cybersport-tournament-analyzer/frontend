@@ -48,39 +48,63 @@ export class UtilService {
     // Собираем строку
     return `${days} дней ${hours} часов ${minutes} минут ${seconds} секунд`;
   }
-  formatTimeRemaining(targetISO:Date) {
+
+  formatTimeRemaining(targetISO: Date) {
     const targetDate = new Date(targetISO);
-    console.log(targetDate)
     const now = new Date();
-    console.log(now)
-
-    // Корректируем целевую дату на GMT+3
-
-    // Вычисляем разницу
 
     const diff = targetDate.getTime() - now.getTime();
-    console.log("diff")
-    console.log(diff)
     if (diff <= 0) return "Событие началось";
 
-    // Получаем компоненты времени
-    const hoursDiff = Math.floor(diff / 3600000);
-    const minutesDiff = Math.floor((diff % 3600000) / 60000);
+    const totalSeconds = Math.floor(diff / 1000);
+    const minutesDiff = Math.floor(totalSeconds / 60);
+    const secondsDiff = totalSeconds % 60;
 
-    // Форматируем оставшееся время
-    let timePart;
-    if (hoursDiff >= 1) {
-      timePart = `Через ${hoursDiff} ${this.pluralize(hoursDiff, ["час", "часа", "часов"])}`;
-    } else {
-      timePart = `Через ${minutesDiff} ${this.pluralize(minutesDiff, ["минуту", "минуты", "минут"])}`;
-    }
+    // const timePart = `Через ${minutesDiff} ${this.pluralize(minutesDiff, ["минуту", "минуты", "минут"])} и ${secondsDiff} ${this.pluralize(secondsDiff, ["секунду", "секунды", "секунд"])}`;
+    const timePart = `Через ${minutesDiff} ${this.pluralize(minutesDiff, ["мин.", "мин.", "мин."])} и ${secondsDiff} ${this.pluralize(secondsDiff, ["сек.", "сек.", "сек."])}`;
 
-    // Форматируем время события
-    const time = `${targetDate.getUTCHours().toString().padStart(2, "0")}:${targetDate.getUTCMinutes().toString().padStart(2, "0")}`;
+    // Форматируем время события (можно использовать local time)
+    const hours = targetDate.getHours().toString().padStart(2, "0");
+    const minutes = targetDate.getMinutes().toString().padStart(2, "0");
+    const time = `${hours}:${minutes}`;
 
-    return `${timePart}, ${time}`;
-    // return `${timePart}, `;
+    // return `${timePart}, ${time}`;
+    return `${timePart}`;
   }
+
+  // formatTimeRemaining(targetISO:Date) {
+  //   const targetDate = new Date(targetISO);
+  //   console.log(targetDate)
+  //   const now = new Date();
+  //   console.log(now)
+  //
+  //   // Корректируем целевую дату на GMT+3
+  //
+  //   // Вычисляем разницу
+  //
+  //   const diff = targetDate.getTime() - now.getTime();
+  //   console.log("diff")
+  //   console.log(diff)
+  //   if (diff <= 0) return "Событие началось";
+  //
+  //   // Получаем компоненты времени
+  //   const hoursDiff = Math.floor(diff / 3600000);
+  //   const minutesDiff = Math.floor((diff % 3600000) / 60000);
+  //
+  //   // Форматируем оставшееся время
+  //   let timePart;
+  //   if (hoursDiff >= 1) {
+  //     timePart = `Через ${hoursDiff} ${this.pluralize(hoursDiff, ["час", "часа", "часов"])}`;
+  //   } else {
+  //     timePart = `Через ${minutesDiff} ${this.pluralize(minutesDiff, ["минуту", "минуты", "минут"])}`;
+  //   }
+  //
+  //   // Форматируем время события
+  //   const time = `${targetDate.getUTCHours().toString().padStart(2, "0")}:${targetDate.getUTCMinutes().toString().padStart(2, "0")}`;
+  //
+  //   return `${timePart}, ${time}`;
+  //   // return `${timePart}, `;
+  // }
 
 // Вспомогательная функция для склонения
   pluralize(n:any, words:any) {

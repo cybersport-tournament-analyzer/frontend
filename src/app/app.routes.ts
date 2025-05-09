@@ -8,6 +8,7 @@ import {ErrorPageComponent} from './pages/error-page/error-page/error-page.compo
 import {LobbyPageComponent} from './pages/lobby-page/lobby-page.component';
 import {TournamentPageComponent} from './pages/tournament-page/tournament-page.component';
 import {MatchPageComponent} from './pages/match-page/match-page.component';
+import {ProfilePageComponent} from './pages/profile-page/profile-page.component';
 
 export const routes: Routes = [
   {path:"login",component:LoginPageComponent},
@@ -17,6 +18,7 @@ export const routes: Routes = [
   {path:"lobby/:id",component: LobbyPageComponent,},
   {path:"tournament/:id",component: TournamentPageComponent,},
   {path:"match/:id",component: MatchPageComponent,},
+  {path:"profile/:id",component: ProfilePageComponent,},
 
   {path:"",component: CallBackAuthComponent,canActivate: [authGuardGuard]},
   { path: '**', component: ErrorPageComponent } // Перехват несуществующих путей

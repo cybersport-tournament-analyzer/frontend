@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, signal, WritableSignal} from '@angular/core';
 import {StepComponent} from '../../features/stepper/step/step.component';
 import {StepperComponent} from '../../features/stepper/stepper.component';
 import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -28,11 +28,22 @@ import {AuthService} from '../../services/http.authService';
   styleUrl: './tournament-create.component.css'
 })
 export class TournamentCreateComponent implements OnInit{
-  @Input()
-  resetForm!:boolean
+
+  @Output() onSend :EventEmitter<boolean> = new EventEmitter<boolean>();
 
   form: FormGroup;
   interestsList = ['1vs1', '2vs2', '5vs5'];
+  public resetForm(): void {
+    this.form.reset({
+      creatorId: this.form.get('creatorId')?.value, // сохраняем steamId пользователя
+    });
+
+
+    // Сбрасываем состояние формы
+    this.form.markAsUntouched();
+    this.form.markAsPristine();
+  }
+  errors :WritableSignal<string|null> = signal<string|null>(null)
 
   constructor(private fb: FormBuilder, private tournamentService:TournamentService, private authService:AuthService) {
 
@@ -48,13 +59,13 @@ export class TournamentCreateComponent implements OnInit{
           tournamentStartTime: [],
       stages: this.fb.array([
         this.fb.group({
-          stageType: ['', ],
+          stageType: ['Single Elimination', ],
           finalMatchFormat: ['', ],
           matchFormat: ['', ],
           matchForTheThirdPlace: [false, ],
-          numberOfGroups: [1, ],
-          teamsToAdvance: [1, ],
-          totalRounds: [1, ],
+          numberOfGroups: [ ],
+          teamsToAdvance: [ ],
+          totalRounds: [ ],
         })
       ], Validators.required)
     });
@@ -62,15 +73,16 @@ export class TournamentCreateComponent implements OnInit{
 
   }
 
+
   get stages(): FormArray {
     return this.form.get('stages') as FormArray;
   }
 
   addStage() {
     this.stages.push(this.fb.group({
-      stageType: ['h', ],
-      finalMatchFormat: ['h', ],
-      matchFormat: ['h', ],
+      stageType: ['Single Elimination', ],
+      finalMatchFormat: ['', ],
+      matchFormat: ['', ],
       matchForTheThirdPlace: [false, ],
       numberOfGroups: [null, ],
       teamsToAdvance: [null, ],
@@ -107,8 +119,24 @@ export class TournamentCreateComponent implements OnInit{
     };
 
     console.log('Отправка данных:', payload);
-    this.tournamentService.createTournament(payload).subscribe()
-    this.form.reset()
+    this.tournamentService.createTournament(payload).subscribe({
+      next: (res) => {
+        console.log("SUCCESS", res);
+        this.onSend.emit(true);
+      },
+      error: (err) => {
+        console.error("ERROR", err);
+        if (err){
+          this.errors.set(err.error.message)
+
+        }else {
+          this.errors.set("Ошибка создания турнира")
+        }
+        this.onSend.emit(false);
+      }
+      }
+    )
+    // this.form.reset()
 
   }
 
@@ -119,6 +147,7 @@ export class TournamentCreateComponent implements OnInit{
     })
 
   }
+
 
 
 

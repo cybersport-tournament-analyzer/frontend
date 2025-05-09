@@ -172,7 +172,7 @@ export class TournamentService {
 
       catchError(error => {
         console.error("Ошибка создания турнира:", error);
-        return throwError(() => new Error('Не удалось создать турнир'));
+        return throwError(error);
       })
     );
   }
@@ -215,7 +215,15 @@ export class TournamentService {
 
     return this.http.post<any>(`${environment.tournamentSource}/teams/${tournamentId}/create`,{
       ...form
-    }).pipe(
+    })
+
+
+  }
+  getStandingsTournament(tournamentId:string){
+
+    console.log("getStandingsTournament")
+    console.log(`${environment.tournamentSource} /tournaments/${tournamentId}/standings`)
+    return this.http.get<any>(`${environment.tournamentSource}/tournaments/${tournamentId}/standings`).pipe(
       // tap(data => {
       //
       //   console.log("getAllTournamentgetAllTournamentgetAllTournamentgetAllTournament")
@@ -225,18 +233,14 @@ export class TournamentService {
       //     d
       // }),
       catchError(error => {
-        console.error("Ошибка создания команды:", error);
+        console.error("Ошибка при получении результатов турнира :", error);
         return of(false);
       })
     );
-
-
   }
-  getStandingsTournament(tournamentId:string){
 
-    console.log("getStandingsTournament")
-    console.log(`${environment.tournamentSource} /tournaments/${tournamentId}/standings`)
-    return this.http.get<any>(`${environment.tournamentSource}/tournaments/${tournamentId}/standings`).pipe(
+  test(){
+    return this.http.get<any>(`http://176.98.178.99:8083/stats/tournaments/1d0d1118-d419-4b03-8a20-018b172e012a`).pipe(
       // tap(data => {
       //
       //   console.log("getAllTournamentgetAllTournamentgetAllTournamentgetAllTournament")

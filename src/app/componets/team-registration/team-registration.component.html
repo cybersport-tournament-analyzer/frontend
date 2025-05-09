@@ -62,6 +62,7 @@
 
         </ng-template>
       </app-step>
+      @if((Number(mode) - 1)>0 && substitutionsCount>0){
       <app-step>
         <ng-template #content>
           <div class="flex flex-col w-full h-full justify-start items-center ">
@@ -203,7 +204,7 @@
           </div>
 
         </ng-template>
-      </app-step>
+      </app-step>}
     </app-stepper>
   </form>
 </div>

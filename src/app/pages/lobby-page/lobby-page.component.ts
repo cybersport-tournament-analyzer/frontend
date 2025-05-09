@@ -21,10 +21,11 @@ import {StatsResultDirective} from '../../directives/stats-result.directive';
 import {StarDirective} from '../../directives/star.directive';
 import {map, timer, window} from 'rxjs';
 import {state} from '@angular/animations';
+import {SpinnerComponent} from '../../features/spinner/spinner.component';
 
 @Component({
   selector: 'app-lobby-page',
-  imports: [FormsModule, JsonPipe, ButtonComponent, CustomCellDefDirective, CustomColumnDirective, CustomHeaderCellDefDirective, ImgURLPipe, InfoMatchBlockComponent, TabDirective, TableComponent, TabsComponent, NgClass, StatsResultDirective, StarDirective],
+  imports: [FormsModule, JsonPipe, ButtonComponent, CustomCellDefDirective, CustomColumnDirective, CustomHeaderCellDefDirective, ImgURLPipe, InfoMatchBlockComponent, TabDirective, TableComponent, TabsComponent, NgClass, StatsResultDirective, StarDirective, SpinnerComponent],
   templateUrl: './lobby-page.component.html',
   standalone: true,
   styleUrl: './lobby-page.component.css'
@@ -160,7 +161,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy{
 
   showToast:boolean = false
   copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text).then(() => {
+    console.log("aaa" ,text)
+    navigator.clipboard.writeText(text.split('+')[1]).then(() => {
       this.showToast = true;
       // Скрываем уведомление через 2.5 секунды
       setTimeout(() => {

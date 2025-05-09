@@ -1,5 +1,5 @@
-<header class="bg-headerBackground w-full px-56" >
-  <nav class=" w-full text-mainText-700 ">
+<header class="bg-headerBackground w-full  flex justify-center items-center  px-56" >
+  <nav class=" w-full text-mainText-700 max-w-[1920px] ">
       <div class="flex items-center justify-between h-16 ">
         <div  class="flex items-center space-x-2 gap-10">
 <!--        <Trophy class="w-8 h-8 text-yellow-500" />-->
@@ -22,7 +22,7 @@
           @if (user()){
             <app-button title="Создать турнир" class="h-[40px] flex shrink-0" (click)="onModal()"></app-button>
 
-            <p class="shrink-0 flex">{{user().steamUsername}}</p>
+            <p class="shrink-0 flex hover:cursor-pointer" (click)="goToProfile(user().steamId)">{{user().steamUsername}}</p>
             <div class="flex w-[50px] h-[50px] rounded-full shrink-0">
               <img class="w-full h-full rounded-full" [src]="user().avatarImageLink">
             </div>
@@ -44,14 +44,14 @@
 </header>
 
 
-<app-modal-window [(isOn)]="isOpen" >
+<app-modal-window [(isOn)]="isOpen" (isOnChange)="onModalToggle($event)" >
   <div class="w-full h-[183px] rounded-t-xl overflow-y-hidden relative">
-    <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center">Создание турнира</div>
+    <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center rounded-t-xl">Создание турнира</div>
     <img class="w-full  z-1 " [src]="'CS2.png'|imgURL">
 
 
   </div>
   <div class="flex-1 h-[491px]">
-  <app-tournament-create [resetForm]="isOpen" />
+  <app-tournament-create (onSend)="onChanged($event)" />
   </div>
 </app-modal-window>

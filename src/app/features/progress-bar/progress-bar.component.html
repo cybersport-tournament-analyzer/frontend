@@ -1,0 +1,42 @@
+<div class=" w-full flex items-center gap-5">
+  <div class="flex items-center gap-2 justify-around">
+    @if(value1>value2){
+      <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.78027 5.42676L9.89844 5.70312L10.1973 5.72852L14.7676 6.11914L11.3154 9.07422L11.084 9.27148L11.1533 9.56836L12.1846 13.9678L8.25586 11.6299L8 11.4775L7.74414 11.6299L3.81445 13.9678L4.84668 9.56836L4.91602 9.27148L4.68457 9.07422L1.23145 6.11914L5.80273 5.72852L6.10156 5.70312L6.21973 5.42676L8 1.27051L9.78027 5.42676Z" fill="#1FA2FF" fill-opacity="0.6" stroke="url(#paint0_linear_162_734)"/>
+        <defs>
+          <linearGradient id="paint0_linear_162_734" x1="0.23431" y1="13.0435" x2="16.5308" y2="12.0739" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#29A6FF"/>
+            <stop offset="1" stop-color="#129CFF"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    } @else {
+      <div class="w-[16px] h-[16px]"></div>
+    }
+    <p class="text-md font-md text-progress1">{{value1 | number:"1.0-2"}}</p>
+  </div>
+<div class="w-full h-[3px] bg-progress2 rounded-xl relative" >
+<div class="h-full  bg-progress1" [style.width.%]="progressWidth">
+</div>
+  <div class="absolute bg-mainText h-[20px] w-[3px] -top-[8px]" [style.left.%]="progressWidth"></div>
+
+</div>
+  <div class="flex items-center gap-2 justify-around">
+
+    <p class="text-md font-md text-progress2">{{value2 | number:"1.0-2"}}</p>
+    @if(value1<value2){
+      <svg width="16" height="15" viewBox="0 0 16 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9.78027 5.42676L9.89844 5.70312L10.1973 5.72852L14.7676 6.11914L11.3154 9.07422L11.084 9.27148L11.1533 9.56836L12.1846 13.9678L8.25586 11.6299L8 11.4775L7.74414 11.6299L3.81445 13.9678L4.84668 9.56836L4.91602 9.27148L4.68457 9.07422L1.23145 6.11914L5.80273 5.72852L6.10156 5.70312L6.21973 5.42676L8 1.27051L9.78027 5.42676Z" fill="#FA393CE5" fill-opacity="0.6" stroke="url(#paint0_linear_162_734)"/>
+        <defs>
+          <linearGradient id="paint0_linear_162_734" x1="0.23431" y1="13.0435" x2="16.5308" y2="12.0739" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#29A6FF"/>
+            <stop offset="1" stop-color="#129CFF"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    } @else {
+      <div class="w-[16px] h-[16px]"></div>
+    }
+
+  </div>
+</div>

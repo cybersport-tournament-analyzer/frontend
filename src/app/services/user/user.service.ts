@@ -19,4 +19,7 @@ export class UserService {
       })
     )
   }
+  getUserById(userId:string){
+    return this.http.get(`${environment.userSource}/users/steam/${userId}`)
+  }
 }

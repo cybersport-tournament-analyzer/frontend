@@ -13,6 +13,7 @@ import {environment} from '../../../environments/environment';
 import {InfoCardComponent} from '../../componets/info-card/info-card.component';
 import {TournamentStatusPipe} from '../../pipes/tournament-status.pipe';
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
+import {SpinnerComponent} from '../../features/spinner/spinner.component';
 
 
 @Component({
@@ -26,7 +27,8 @@ import {ImgURLPipe} from '../../pipes/img-url.pipe';
     InfoCardComponent,
     TournamentStatusPipe,
     DatePipe,
-    ImgURLPipe
+    ImgURLPipe,
+    SpinnerComponent
   ],
   templateUrl: './main-page.component.html',
   standalone: true,

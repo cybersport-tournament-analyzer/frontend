@@ -195,7 +195,14 @@
 
 
 
-
+@if (lobby()){
+  @if (showToast) {
+    <div
+      class="fixed top-5 right-5 bg-green-500 text-white px-4 py-2 rounded shadow-lg animate-fade-in-out"
+    >
+      ✅ Скопировано в буфер обмена!
+    </div>
+  }
 <div class="w-full pt-10 flex flex-col items-center gap-10">
   <h1 class="text-2xl inline-block font-md flex justify-center items-center">Информация по серии</h1>
   @if(lobby()){
@@ -245,10 +252,10 @@
               </div>
             }
 
-        <div class=" w-full flex flex-col justify-between gap-5">
+        <div class=" w-full flex flex-col justify-between gap-5 border border-mainText rounded-xl p-3">
           <div class="w-full flex justify-center gap-2">
           @for (map of lobby()?.pickBanSession?.maps; track map) {
-            <div class="hover:bg-headerBackground">
+            <div class="hover:bg-headerBackground cursor-pointer">
             <img [src]="'maps/'+map+'.jfif'|imgURL" class="w-[210px] h-[100px]"
                  [class.pointer-events-none]="lobby()?.pickBanSession?.nextActionType === 'PICK_SIDE'"
                  [class.opacity-50]="lobby()?.pickBanSession?.nextActionType === 'PICK_SIDE'"
@@ -266,10 +273,12 @@
         </div>
               }
                 @if (lobby()?.link != null) {
-                  <a [href]="lobby()?.link">Присоединиться к матчу</a>
-                  <button (click)="copyToClipboard(lobby()!.link)">
-                    📋 Скопировать текст
-                  </button>
+                  <div class=" flex gap-2">
+                  <a class=" text-mainText font-lg text-xs flex justify-stretch items-center gap-3 bg-mainBlue rounded-xl border-mainBorder border-[2px] py-[5px] px-[12px] hover:bg-headerBackground"
+                  [href]="lobby()?.link">Присоединиться к матчу</a>
+                  <app-button [title]="'📋 Скопировать текст'" (click)="copyToClipboard(lobby()!.link)">
+                  </app-button>
+                  </div>
                 }
 
               </div>
@@ -371,11 +380,11 @@
 
 
 
-            <div class="w-full bg-headerBackground h-[50px] flex items-center gap-3 justify-around px-4 rounded-xl mt-6 ">
-              @for (state of stages;track $index){
-                <div class="w-1/4 h-[38px] flex justify-center items-center rounded-xl cursor-pointer" (click)="selectState(state)" [ngClass]="{'border border-mainBorder bg-mainBlue':state===selectedStage}"><p>{{state}}</p></div>
-              }
-            </div>
+<!--            <div class="w-full bg-headerBackground h-[50px] flex items-center gap-3 justify-around px-4 rounded-xl mt-6 ">-->
+<!--              @for (state of stages;track $index){-->
+<!--                <div class="w-1/4 h-[38px] flex justify-center items-center rounded-xl cursor-pointer" (click)="selectState(state)" [ngClass]="{'border border-mainBorder bg-mainBlue':state===selectedStage}"><p>{{state}}</p></div>-->
+<!--              }-->
+<!--            </div>-->
           </div>
 
 
@@ -400,4 +409,6 @@
     }
   </div>
   }
-</div>
+</div>} @else {
+  <app-spinner/>
+}

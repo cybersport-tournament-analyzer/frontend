@@ -1,227 +1,257 @@
-<app-modal-window [(isOn)]="isOpen" (isOnChange)="onModalToggle($event)">
-  <div class="w-full h-[183px] rounded-t-xl overflow-y-hidden relative bg-mainBlue-300">
-    <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center">Регистрация команды</div>
-    <img class="w-full  z-1 " [src]="'CS2.png'|imgURL">
-  </div>
-  <div class="flex-1 h-[491px]">
-<!--    aaa-->
-         <app-team-registration [mode]="data()?.tournamentMode[0]" [tournamentId]="data()?.id" [substitutionsCount]="data()?.substitutionsNumber"/>
-  </div>
-</app-modal-window>
-
-<div class="w-[1400px] flex flex-col mx-auto  rounded-lg shadow-md p-6">
-  <!-- Заголовок -->
-  <div class="flex w-full gap-3 mb-7 ">
-    <div class="h-[186px] w-[186px] bg-mainBlue rounded-[50%]  border-4 border-mainBorder"></div>
-    <div class="flex-col flex justify-center">
-
-      <h1 class="text-3xl font-xl ">{{ data()?.tournamentMode }} - {{ data()?.tournamentName }}</h1>
-      <p class="text-md font-sm text-mainText-700">Приблизительно через 1 час - {{ this.utilService.formatDateToRussianGMT3(this.data()?.tournamentStartTime) }}</p>
-      <!--      <div class="mt-2 flex items-center text-green-500">-->
-      <!--        <span class="mr-2">●</span>-->
-      <!--        <span class="font-medium">Начнется через 59:23</span>-->
-      <!--      </div>-->
+@if (data()){
+  <app-modal-window [(isOn)]="isOpen" (isOnChange)="onModalToggle($event)">
+    <div class="w-full h-[183px] rounded-t-xl overflow-y-hidden relative bg-mainBlue-300">
+      <div class="w-full h-full absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center">Регистрация команды</div>
+      <img class="w-full  z-1 " [src]="'CS2.png'|imgURL">
     </div>
-    <div class="flex-1 flex justify-end items-center">
-    <app-button [title]="'Регистрация'" (click)="onModal()" />
+    <div class="flex-1 h-[491px]">
+      <!--    aaa-->
+      <app-team-registration [mode]="data()?.tournamentMode[0]" [tournamentId]="data()?.id" [substitutionsCount]="data()?.substitutionsNumber" (onSend)="onChanged($event)"/>
     </div>
-  </div>
+  </app-modal-window>
 
-  <app-tabs>
-    <ng-template appTab="Обзор">
-      <!-- Осмотр -->
-      <section class="w-full flex mb-24">
-        <div class="relative flex-1 h-[32px] overflow-hidden">
+  <div class="w-[1400px] flex flex-col mx-auto  rounded-lg shadow-md p-6">
+    {{data() |json}}
+    <!-- Заголовок -->
+    <div class="flex w-full gap-3 mb-7 ">
+      <div class="h-[186px] w-[186px] bg-mainBlue rounded-[50%]  border-4 border-mainBorder"></div>
+      <div class="flex-col flex justify-center">
 
-          <div
-            class="flex-1 h-[2px] w-full absolute mx-2 bg-mainText-500 top-1/2 transition-colors duration-300 left-0 z-10 "
-          ></div>
+        <h1 class="text-3xl font-xl ">{{ data()?.tournamentMode }} - {{ data()?.tournamentName }}</h1>
+        <p class="text-md font-sm text-mainText-700">Приблизительно через 1 час - {{ this.utilService.formatDateToRussianGMT3(this.data()?.tournamentStartTime) }}</p>
+        <!--      <div class="mt-2 flex items-center text-green-500">-->
+        <!--        <span class="mr-2">●</span>-->
+        <!--        <span class="font-medium">Начнется через 59:23</span>-->
+        <!--      </div>-->
+      </div>
+      <div class="flex-1 flex justify-end items-center">
 
-        </div>
-        <div class="w-11/12 flex justify-around">
+        @if( data()?.tournamentStatus=='REGISTRATION'){
+          <app-button [title]="'Регистрация'" (click)="onModal()" />
+        }
 
-          @for (step of steps; track $index) {
+      </div>
+    </div>
 
-            <!--     'bg-stepperBlack': $index <= currentStep, 'bg-stepperBlack': $index > currentStep-->
-            <div class="flex  flex-col">
-              <div class="w-full flex">
-                <div
-                  class="min-w-8 h-8 rounded-full flex shrink-0  items-center justify-center border border-mainBorder"
-                  [ngClass]="{
+    <app-tabs>
+      <ng-template appTab="Обзор">
+        <!-- Осмотр -->
+        <section class="w-full flex mb-24">
+          <div class="relative flex-1 h-[32px] overflow-hidden">
+
+            <div
+              class="flex-1 h-[2px] w-full absolute mx-2 bg-mainText-500 top-1/2 transition-colors duration-300 left-0 z-10 "
+            ></div>
+
+          </div>
+          <div class="w-11/12 flex justify-around">
+
+            @for (step of steps; track $index) {
+
+              <!--     'bg-stepperBlack': $index <= currentStep, 'bg-stepperBlack': $index > currentStep-->
+              <div class="flex  flex-col">
+                <div class="w-full flex">
+                  <div
+                    class="min-w-8 h-8 rounded-full flex shrink-0  items-center justify-center border border-mainBorder"
+                    [ngClass]="{
           'bg-mainBlue': step.stage <= currentStep,
           'bg-stepperBlack': step.stage > currentStep,}"
-                >
+                  >
 
-                </div>
-
-
-                <!-- Линия между шагами (если шаг не последний) -->
-                @if (true) {
-                  <div class="relative w-full overflow-hidden">
-
-                    <div
-                      class="flex-1 h-[2px] w-full absolute  bg-mainText-500 top-1/2 transition-colors duration-300 left-0 z-2 "
-                    ></div>
                   </div>
-                }
+
+
+                  <!-- Линия между шагами (если шаг не последний) -->
+                  @if (true) {
+                    <div class="relative w-full overflow-hidden">
+
+                      <div
+                        class="flex-1 h-[2px] w-full absolute  bg-mainText-500 top-1/2 transition-colors duration-300 left-0 z-2 "
+                      ></div>
+                    </div>
+                  }
+                </div>
+                <div class="flex flex-col pr-10 gap-5 mt-3 ">
+                  <div class="text-md font-md flex " [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.title}}
+                    @if($index==2){ <p class=" ml-2 flex shrink-0"> * {{this.data()?.formatTournamentStartTime}}</p>}
+                    @if($index==1){ <p class="w-[200px] ml-2"> * {{this.data()?.registrationStartTime |time}}</p>}
+
+                  </div>
+                  <div class="text-sm font-md flex" [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.content}}</div>
+
+                </div>
               </div>
-            <div class="flex flex-col pr-10 gap-5 mt-3 ">
-              <div class="text-md font-md flex " [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.title}} @if($index==2){ <p class="w-[200px] ml-2"> * {{this.data()?.formatTournamentStartTime}}</p>}</div>
-              <div class="text-sm font-md flex" [ngClass]="{'text-mainText-500':currentStep!=$index,'text-mainText':currentStep==$index}">{{step.content}}</div>
-
-            </div>
-            </div>
 
 
-          }
+            }
 
 
-        </div>
-<!--        <div class="relative w-1/6 overflow-hidden">-->
+          </div>
+          <!--        <div class="relative w-1/6 overflow-hidden">-->
 
 
-<!--          <div-->
-<!--            class="flex-1 h-1 mx-2 absolute bg-green-600-300 top-1/2 transition-colors z-20 left-0  "-->
+          <!--          <div-->
+          <!--            class="flex-1 h-1 mx-2 absolute bg-green-600-300 top-1/2 transition-colors z-20 left-0  "-->
 
-<!--          ></div>-->
-<!--          <div-->
-<!--            class="flex-1 h-1 w-full absolute mx-2 bg-mainText top-1/2 transition-colors duration-300 left-0 z-10 "-->
-<!--          ></div>-->
+          <!--          ></div>-->
+          <!--          <div-->
+          <!--            class="flex-1 h-1 w-full absolute mx-2 bg-mainText top-1/2 transition-colors duration-300 left-0 z-10 "-->
+          <!--          ></div>-->
 
-<!--        </div>-->
-        <!--        @for (step of steps; track $index) {-->
-        <!--          <div class=" text-sm text-center">-->
-        <!--            {{ step.title }}-->
-        <!--            {{ step.content }}-->
+          <!--        </div>-->
+          <!--        @for (step of steps; track $index) {-->
+          <!--          <div class=" text-sm text-center">-->
+          <!--            {{ step.title }}-->
+          <!--            {{ step.content }}-->
 
-        <!--          </div>-->
-        <!--        }-->
-      </section>
-
-
-
-      <article class=" w-full flex gap-5">
-        <section class="grow" >
-        <h1 class=" w-full font-lg text-xl mb-2">Формат</h1>
-        <section class="flex gap-2 flex-wrap">
-          <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
-            <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'ammoIcon.svg'| imgURL" alt=""/></div></ng-template>
-            <p>
-              Игра и регион
-              CS 2, Global
-            </p>
-          </app-info-card>
-          <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
-            <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'calendarIcon.svg'| imgURL" alt=""/></div></ng-template>
-            <p>
-              Подтверждение готовности
-              45 минут до начала
-            </p>
-          </app-info-card>
-          <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
-            <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'peopleIcon.svg'| imgURL" alt=""/></div></ng-template>
-            <p>
-              Размер команды
-              5 на 5
-            </p>
-          </app-info-card>
-          <app-info-card [cardClass]="'flex-col w-[290px] h-[150px]'">
-            <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'stageIcon.svg' | imgURL" alt=""/></div></ng-template>
-            <p>
-              Выбывание после 1 поражения
-              Формат
-            </p>
-          </app-info-card>
+          <!--          </div>-->
+          <!--        }-->
         </section>
 
-          <h1 class="font-lg text-xl mb-2">Организатор</h1>
-          <section class="flex gap-5">
-            <app-button [iconURL]="'settingsIcon.svg'" [title]="'помощь блять'"/>
-          </section>
-        </section>
 
-        <section class="shrink-0 w-[445px] ">
-          <h1 class="font-lg text-xl mb-2">Команды</h1>
-          <section class="flex gap-5 w-full bg-headerBackground rounded-xl  justify-between px-12 py-5">
-            <div class="flex flex-col justify-center items-center">
-              <p class="font-sm text-sm">Участников</p>
-              <p class=""><b>{{data()?.teams.length}}</b></p>
-            </div>
-            <div class="flex flex-col justify-center items-center">
-              <p class="font-sm text-sm">Че писать</p>
-              <p class=""><b>0 </b></p>
-            </div>
-            <div class="flex flex-col justify-center items-center">
-              <p class="font-sm text-sm">Замен</p>
-              <p class=""><b>{{ data()?.substitutionsNumber }}</b></p>
-            </div>
-          </section>
 
-          <h1 class="font-lg text-xl mb-2 mt-20">Настройки игры</h1>
-          <section class="">
-            <app-info-card [cardClass]="'flex-col'">
-              <ng-template #iconTemplate>
-                <div class=" w-[400px] h-[200px]"><img src="assets/setingsImg.png"></div>
-              </ng-template>
-              <div class=" mt-2 grid grid-cols-2 grid-rows-2 ">
-                <div class="flex flex-col justify-center items-start">
-                  <p class="font-sm text-esm text-mainText-700">Замен</p>
-                  <p class=""><b>1</b></p>
+        <article class=" w-full flex gap-5">
+          <section class="grow" >
+            <h1 class=" w-full font-lg text-xl mb-2">Формат</h1>
+            <section class="flex gap-2 flex-wrap">
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default'">
+                <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start "><img [src]="'ammoIcon.svg'| imgURL" alt=""/></div></ng-template>
+                <p>
+                  Игра и регион
+
+                </p>
+                <p>CS 2, Global</p>
+              </app-info-card>
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default'">
+                <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'calendarIcon.svg'| imgURL" alt=""/></div></ng-template>
+                <p>
+                  Подтверждение готовности
+                  45 минут до начала
+                </p>
+              </app-info-card>
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default' ">
+                <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'peopleIcon.svg'| imgURL" alt=""/></div></ng-template>
+                <p> Размер команды</p>
+                <p>{{ data()?.mode }} </p>
+
+
+              </app-info-card>
+              <app-info-card [cardClass]="'flex-col w-[290px] h-[150px] cursor-default'">
+                <ng-template #iconTemplate ><div class="min-w-[70px] flex flex-col justify-center items-start"><img [src]="'stageIcon.svg' | imgURL" alt=""/></div></ng-template>
+                <p>
+                  Формат
+                  Выбывание после 1 поражения
+                </p>
+              </app-info-card>
+            </section>
+
+            <h1 class="font-lg text-xl mb-2 mt-10">Организатор</h1>
+            <app-info-card [cardClass]="'cursor-default'">
+              <div class="w-full h-full flex justify-between items-center ">
+                <div class="h-full flex items-center justify-center gap-5 ">
+                <img class="w-[50px] h-[50px] rounded-full" [src]="data()?.creator.avatarImageLink">
+                <p>{{ data()?.creator.steamUsername }}</p>
                 </div>
-                <div class="flex flex-col justify-center items-start">
-                  <p class="font-sm text-esm text-mainText-700">Замен</p>
-                  <p class=""><b>1</b></p>
-                </div>
-                <div class="flex flex-col justify-center items-start">
-                  <p class="font-sm text-esm text-mainText-700">Замен</p>
-                  <p class=""><b>1</b></p>
-                </div>
-                <div class="flex flex-col justify-center items-start">
-                  <p class="font-sm text-esm text-mainText-700">Замен</p>
-                  <p class=""><b>1</b></p>
+                <div class="flex-1 flex justify-end items-center gap-5">
+                  <app-button [iconURL]="'settingsIcon.svg'" (click)="goTest()" [title]="'помощь блять'"/>
+                  <a class="w-[30px] h-[30px] "  target="_blank" [href]="data()?.creator.steamProfileLink"><img class="w-full h-full" [src]="'steamIcon.svg' |imgURL"></a>
                 </div>
               </div>
             </app-info-card>
+
           </section>
-        </section>
-      </article>
 
-    </ng-template>
-    <ng-template appTab="Стадии">
-      <app-stage [stages]="data().stages"/>
-    </ng-template>
-    <ng-template appTab="Расписание матчей">
-      <app-tournament-match-schedule [matchList]="matchSchedule"/>
-    </ng-template>
-    <ng-template appTab="Результаты турнира">
-      <app-tournament-stats [tournamentResult]="stages()" />
-    </ng-template>
-  </app-tabs>
+          <section class="shrink-0 w-[445px] ">
+            <h1 class="font-lg text-xl mb-2">Команды</h1>
+            <section class="flex gap-5 w-full bg-headerBackground rounded-xl  justify-between px-12 py-5">
+              <div class="flex flex-col justify-center items-center">
+                <p class="font-sm text-sm">Участников</p>
+                <p class=""><b>{{data()?.teams.length}}</b></p>
+              </div>
+              <div class="flex flex-col justify-center items-center">
+                <p class="font-sm text-sm">Че писать</p>
+                <p class=""><b>0 </b></p>
+              </div>
+              <div class="flex flex-col justify-center items-center">
+                <p class="font-sm text-sm">Замен</p>
+                <p class=""><b>{{ data()?.substitutionsNumber }}</b></p>
+              </div>
+            </section>
+
+            <h1 class="font-lg text-xl mb-2 mt-20">Настройки игры</h1>
+            <section class="">
+              <app-info-card [cardClass]="'flex-col cursor-default'">
+                <ng-template #iconTemplate>
+                  <div class=" w-[400px] h-[200px]"><img src="assets/setingsImg.png"></div>
+                </ng-template>
+                <div class=" mt-2 grid grid-cols-2 grid-rows-2 ">
+                  <div class="flex flex-col justify-center items-start">
+                    <p class="font-sm text-esm text-mainText-700">Замен</p>
+                    <p class=""><b>1</b></p>
+                  </div>
+                  <div class="flex flex-col justify-center items-start">
+                    <p class="font-sm text-esm text-mainText-700">Замен</p>
+                    <p class=""><b>1</b></p>
+                  </div>
+                  <div class="flex flex-col justify-center items-start">
+                    <p class="font-sm text-esm text-mainText-700">Замен</p>
+                    <p class=""><b>1</b></p>
+                  </div>
+                  <div class="flex flex-col justify-center items-start">
+                    <p class="font-sm text-esm text-mainText-700">Замен</p>
+                    <p class=""><b>1</b></p>
+                  </div>
+                </div>
+              </app-info-card>
+            </section>
+          </section>
+        </article>
+
+      </ng-template>
+      <ng-template appTab="Стадии">
+        <app-stage [stages]="data().stages"/>
+      </ng-template>
+      <ng-template appTab="Расписание матчей">
+        <app-tournament-match-schedule [matchList]="matchSchedule"/>
+      </ng-template>
+      <ng-template appTab="Результаты турнира">
+        <app-tournament-stats [tournamentResult]="stages()" />
+      </ng-template>
+    </app-tabs>
 
 
-  <!--  <div>-->
+    <!--  <div>-->
 
-  <!--    &lt;!&ndash; Баннер публикации &ndash;&gt;-->
-  <!--    <div class="bg-blue-50 p-4 rounded-lg mb-6 cursor-pointer hover:bg-blue-100 transition">-->
-  <!--      <p class="text-blue-800 text-center">-->
-  <!--        Турнир сейчас в режиме настройки и виден только вам.-->
-  <!--        <span class="font-semibold underline">Нажмите здесь, чтобы опубликовать.</span>-->
-  <!--      </p>-->
-  <!--    </div>-->
+    <!--    &lt;!&ndash; Баннер публикации &ndash;&gt;-->
+    <!--    <div class="bg-blue-50 p-4 rounded-lg mb-6 cursor-pointer hover:bg-blue-100 transition">-->
+    <!--      <p class="text-blue-800 text-center">-->
+    <!--        Турнир сейчас в режиме настройки и виден только вам.-->
+    <!--        <span class="font-semibold underline">Нажмите здесь, чтобы опубликовать.</span>-->
+    <!--      </p>-->
+    <!--    </div>-->
 
-  <!--    &lt;!&ndash; Основные секции &ndash;&gt;-->
-  <!--    <div class="space-y-6">-->
-  <!--      &lt;!&ndash; Обзор &ndash;&gt;-->
-  <!--      <section>-->
-  <!--        <h2 class="text-xl font-semibold mb-3">Обзор</h2>-->
-  <!--        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-blue-600">-->
-  <!--          <a href="#" class="hover:underline">Команды</a>-->
-  <!--          <a href="#" class="hover:underline">Расписание матчей</a>-->
-  <!--          <a href="#" class="hover:underline">Стадии</a>-->
-  <!--          <a href="#" class="hover:underline">Результаты турнира</a>-->
-  <!--          <a href="#" class="hover:underline">Панель управления</a>-->
-  <!--        </div>-->
-  <!--      </section>-->
+    <!--    &lt;!&ndash; Основные секции &ndash;&gt;-->
+    <!--    <div class="space-y-6">-->
+    <!--      &lt;!&ndash; Обзор &ndash;&gt;-->
+    <!--      <section>-->
+    <!--        <h2 class="text-xl font-semibold mb-3">Обзор</h2>-->
+    <!--        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-blue-600">-->
+    <!--          <a href="#" class="hover:underline">Команды</a>-->
+    <!--          <a href="#" class="hover:underline">Расписание матчей</a>-->
+    <!--          <a href="#" class="hover:underline">Стадии</a>-->
+    <!--          <a href="#" class="hover:underline">Результаты турнира</a>-->
+    <!--          <a href="#" class="hover:underline">Панель управления</a>-->
+    <!--        </div>-->
+    <!--      </section>-->
 
 
-</div>
+  </div>
+}@else{
+  <div class="h-screen"><app-spinner/></div>
+
+
+
+
+}
+
+

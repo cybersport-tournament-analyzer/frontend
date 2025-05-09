@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment.development';
-import {catchError, of} from 'rxjs';
+import {catchError, Observable, of, throwError} from 'rxjs';
+import * as http from 'http';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class MatchService {
 
       catchError(error => {
         console.error("Ошибка получения серии:", error);
-        return of(false);
+        return  throwError((error:any)=>error)
+        // return of(false);
       })
     )
   }
