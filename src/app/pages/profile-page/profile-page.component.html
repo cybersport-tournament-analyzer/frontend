@@ -1,0 +1,47 @@
+@if (userData()){
+{{userData()|json}}
+  <div class="w-[1400px] flex flex-col mx-auto  rounded-lg shadow-md p-6">
+    <!-- Заголовок -->
+    <div class="flex w-full gap-3 mb-7 ">
+      <div class="h-[186px] w-[186px] bg-mainBlue rounded-[50%]  border-4 border-mainBorder">
+        <img class="w-full h-full rounded-full" [src]="userData()?.avatarImageLink">
+      </div>
+      <div class="flex-col flex justify-center">
+        <h1 class="text-3xl font-xl ">{{ userData()?.steamUsername }} </h1>
+        <p class="text-md font-sm text-mainText-700">{{userData()?.ratingElo}}</p>
+      </div>
+      <div class="flex-1 flex justify-end items-center">
+        <a class="w-[30px] h-[30px] "  target="_blank" [href]="userData()?.steamProfileLink"><img class="w-full h-full" [src]="'steamIcon.svg' |imgURL"></a>
+      </div>
+    </div>
+
+    <app-tabs>
+      <ng-template appTab="Статистика">
+        <!-- Осмотр -->
+        <section class="w-full flex mb-24">
+          <div class="relative flex-1  overflow-hidden">
+
+            <app-tournament-bracket-prediction ></app-tournament-bracket-prediction>
+
+          </div>
+        </section>
+
+      </ng-template>
+      <ng-template appTab="Турниры и матчи">
+        <div class=" w-full flex justify-center">
+        <div class="w-1/2 ">
+          <app-compare-players></app-compare-players>
+        </div>
+        </div>
+
+
+<!--        <app-stage [stages]="data().stages"/>-->
+      </ng-template>
+    </app-tabs>
+  </div>
+
+
+
+} @else {
+  <app-spinner/>
+}
