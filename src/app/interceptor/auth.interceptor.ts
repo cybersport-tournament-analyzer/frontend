@@ -118,7 +118,8 @@ export class authInterceptor implements HttpInterceptor {
       catchError((error) => {
         // console.log("errorsssssss",error)
         if (error instanceof HttpErrorResponse && error.status === 401) {
-          if (error?.error?.url !== '/auth/refresh') {
+          console.log(error?.error?.url !== '/auth/refresh' ,error?.error ,error?.error==null)
+          if (error?.error?.url !== '/auth/refresh' || error?.error==null ) {
             return this.handle401Error(request, next);
           } else {
             // return this.refreshErrorHandle(request, next); // ошибка на рефреш токен
@@ -144,6 +145,61 @@ export class authInterceptor implements HttpInterceptor {
       withCredentials: true
     });
   }
+
+
+
+  private handleError(request: HttpRequest<any>, next: HttpHandler) {
+    console.log("Обычная ошибка ")
+    return throwError(()=>{'Обычная ошибка'});
+  }
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    console.log("🔁 handle401Error");
+
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      return this.authService.refreshToken().pipe(
+        switchMap((token: any) => {
+
+
+          this.authService.setJwtToken(token.accessToken);
+          this.refreshTokenSubject.next(token.accessToken);
+
+          this.isRefreshing = false;
+
+          return next.handle(this.addToken(request, token.accessToken));
+        }),
+        catchError((err) => {
+          console.error('❌ Refresh failed:', err);
+
+          // 🛑 Сброс в любом случае
+          this.isRefreshing = false;
+          this.refreshTokenSubject.next(null);
+
+          return this.refreshErrorHandle(request, next);
+        })
+      );
+    } else {
+      return this.refreshTokenSubject.pipe(
+        filter((token) => token != null),
+        take(1),
+        switchMap((jwt) => {
+          return next.handle(this.addToken(request, jwt));
+        })
+      );
+    }
+  }
+
+
+  private refreshErrorHandle(request: HttpRequest<any>, next: HttpHandler) {
+    console.log("refreshErrorHandle")
+    this.router.navigate(['/error']); // Переход на страницу ошибки
+    return throwError(()=>{'Token refresh failed. Redirecting to error page.'});
+  }
+
+
+
 
   // private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
   //   // console.log("handle401Error")
@@ -173,40 +229,35 @@ export class authInterceptor implements HttpInterceptor {
   //   }
   // }
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
-    if (!this.isRefreshing) {
-      this.isRefreshing = true;
-      this.refreshTokenSubject.next(null);
-
-      return this.authService.refreshToken().pipe(
-        switchMap((token: any) => {
-          this.isRefreshing = false;
-
-          // 🔥 Обновляем токен в authService
-          this.authService.setJwtToken(token.accessToken);
-          this.refreshTokenSubject.next(token.accessToken);
-
-          return next.handle(this.addToken(request, token.accessToken));
-        }),
-        catchError((err) => {
-          this.isRefreshing = false;
-          return this.refreshErrorHandle(request, next);
-        })
-      );
-    } else {
-      return this.refreshTokenSubject.pipe(
-        filter((token) => token != null),
-        take(1),
-        switchMap((jwt) => {
-          return next.handle(this.addToken(request, jwt));
-        })
-      );
-    }
-  }
-
-  private refreshErrorHandle(request: HttpRequest<any>, next: HttpHandler) {
-    // console.log("refreshErrorHandle")
-    this.router.navigate(['/error']); // Переход на страницу ошибки
-    return throwError(()=>{'Token refresh failed. Redirecting to error page.'});
-  }
+  // private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+  //   console.log("handle401Error")
+  //   if (!this.isRefreshing) {
+  //     this.isRefreshing = true;
+  //     this.refreshTokenSubject.next(null);
+  //
+  //     return this.authService.refreshToken().pipe(
+  //       switchMap((token: any) => {
+  //         this.isRefreshing = false;
+  //
+  //         // 🔥 Обновляем токен в authService
+  //         this.authService.setJwtToken(token.accessToken);
+  //         this.refreshTokenSubject.next(token.accessToken);
+  //
+  //         return next.handle(this.addToken(request, token.accessToken));
+  //       }),
+  //       catchError((err) => {
+  //         this.isRefreshing = false;
+  //         return this.refreshErrorHandle(request, next);
+  //       })
+  //     );
+  //   } else {
+  //     return this.refreshTokenSubject.pipe(
+  //       filter((token) => token != null),
+  //       take(1),
+  //       switchMap((jwt) => {
+  //         return next.handle(this.addToken(request, jwt));
+  //       })
+  //     );
+  //   }
+  // }
 }

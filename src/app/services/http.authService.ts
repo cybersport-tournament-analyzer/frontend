@@ -166,55 +166,84 @@ export class AuthService {
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
   // ✅ Получаем пользователя (с кешированием)
-  getUser() {
-    // if (!this.loggedUserSubject.getValue()) { // Если данные еще не загружены
-    //   // console.log("Fetching user data...");
-    //   this.getInfo().pipe(
-    //     // map((data: any) => data.attributes),
-    //     tap(user => {
-    //       // console.log("User Fetched:", user.attributes);
-    //       this.loggedUserSubject.next(user); // Обновляем данные пользователя в BehaviorSubject
-    //     }),
-    //     catchError(error => {
-    //       console.error("Ошибка при получении пользователя:", error);
-    //       // this.loggedUserSubject.next(null); // Если ошибка, устанавливаем null
-    //       return of(null);
-    //     })
-    //   ).subscribe();
-    // } else {
-    //   // console.log("Using cached user data");
-    // }
-    // return this.loggedUserSubject.asObservable(); // Возвращаем Observable для подписки
+  // getUser() {
+  //   // if (!this.loggedUserSubject.getValue()) { // Если данные еще не загружены
+  //   //   // console.log("Fetching user data...");
+  //   //   this.getInfo().pipe(
+  //   //     // map((data: any) => data.attributes),
+  //   //     tap(user => {
+  //   //       // console.log("User Fetched:", user.attributes);
+  //   //       this.loggedUserSubject.next(user); // Обновляем данные пользователя в BehaviorSubject
+  //   //     }),
+  //   //     catchError(error => {
+  //   //       console.error("Ошибка при получении пользователя:", error);
+  //   //       // this.loggedUserSubject.next(null); // Если ошибка, устанавливаем null
+  //   //       return of(null);
+  //   //     })
+  //   //   ).subscribe();
+  //   // } else {
+  //   //   // console.log("Using cached user data");
+  //   // }
+  //   // return this.loggedUserSubject.asObservable(); // Возвращаем Observable для подписки
+  //
+  //
+  //   const cachedUser = this.loggedUserSubject.getValue();
+  //
+  //   if (cachedUser) {
+  //     // ✅ Уже есть пользователь
+  //     return this.loggedUserSubject.asObservable();
+  //   }
+  //
+  //   if (!this.userRequest$) {
+  //     // 👇 Создаем новый запрос, если он еще не создан
+  //     this.userRequest$ = this.getInfo().pipe(
+  //       tap(user => {
+  //         this.loggedUserSubject.next(user);
+  //         this.userRequest$ = undefined; // сброс запроса после выполнения
+  //       }),
+  //       catchError(error => {
+  //         console.error("Ошибка при попытке перебить запрос :", error);
+  //         this.userRequest$ = undefined; // сброс при ошибке тоже
+  //         return throwError(() => new Error(`Ошибка профиля: ${error?.statusText || error?.message}`));
+  //         // return of(null);
+  //       }),
+  //       shareReplay(1) // 💡 делаем поток "горячим" и переиспользуем результат
+  //     );
+  //   }
+  //
+  //   return this.userRequest$; // ✅ Возвращаем текущий (или уже завершенный) запрос
+  // }
 
-
+  getUser(): Observable<any> {
     const cachedUser = this.loggedUserSubject.getValue();
 
     if (cachedUser) {
-      // ✅ Уже есть пользователь
       return this.loggedUserSubject.asObservable();
     }
 
     if (!this.userRequest$) {
-      // 👇 Создаем новый запрос, если он еще не создан
       this.userRequest$ = this.getInfo().pipe(
         tap(user => {
           this.loggedUserSubject.next(user);
-          this.userRequest$ = undefined; // сброс запроса после выполнения
+          this.userRequest$ = undefined;
         }),
         catchError(error => {
           console.error("Ошибка при попытке перебить запрос :", error);
-          this.userRequest$ = undefined; // сброс при ошибке тоже
-          return of(null);
+          this.loggedUserSubject.next(null); // ❗ ОБЯЗАТЕЛЬНО сбрасывай subject
+          this.userRequest$ = undefined;
+
+          return throwError(() => new Error("Ошибка профиля: " + error?.message));
         }),
-        shareReplay(1) // 💡 делаем поток "горячим" и переиспользуем результат
+        shareReplay(1)
       );
     }
 
-    return this.userRequest$; // ✅ Возвращаем текущий (или уже завершенный) запрос
+    return this.userRequest$;
   }
 
+
   // ✅ Получаем информацию о пользователе с API
-  getInfo() {
+  private getInfo() {
     // console.log("getInfo");
     return this.http.get<any>(`${environment.authSource}/profile`,{},).pipe(
       // tap(user => console.log("Profile Data:", user)),
