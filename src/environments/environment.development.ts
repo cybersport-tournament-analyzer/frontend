@@ -1,4 +1,4 @@
-export const environment : { authSource: string; matchSource: string;tournamentSource: string } = {
+export const environment : { authSource: string; matchSource: string;tournamentSource: string;userSource:string; statsSource:string } = {
 
 
   // authSource: "http://109.172.95.212:8080",
@@ -9,7 +9,8 @@ export const environment : { authSource: string; matchSource: string;tournamentS
   // authSource: "http://localhost:8086",
   matchSource: "http://77.221.158.197:8081",
   tournamentSource: "http://77.221.158.197:8082",
-
+  userSource: "http://77.221.158.197:8080",
+  statsSource: "http://176.98.178.99:8083",
 
 
 
