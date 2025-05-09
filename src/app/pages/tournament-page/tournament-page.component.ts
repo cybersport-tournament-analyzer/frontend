@@ -19,7 +19,6 @@ import {ModalWindowComponent} from '../../features/modal-window/modal-window.com
 import {TournamentCreateComponent} from '../../componets/tournament-create/tournament-create.component';
 import {TeamRegistrationComponent} from '../../componets/team-registration/team-registration.component';
 import {SpinnerComponent} from '../../features/spinner/spinner.component';
-import test from "node:test";
 import {TimePipe} from '../../pipes/time.pipe';
 import {UserService} from '../../services/user/user.service';
 
@@ -156,8 +155,6 @@ export class TournamentPageComponent implements OnInit{
       this.isOpen=false
     }
   }
-
-    protected readonly test = test;
 
   goTest() {
     this.tournamentService.test().subscribe()
