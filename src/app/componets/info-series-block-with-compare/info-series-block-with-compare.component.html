@@ -1,0 +1,105 @@
+{{data}}
+<div class="w-full flex gap-3">
+  <div class=" flex flex-col justify-center items-center gap-3 transform ease-in-out duration-1000"
+       [ngClass]="{'w-1/4':selectedUsers[0]&&selectedUsers[1],'w-1/3':!(selectedUsers[0]&&selectedUsers[1])}"
+  >
+    @for(player of Object.values(data?.team1);track $index){
+      <div class="w-full h-[82px] flex flex-row bg-headerBackground px-4 rounded-xl gap-2">
+        <div class="flex items-center shrink-0 gap-2 ">
+          @if(player.captain){
+            <img class="w-[15px] h-[15px] " [src]="'Star.svg' | imgURL" >
+          }
+          @if(player.imgUrl){
+            <img class="w-[50px] h-[50px]" [src]="player.imgUrl | imgURL" >
+          } @else {
+            <img class=" flex w-[50px] h-[50px] shrink-0" [src]="'UnknownUserImg.svg'|imgURL" >
+          }
+        </div>
+        <div class="flex flex-col justify-center items-start w-full">
+          <p>{{player.playerUsername}}</p>
+          @if (player.inGameRoles){
+            <p>{{player.inGameRoles}}</p>}
+        </div>
+        @if (player.stats){
+          <div class="flex flex-col justify-center items-end ">
+            <p>{{player.stats}}</p>
+
+          </div>
+        }
+
+<!--        @if (Number(user?.steamId) == Number(player.playerSteamId)) {-->
+<!--          <div class="h-full flex justify-center items-center  ">-->
+
+<!--            @if (player.ready){-->
+<!--              <app-button [classButton]="' flex justify-center ' " (click)="onButtonClick(player.ready)" [title]="'Готов'"></app-button>-->
+<!--            } @else {-->
+<!--              <app-button [classButton]="'w-[110px] flex justify-center !bg-headerBackground' " (click)="onButtonClick(player.ready)" [title]="'Не готов'"></app-button>-->
+<!--            }-->
+
+<!--          </div>-->
+<!--        } @else {-->
+<!--          @if (data.team1Kda){-->
+<!--            <div class="flex items-center justify-center  ">-->
+<!--              <p>{{data.team1Kda[$index+1].kills}}/</p>-->
+<!--              <p>{{data.team1Kda[$index+1].assists}}/</p>-->
+<!--              <p>{{data.team1Kda[$index+1].deaths}}</p>-->
+<!--            </div>-->
+<!--          } @else {-->
+<!--            <div class="flex flex-col justify-center items-center shrink-0 ">-->
+<!--              @if (player.ready != null){-->
+<!--                @if(player.ready){-->
+<!--                  Готов-->
+<!--                } @else {-->
+<!--                  Не готов-->
+<!--                }}-->
+<!--            </div>-->
+<!--          }-->
+<!--        }-->
+        <div class="h-full flex justify-center items-center">
+          <app-button title="Сравнить" [classButton]="{'!bg-headerBackground':isSelected(player.playerSteamId)}" (click)="selectUser(player,$event)"></app-button>
+        </div>
+
+
+      </div>
+    }
+  </div>
+  <div class=" flex flex-col justify-between items-center bg-headerBackground rounded-xl py-2 px-4  transform ease-in-out duration-1000 "
+    [ngClass]="{'w-2/4':selectedUsers[0]&&selectedUsers[1],'w-1/3':!(selectedUsers[0]&&selectedUsers[1])}"
+  >
+    <div class="w-full ">
+
+    <app-compare-players [player1]="selectedUsers[0]" [player2]="selectedUsers[1]" [config]="{scope:'series'}" ></app-compare-players>
+    </div>
+  </div>
+  <div class="w-1/4 flex flex-col justify-center items-center gap-3 transform ease-in-out duration-1000"
+       [ngClass]="{'w-1/4':selectedUsers[0]&&selectedUsers[1],'w-1/3':!(selectedUsers[0]&&selectedUsers[1])}"
+  >
+    @for(player of Object.values(data?.team2);track $index){
+      <div class="w-full h-[82px] flex flex-row bg-headerBackground px-4 rounded-xl gap-2 justify-end">
+        <div class="h-full flex justify-center items-center">
+          <app-button title="Сравнить" [classButton]="{'!bg-headerBackground':isSelected(player.playerSteamId)}" (click)="selectUser(player,$event)"></app-button>
+        </div>
+        @if (player.stats){
+          <div class="flex flex-col justify-center items-start ">
+            <p>{{player.stats}}</p>
+          </div>
+        }
+        <div class="flex flex-col justify-center items-end w-full">
+          <p>{{player.playerUsername}}</p>
+          @if (player.inGameRoles){
+            <p>{{player.inGameRoles}}</p>}
+        </div>
+        <div class="flex items-center shrink-0 gap-2 ">
+          @if(player.imgUrl){
+            <img class="w-[50px] h-[50px]" [src]="player.imgUrl | imgURL" >
+          } @else {
+            <img class="w-[50px] h-[50px]" [src]="'UnknownUserImg.svg'|imgURL" >
+          }
+          @if(player.captain){
+            <img class="w-[15px] h-[15px] " [src]="'Star.svg' | imgURL" >
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

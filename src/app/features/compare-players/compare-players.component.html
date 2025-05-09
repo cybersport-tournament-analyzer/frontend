@@ -1,0 +1,83 @@
+@if (player1 && player2){
+<div class="w-full border border-mainText-500 rounded-xl px-6 py-6" >
+  <div class="w-full flex justify-stretch items-center gap-2">
+    <div class="flex-col flex items-center shrink-0 w-[100px]" >
+    @if (compareData()?.user1?.avatar){
+      <img class="w-[50px] h-[50px] rounded-full" [src]="compareData().user1.avatar">
+    } @else {
+      <img class="w-[50px] h-[50px] rounded-full" [src]="'UnknownUserImg.svg'|imgURL">
+    }
+    <div>{{player1?.nickname_override}}</div>
+    </div>
+
+    @if (compareData()){<app-progress-bar [value1]="compareData().player1Score" [value2]="compareData().player2Score"/>} @else {
+      <div class="w-[550px] h-[1px]"></div>
+    }
+
+
+    <div class="flex-col flex items-center shrink-0 w-[100px]">
+
+    @if (compareData()?.user1?.avatar){
+      <img class="w-[50px] h-[50px] rounded-full" [src]="compareData().user1.avatar">
+    } @else {
+      <img class="w-[50px] h-[50px] rounded-full" [src]="'UnknownUserImg.svg'|imgURL">
+    }
+      <div>{{player2?.nickname_override}}</div>
+    </div>
+  </div>
+  @if (compareData()){
+<!--    {{compareData()|json}}-->
+    <div class="w-full flex flex-col items-center justify-stretch gap-5 mt-10 ">
+      <div class="w-full border-b border-b-mainText-500 text-md font-md flex justify-center">
+        Основные показатели
+      </div>
+
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">Рейтинг</p>
+        <app-progress-bar [value1]="compareData().player1Rating " [value2]="compareData().player2Rating"/>
+      </div>
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">КДР</p>
+        <app-progress-bar [value1]="compareData().player1Kdr" [value2]="compareData().player2Kdr"/>
+      </div>
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">КПР</p>
+        <app-progress-bar [value1]="compareData().player1Kpr" [value2]="compareData().player2Kpr"/>
+      </div>
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">ДАМАГ</p>
+        <app-progress-bar [value1]="compareData().player1Damage" [value2]="compareData().player2Damage"/>
+      </div>
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">АДР</p>
+        <app-progress-bar [value1]="compareData().player1Adr" [value2]="compareData().player2Adr"/>
+      </div>
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">Процент голов</p>
+        <app-progress-bar [value1]="compareData().player1Hsp" [value2]="compareData().player2Hsp"/>
+      </div>
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">КАСТ</p>
+        <app-progress-bar [value1]="compareData().player1KAST" [value2]="compareData().player2KAST"/>
+      </div>
+
+
+
+      <div class="w-full border-b border-b-mainText-500 text-md font-md mt-10 flex justify-center">
+        Личные встречи
+      </div>
+      <div class="w-full flex flex-col items-center px-6">
+        <p class="text-md font-md">Убийства</p>
+        <app-progress-bar [value1]="compareData().duels.player1Kills" [value2]="compareData().duels.player2Kills"/>
+      </div>
+
+    </div>
+  } @else {
+    <div class="w-full h-[400px]">
+      <app-spinner/>
+    </div>
+
+  }
+
+</div>
+}
