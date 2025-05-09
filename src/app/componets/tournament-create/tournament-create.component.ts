@@ -35,8 +35,9 @@ export class TournamentCreateComponent implements OnInit{
   interestsList = ['1vs1', '2vs2', '5vs5'];
   public resetForm(): void {
     this.form.reset({
-      creatorId: this.form.get('creatorId')?.value // сохраняем steamId пользователя
+      creatorId: this.form.get('creatorId')?.value, // сохраняем steamId пользователя
     });
+
 
     // Сбрасываем состояние формы
     this.form.markAsUntouched();

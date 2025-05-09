@@ -161,7 +161,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy{
 
   showToast:boolean = false
   copyToClipboard(text: string) {
-    navigator.clipboard.writeText(text).then(() => {
+    console.log("aaa" ,text)
+    navigator.clipboard.writeText(text.split('+')[1]).then(() => {
       this.showToast = true;
       // Скрываем уведомление через 2.5 секунды
       setTimeout(() => {

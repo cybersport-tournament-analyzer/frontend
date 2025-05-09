@@ -157,10 +157,22 @@
             <div class="w-1/2 space-y-2">
               <!--            <label class="text-mainText-500 block">Формат финала</label>-->
               @if(this.form.value.stages[i].stageType=='Single Elimination'){
-              <input formControlName="finalMatchFormat" type="text"
-                     placeholder="Формат финала"
-                     class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500
-                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">} @else if (this.form.value.stages[i].stageType=='Groups'){
+<!--              <input formControlName="finalMatchFormat" type="text"-->
+<!--                     placeholder="Формат финала"-->
+<!--                     class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500-->
+<!--                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">-->
+                <select
+                  formControlName="finalMatchFormat"
+                  class="bg-mainBackground text-mainText-500 border  border-mainText-500 rounded-md p-2 w-full"
+                >
+                  <option value="" disabled >Выбери формат финала</option>
+                  <option value="bo1">Best of 1</option>
+                  <option value="bo3">Best of 3</option>
+                  <option value="bo5">Best of 5</option>
+                </select>
+
+              }
+              @else if (this.form.value.stages[i].stageType=='Groups'){
 
                   <input formControlName="teamsToAdvance" type="text"
                          placeholder="Проходящих команд"
@@ -174,10 +186,19 @@
           <div class="w-full flex flex-row gap-2">
           <div class="form-field space-y-2 w-full">
 <!--            <label class="text-mainText-500 block">Формат матча</label>-->
-            <input formControlName="matchFormat" type="text"
-                   placeholder="Формат матча"
-                   class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500
-                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">
+<!--            <input formControlName="matchFormat" type="text"-->
+<!--                   placeholder="Формат матча"-->
+<!--                   class="bg-mainBackground text-mainText-500 placeholder-mainText-500 border border-mainText-500-->
+<!--                  rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-mainText-500">-->
+            <select
+              formControlName="matchFormat"
+              class="bg-mainBackground text-mainText-500 border  border-mainText-500 rounded-md p-2 min-w-[180px] w-full"
+            >
+              <option value="" disabled >Выбери формат матчей</option>
+              <option value="bo1">Best of 1</option>
+              <option value="bo3">Best of 3</option>
+              <option value="bo5">Best of 5</option>
+            </select>
           </div>
 
               <!--            <label class="text-mainText-500 block">Проходящих команд</label>-->
@@ -234,9 +255,11 @@
 
 
           </div>
+          <div class=" w-full flex justify-end items-center">
+            <app-button [title]="'Удалить стадию'" (click)="removeStage(i)" class="bg-headerBackground"
+                        [classButton]="' px-4 py-2 !bg-headerBackground  rounded-md  transition-colors'"/>
+          </div>
 
-          <app-button [title]="'Удалить стадию'" (click)="removeStage(i)" class="bg-headerBackground"
-                      [classButton]="'mt-4 px-4 py-2 !bg-headerBackground  rounded-md  transition-colors'"/>
 
 
 

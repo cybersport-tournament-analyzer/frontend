@@ -2,14 +2,15 @@ import {Component, Input} from '@angular/core';
 import {AuthService} from '../../../services/http.authService';
 import {RouterLink} from '@angular/router';
 import {ImgURLPipe} from '../../../pipes/img-url.pipe';
-import {NgClass} from '@angular/common';
+import {JsonPipe, NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-button',
   imports: [
     RouterLink,
     ImgURLPipe,
-    NgClass
+    NgClass,
+    JsonPipe
   ],
   templateUrl: './button.component.html',
   styleUrl: './button.component.css',
@@ -24,6 +25,8 @@ export class ButtonComponent {
   @Input()
   iconURL: string | null=null;
   @Input()
-  classButton=''
+  classButton:string|any=''
+  @Input()
+  mode:string='normal'
 
 }

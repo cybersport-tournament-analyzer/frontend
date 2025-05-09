@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {ScheduleStatus} from "../../enums/schedule-status";
 import {state} from '@angular/animations';
 import {match} from 'node:assert';
+import {TimePipe} from '../../pipes/time.pipe';
 
 @Component({
   selector: 'app-tournament-match-schedule',
@@ -13,7 +14,8 @@ import {match} from 'node:assert';
     NgClass,
     TagComponent,
     ImgURLPipe,
-    JsonPipe
+    JsonPipe,
+    TimePipe
   ],
   templateUrl: './tournament-match-schedule.component.html',
   standalone: true,

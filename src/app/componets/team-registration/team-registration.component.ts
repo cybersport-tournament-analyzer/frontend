@@ -48,7 +48,7 @@ export class TeamRegistrationComponent implements OnInit{
   ) {
     this.form = this.fb.group({
       teamName: [''],
-      flag: [],
+      flag: ['RU'],
       inGameRole:[],
       creatorSteamId: [''],
       steamIds: this.fb.array([]),
