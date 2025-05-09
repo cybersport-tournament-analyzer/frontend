@@ -17,10 +17,18 @@ export class ProgressBarComponent {
   value2:number=0
   @Input()
   progressBarClass=""
+  _val1!:number
+  _val2!:number
 
   get progressWidth(): number {
-    if (this.value1 + this.value2 === 0) return 0;
-    return (this.value1 / (this.value1 + this.value2)) * 100;
+    this._val1=Math.abs(Number(this.value1))
+    this._val2 = Math.abs( Number(this.value2))
+    if (this._val1 ==0 &&  this._val2 ==0) return 50;
+    // if (this._val1 == this._val2 ) return this._val1;
+
+    if (this._val1 + this._val2 === 0) return 0;
+
+    return (this._val1 / (this._val1 + this._val2)) * 100;
   }
 
 }

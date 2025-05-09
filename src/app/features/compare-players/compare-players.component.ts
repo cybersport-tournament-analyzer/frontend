@@ -43,7 +43,34 @@ export class ComparePlayersComponent implements OnChanges{
         this.statsService.getComparePlayersInMatch(this.route.snapshot.paramMap.get('id')!,this.config?.matchId!).subscribe(
           (data:any)=>{
             if (data){
-              this.compareData.set(data.comparisons[0])
+
+              // this.compareData.set(data.comparisons[0])
+              console.log(this.player1?.steam_id_64,this.player1?.nickname_override)
+              console.log(this.player2?.steam_id_64,this.player2?.nickname_override)
+              console.log(data.comparisons[0])
+              console.log(data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64)
+              console.log( data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64)
+              this.compareData.set({
+                player1:{
+                  name:  this.player1?.nickname_override ,
+                  parametrs: data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64 ? data.comparisons[0].playersStats[0]?.stats : data.comparisons[0].playersStats[1]?.stats,
+                  score: data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64 ? data.comparisons[0].player1Score : data.comparisons[0].player2Score,
+                  duels:{
+                    player1KillsPercent:data.comparisons[0]?.duels.player1Id == this.player1?.steam_id_64 ? data.comparisons[0].duels.player1KillsPercent : data.comparisons[0].duels.player2KillsPercent,
+                    player1Kills: data.comparisons[0]?.duels.player1Id == this.player1?.steam_id_64 ? data.comparisons[0].duels.player1Kills : data.comparisons[0].duels.player2Kills
+                  }
+                },
+                player2:{
+                  name: this.player2?.nickname_override,
+                  parametrs: data.comparisons[0].playersStats[1]?.stats?.[0]['playerId'] == this.player2?.steam_id_64 ? data.comparisons[0].playersStats[1]?.stats : data.comparisons[0].playersStats[0]?.stats,
+                  score: data.comparisons[0].playersStats[1]?.stats?.[0]['playerId'] == this.player2?.steam_id_64 ? data.comparisons[0].player2Score : data.comparisons[0].player1Score,
+                  duels:{
+                    player1KillsPercent:data.comparisons[0]?.duels.player2Id == this.player2?.steam_id_64 ? data.comparisons[0].duels.player2KillsPercent : data.comparisons[0].duels.player1KillsPercent,
+                    player1Kills: data.comparisons[0]?.duels.player2Id == this.player2?.steam_id_64 ? data.comparisons[0].duels.player2Kills : data.comparisons[0].duels.player1Kills
+                  }
+                }
+              })
+              console.log(this.compareData())
             }
           }
         )
@@ -51,7 +78,34 @@ export class ComparePlayersComponent implements OnChanges{
         this.statsService.getComparePlayersInSeries(this.route.snapshot.paramMap.get('id')!).subscribe(
           (data:any)=>{
             if (data){
-              this.compareData.set(data.comparisons[0])
+
+              // this.compareData.set(data.comparisons[0])
+              console.log(this.player1?.steam_id_64,this.player1?.nickname_override)
+              console.log(this.player2?.steam_id_64,this.player2?.nickname_override)
+              console.log(data.comparisons[0])
+              console.log(data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64)
+              console.log( data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64)
+              this.compareData.set({
+                player1:{
+                  name:  this.player1?.nickname_override ,
+                  parametrs: data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64 ? data.comparisons[0].playersStats[0]?.stats : data.comparisons[0].playersStats[1]?.stats,
+                  score: data.comparisons[0].playersStats[0]?.stats?.[0]['playerId'] == this.player1?.steam_id_64 ? data.comparisons[0].player1Score : data.comparisons[0].player2Score,
+                  duels:{
+                    player1KillsPercent:data.comparisons[0]?.duels.player1Id == this.player1?.steam_id_64 ? data.comparisons[0].duels.player1KillsPercent : data.comparisons[0].duels.player2KillsPercent,
+                    player1Kills: data.comparisons[0]?.duels.player1Id == this.player1?.steam_id_64 ? data.comparisons[0].duels.player1Kills : data.comparisons[0].duels.player2Kills
+                  }
+                },
+                player2:{
+                  name: this.player2?.nickname_override,
+                  parametrs: data.comparisons[0].playersStats[1]?.stats?.[0]['playerId'] == this.player2?.steam_id_64 ? data.comparisons[0].playersStats[1]?.stats : data.comparisons[0].playersStats[0]?.stats,
+                  score: data.comparisons[0].playersStats[1]?.stats?.[0]['playerId'] == this.player2?.steam_id_64 ? data.comparisons[0].player2Score : data.comparisons[0].player1Score,
+                  duels:{
+                    player1KillsPercent:data.comparisons[0]?.duels.player2Id == this.player2?.steam_id_64 ? data.comparisons[0].duels.player2KillsPercent : data.comparisons[0].duels.player1KillsPercent,
+                    player1Kills: data.comparisons[0]?.duels.player2Id == this.player2?.steam_id_64 ? data.comparisons[0].duels.player2Kills : data.comparisons[0].duels.player1Kills
+                  }
+                }
+              })
+              console.log(this.compareData())
             }
           }
         )
@@ -61,4 +115,5 @@ export class ComparePlayersComponent implements OnChanges{
   }
 
 
+  protected readonly Object = Object;
 }
