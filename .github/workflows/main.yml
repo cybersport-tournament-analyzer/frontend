@@ -12,6 +12,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v3
+        
 
       # ✅ Вход в Docker Hub (обязательно добавить секреты DOCKER_USERNAME и DOCKER_PASSWORD)
       - name: Log in to Docker Hub
