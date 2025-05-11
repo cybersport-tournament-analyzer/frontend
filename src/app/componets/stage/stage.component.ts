@@ -10,7 +10,7 @@ import {
   CustomColumnDirective,
   CustomHeaderCellDefDirective
 } from '../../features/table/custom-column.directive';
-import {JsonPipe} from '@angular/common';
+import {JsonPipe, NgClass} from '@angular/common';
 import {StagesPipe} from '../../pipes/stages.pipe';
 import {TournamentService} from '../../services/tournament/tournament.service';
 
@@ -27,7 +27,8 @@ import {TournamentService} from '../../services/tournament/tournament.service';
     CustomCellDefDirective,
     CustomHeaderCellDefDirective,
     JsonPipe,
-    StagesPipe
+    StagesPipe,
+    NgClass
   ],
   templateUrl: './stage.component.html',
   standalone: true,
