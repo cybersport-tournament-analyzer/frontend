@@ -1,10 +1,10 @@
-import {Component, OnInit, Signal, signal, WritableSignal} from '@angular/core';
+import {Component, OnChanges, OnInit, Signal, signal, SimpleChanges, WritableSignal} from '@angular/core';
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
 import {TagComponent} from '../../componets/globals/tag/tag.component';
 import {TabsComponent} from '../../features/tabs/tabs.component';
 import {StageComponent} from '../../componets/stage/stage.component';
 import {TabDirective} from '../../features/tabs/tab.directive';
-import {JsonPipe, NgClass, NgForOf, NgIf} from '@angular/common';
+import {DecimalPipe, JsonPipe, NgClass, NgForOf, NgIf} from '@angular/common';
 import {InfoMatchBlockComponent} from '../../componets/info-match-block/info-match-block.component';
 import {TableComponent} from '../../features/table/table.component';
 import {
@@ -27,8 +27,27 @@ import {IdToNicknamePipe} from '../../pipes/id-to-nickname.pipe';
 import {
   InfoSeriesBlockWithCompareComponent
 } from '../../componets/info-series-block-with-compare/info-series-block-with-compare.component';
+import {StatsService} from '../../services/stats.service';
+import {GameStatsComponent} from '../../componets/game-stats/game-stats.component';
+import {count} from 'rxjs';
 
 
+interface PlayerStats {
+  playerSteamId: string;
+  playerUsername:string
+  // Include other properties as needed
+}
+
+interface GameData {
+  team1: {
+    [key: string]: PlayerStats;
+  };
+  team2: {
+    [key: string]: PlayerStats;
+  };
+  matches:any[]
+  // Add team2 and other properties if necessary
+}
 @Component({
   selector: 'app-match-page',
   imports: [
@@ -55,13 +74,15 @@ import {
     NgIf,
     NgForOf,
     IdToNicknamePipe,
-    InfoSeriesBlockWithCompareComponent
+    InfoSeriesBlockWithCompareComponent,
+    DecimalPipe,
+    GameStatsComponent
   ],
   templateUrl: './match-page.component.html',
   standalone: true,
   styleUrl: './match-page.component.css'
 })
-export class MatchPageComponent implements OnInit{
+export class MatchPageComponent implements OnInit,OnChanges{
   protected match:any={
     team1:[
       {name:'Username',elo:100, imgUrl:null,stats:"1/2/3"},
@@ -152,59 +173,100 @@ export class MatchPageComponent implements OnInit{
   //   }
   // ]
   playerIds: string[] = [];
-
   matrixData: any[] = [];
+  // config: any = {
+  //   "76561198155737420": 'FischeR_ts33', "76561198295068808": 'lolpik33', "3": 'swoow1', "4": 'sh1ro', "5": 'dexie',
+  //   "6": 'why_n0t', "7": 'nex1', "8": 'relo', "9": 'somuL', "10": 'plaaaayer',
+  // };
+  config:any={}
+  SERIES_ID: string;
 
-  config:any ={
-    "1":'FischeR_ts33', "2":'lolpik33', "3":'swoow1', "4":'sh1ro', "5":'dexie',
-    "6":'why_n0t', "7":'nex1', "8":'relo', "9":'somuL', "10":'plaaaayer',
+  constructor(
+    private matchService: MatchService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private statsService: StatsService
+  ) {
+    this.SERIES_ID = this.route.snapshot.paramMap.get('id')!;
   }
 
-  baseStatsInMatches:WritableSignal<any>= signal<any>([])
-  constructor(private matchService:MatchService, private route:ActivatedRoute, private router:Router) {
-  }
-  public seriesData: WritableSignal<any> = signal<any>(null)
-  public matches: WritableSignal<any> = signal<any>(null)
-  public comparePlayers: WritableSignal<any> = signal<any>(null)
+  seriesData = signal<any>(null);
+  matches = signal<any>(null);
+  duelsBySeriesOrder = signal<any[]>([]);
+  baseStatsInMatches = signal<any>([]);
+  comparePlayers = signal<any>(null);
+  gameStatsSelectedUser = signal<any | null>(null);
+
   ngOnInit(): void {
+    this.matchService.getInfoSeries(this.SERIES_ID).subscribe({
+      next: (data: any) => {
+        if (data) {
+          this.seriesData.set({ ...data, format: data.pickBanSession?.format });
+          this.matches.set(Object.values(data.matches));
+          this.baseStatsInMatches.set(this.preparareTeamBaseStat(this.matches()));
+          this.prepareConfig(data)
+          this.prepareGameStatsPlayersByMatch(data);
+          this.loadAllDuels(Object.values(data.matches).length);
 
-    this.matchService.getInfoSeries(this.route.snapshot.paramMap.get('id')!).subscribe({next:(data:any)=> {
-      if (data) {
-      this.seriesData.set({
-        ...data,
-        format: data.pickBanSession?.format
-      })
-      this.matches.set(Object.values(this.seriesData()?.matches))
-      console.log(Object.values(this.seriesData()?.matches))
-      this.baseStatsInMatches.set((this.preparareTeamBaseStat(this.matches())))
-      console.log(this.baseStatsInMatches())
+        }
+      },
+      error: () => {
+        this.router.navigate(['/home']);
+      },
+    });
+  }
+  matrixDuels:WritableSignal<any>=signal([])
+
+  loadAllDuels(matchCount: number) {
+    const duelRequests = [];
+
+    for (let i = 0; i < matchCount; i++) {
+      duelRequests.push(this.statsService.getDuelsByOrder(this.SERIES_ID, i));
     }
-    },
-      error:()=>{
-      this.router.navigate(['/home'])
-    }
+
+    Promise.all(duelRequests.map(req => req.toPromise())).then((results: any[]) => {
+      this.duelsBySeriesOrder.set(results);
+      const allDuels = results.flat(); // Собираем все дуэли в один массив
+      console.log("allDuels")
+      console.log(allDuels)
+
+      const duels = allDuels.map(item=> {return item.duels} )
+      console.log(duels)
+      for (let i = 0; i < duels.length; i++) {
+        this.buildMatrixFromDuels(duels[i]);
       }
-    )
+      // this.buildMatrixFromDuels(duels[0]);
+      console.log("this.matrixData")
+      console.log(this.matrixDuels())
 
-    this.preparareDuelsMatrix()
+    });
+  }
+  prepareConfig(data:GameData){
+    console.log("prepareConfig")
+    const teamConfig: { [key: string]: string } = {};
 
+    for (const datum of Object.values(data.team1)) {
+      if (datum.playerSteamId && datum.playerUsername) {
+        teamConfig[datum.playerSteamId] = datum.playerUsername;
+      }
+    }
+    for (const datum of Object.values(data.team2)) {
+      if (datum.playerSteamId && datum.playerUsername) {
+        teamConfig[datum.playerSteamId] = datum.playerUsername;
+      }
+    }
 
-
-
-
-
-
-
-
-
-
+    this.config = {
+      ...this.config,
+      ...teamConfig,
+    };
 
 
   }
-  preparareDuelsMatrix(){
 
-    const team1Ids = Array.from(new Set(this.testDuels.map(d => d.player1Id.toString())));
-    const team2Ids = Array.from(new Set(this.testDuels.map(d => d.player2Id.toString())));
+  buildMatrixFromDuels(duels: any[]){
+    const team1Ids = Array.from(new Set(duels.map(d => d.player1Id.toString())));
+    const team2Ids = Array.from(new Set(duels.map(d => d.player2Id.toString())));
     this.playerIds = [...team1Ids, ...team2Ids];
 
     this.matrixData = this.playerIds.map(killerId => {
@@ -218,7 +280,7 @@ export class MatchPageComponent implements OnInit{
           return;
         }
 
-        const duel = this.testDuels.find(d =>
+        const duel = duels.find(d =>
           (d.player1Id.toString() === killerId && d.player2Id.toString() === victimId) ||
           (d.player1Id.toString() === victimId && d.player2Id.toString() === killerId)
         );
@@ -237,8 +299,93 @@ export class MatchPageComponent implements OnInit{
 
       return row;
     });
+    this.matrixDuels().push(this.matrixData)
 
   }
+
+
+
+
+  // buildMatrixFromDuels(duels: any[]) {
+  //   const team1Ids = Array.from(new Set(duels.map(d => d.player1Id?.toString())));
+  //   const team2Ids = Array.from(new Set(duels.map(d => d.player2Id?.toString())));
+  //   this.playerIds = [...new Set([...team1Ids, ...team2Ids])];
+  //   console.log("team1Ids",duels,team2Ids)
+  //
+  //   this.matrixData = this.playerIds.map(killerId => {
+  //     const row: any = { killerId };
+  //
+  //     this.playerIds.forEach(victimId => {
+  //       if (killerId === victimId) {
+  //         row[victimId] = null;
+  //         return;
+  //       }
+  //
+  //       const duel = duels.find(d =>
+  //         (d.player1Id.toString() === killerId && d.player2Id.toString() === victimId) ||
+  //         (d.player1Id.toString() === victimId && d.player2Id.toString() === killerId)
+  //       );
+  //
+  //       if (!duel) {
+  //         row[victimId] = null;
+  //         return;
+  //       }
+  //
+  //       const isKillerPlayer1 = duel.player1Id.toString() === killerId;
+  //       const kills = isKillerPlayer1 ? duel.player1Kills : duel.player2Kills;
+  //       const percent = isKillerPlayer1 ? duel.player1KillsPercent : duel.player2KillsPercent;
+  //
+  //       row[victimId] = { kills, percent };
+  //     });
+  //
+  //     return row;
+  //   });
+  // }
+
+
+
+
+
+  gameStats:WritableSignal<any[]> =signal<any[]>([])
+
+  prepareGameStatsPlayersByMatch(data: GameData) {
+    console.log("prepareGameStatsPlayersByMatch");
+    console.log(Object.values(data.matches).length)
+    for (let i = 0; i < Object.values(data.matches).length ; i++) {
+      this.gameStats().push([])
+      for (const datum of Object.values(data.team1)) {
+        // console.log(datum.playerSteamId , this.SERIES_ID); // No error now
+        this.statsService.getGameStatsByMatch(datum.playerSteamId,this.SERIES_ID,i).subscribe((data:any)=>{
+
+          if(data){
+            // console.log(i, this.gameStats())
+            this.gameStats()[i].push(data)
+            // console.log(this.userGameStats())
+          }
+          console.log("suka!@!#!##!#!#!#!#@#!#$" , i )
+
+
+        })
+      }
+
+      for (const datum of Object.values(data.team2)) {
+        // console.log(datum.playerSteamId , this.SERIES_ID); // No error now
+        this.statsService.getGameStatsByMatch(datum.playerSteamId,this.SERIES_ID,i).subscribe((data:any)=>{
+          if(data){
+            this.gameStats()[i].push(
+              data
+            )
+          }
+          console.log("!@!#!##!#!#!#!#@#!#$" , i )
+
+        })
+      }
+
+    }
+
+
+  }
+
 
   preparareTeamBaseStat(matches :any[]): any{
 
@@ -338,10 +485,10 @@ export class MatchPageComponent implements OnInit{
 
   selectedUsers:any[]=[]
   selectedUsersId:any[]=[]
-  isSelected(id:string){
+  isSelectedToCompare(id:string){
 return this.selectedUsersId.includes(id)
   }
-  selectUser(user:any,event:any) {
+  selectUserToCompare(user:any,event:any) {
 
       if (this.selectedUsers[0]?.steam_id_64 != user.steam_id_64 && this.selectedUsers[1]?.steam_id_64 != user.steam_id_64){
         this.selectedUsers.push({
@@ -357,5 +504,41 @@ return this.selectedUsersId.includes(id)
     console.log(this.selectedUsers)
   }
 
+
+  userGameStats:WritableSignal<any|null>=signal<any|null>(null)
+
+  isSelectedToGameStats(id:string){
+
+    return this.userGameStats()?.find((item:any)=>{return item.steamId==id})
+  }
+
+  selectUserToGameStats(element: any, index: number){
+    this.selectedUsersId=[]
+    this.selectedUsers=[]
+    console.log("selectUserToGameStats")
+    console.log(this.gameStats()[index], element.steam_id_64)
+    console.log(this.isSelectedToGameStats(element.steam_id_64))
+    if (!this.isSelectedToGameStats(element.steam_id_64)){
+
+
+        // this.gameStats()[index].find((item:any)=> item.steamId == element.steam_id_64)
+      const selectedUser=this.gameStats().map((match:any)=>{
+        return  match.find((item:any)=> item.steamId == element.steam_id_64)
+      })
+      if (selectedUser && selectedUser.length!=0){
+        console.log("FINAL")
+        console.log(selectedUser)
+        this.userGameStats.set(selectedUser)
+      }
+    }else {
+      this.userGameStats.set(null)
+    }
+
+
+  }
   protected readonly String = String;
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+  }
 }
