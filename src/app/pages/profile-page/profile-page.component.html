@@ -1,5 +1,4 @@
 @if (userData()){
-{{userData()|json}}
   <div class="w-[1400px] flex flex-col mx-auto  rounded-lg shadow-md p-6">
     <!-- Заголовок -->
     <div class="flex w-full gap-3 mb-7 ">
@@ -18,13 +17,87 @@
     <app-tabs>
       <ng-template appTab="Статистика">
         <!-- Осмотр -->
-        <section class="w-full flex mb-24">
-          <div class="relative flex-1  overflow-hidden">
+        <div class="w-full mb-6">
 
-            <app-tournament-bracket-prediction ></app-tournament-bracket-prediction>
 
-          </div>
-        </section>
+
+          <app-info-card [cardClass]="'w-full '">
+            <div class="w-full flex justify-between items-center px-6">
+              <div class="flex flex-col justify-center items-center text-xl font-xl">Сыграно:<div class=" text-md text-mainText-500 flex justify-center font-lg">{{metaStatsPlayer().played}}</div> </div>
+              <div class="flex flex-col justify-center items-center text-xl font-xl">Побед: <div class=" text-md text-mainText-500 flex justify-center font-lg">{{metaStatsPlayer().won}}</div> </div>
+              <div class="flex flex-col justify-center items-center text-xl font-xl">Проиграно: <div class=" text-md text-mainText-500 flex justify-center font-lg">{{metaStatsPlayer().lost}}</div> </div>
+              <div class="flex flex-col justify-center items-center text-xl font-xl">Процент побед: <div class=" text-md text-mainText-500 flex justify-center font-lg">{{metaStatsPlayer().winRate *100 |number :'0.0-0'}} %</div></div>
+            </div>
+
+            <!--          <p>{{ data()?.mode }} </p>-->
+          </app-info-card>
+
+        </div>
+        <div class="w-full">
+          @if(gameStatsPlayer()){
+            <div class=" w-full flex justify-start"><h2 class="font-md text-2xl mb-6">Полная статистика игрока</h2></div>
+            <app-game-stats [playerStats]="gameStatsPlayer()"></app-game-stats>
+          }
+        </div>
+
+        <div class=" w-full flex justify-start mt-6"><h2 class="font-md text-2xl mb-6">Статистика по оружию</h2></div>
+        <div class="w-full mt-6 grid grid-cols-4 gap-6">
+          @for(weapon of weaponStatsPlayer();track $index ){
+            <app-info-card [cardClass]="' h-[429px] !rounded-xl flex !items-end'">
+            <div class="h-full flex flex-col ">
+              <!--                                    <div class="border-b border-b-mainText-500 flex flex-col justify-start w-full">-->
+              <!--                                      <p>{{ gameStats()[$index][0].kills }}</p>-->
+              <!--                                      <p>Убийства</p>-->
+              <!--                                    </div>-->
+              <div class="border-b border-b-mainText-500 w-full text-md font-md  mt-5">
+                <p class="items-cent mb-3 text-md font-md"> {{ weapon.weapon }}</p>
+              </div>
+
+                <div class="flex flex-col justify-center items-start w-full pl-1">
+                  <div
+                    class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+                    <p class="text-mainText-500 font-sm text-sm">Убийств</p>
+                    <p
+                      class=" font-md text-sm">{{ weapon.kills  }}</p>
+
+                  </div>
+                  <div
+                    class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+                    <p class="text-mainText-500 font-sm text-sm">Убийств в голову</p>
+                    <p
+                      class=" font-md text-sm">{{ weapon.headshots  }}</p>
+
+                  </div>
+                  <div
+                    class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+                    <p class="text-mainText-500 font-sm text-sm">Убийств без прицела</p>
+                    <p
+                      class=" font-md text-sm">{{ weapon.noscopes }}
+                      %</p>
+
+                  </div>
+                  <div
+                    class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+                    <p class="text-mainText-500 font-sm text-sm">Убийства в дыму</p>
+                    <p
+                      class=" font-md text-sm">{{ weapon.throughSmoke }}</p>
+
+                  </div>
+                  <div
+                    class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+                    <p class="text-mainText-500 font-sm text-sm">Убийства в прострелом</p>
+                    <p
+                      class=" font-md text-sm">{{weapon.wallbangs }}</p>
+                  </div>
+
+                </div>
+
+            </div>
+          </app-info-card>
+          }
+        </div>
+
+
 
       </ng-template>
       <ng-template appTab="Турниры и матчи">
@@ -45,3 +118,11 @@
 } @else {
   <app-spinner/>
 }
+
+<!--<section class="w-full flex mb-24">-->
+<!--  <div class="relative flex-1  overflow-hidden">-->
+
+<!--    <app-tournament-bracket-prediction ></app-tournament-bracket-prediction>-->
+
+<!--  </div>-->
+<!--</section>-->

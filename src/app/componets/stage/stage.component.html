@@ -21,36 +21,39 @@
   <div class="w-full mt-6 flex justify-center">
     @switch (selectedStage?.stageType) {
       @case ('Groups') {
-        <div class="w-1/2 flex flex-col gap-10">
+        <div class="w-3/4 flex flex-col justify-center items-center gap-10">
 <!--          {{stageData[selectedStage.id]}}-->
         @for (group of stageData[selectedStage.id][0];track $index){
           <app-info-card [cardClass]="''">
-          <h1 class="mb-6">Группа {{group[0].groupLetter}}</h1>
-        <app-table [dataSource]="group"  >
-          <div  appCustomColumn="position" class="w-[200px] flex-none">
-            <ng-template  customHeaderCellDef><div class="   flex justify-start"> Команда</div> </ng-template>
-            <ng-template  customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-start"> {{ element.teamDto.teamName   }}</div> </ng-template>
-          </div>
+            <h1 class="mb-6 text-md font-md">Группа {{group[0].groupLetter}}</h1>
+            <div class="w-full">
+              <app-table [dataSource]="group"  >
+                <div  appCustomColumn="position" class="w-[200px] flex-none">
+                  <ng-template  customHeaderCellDef><div class="   flex justify-start text-md font-md"> Команда</div> </ng-template>
+                  <ng-template  customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-start text-md font-md " [ngClass]="{'mt-3':element.index!=0}"> {{ element.teamDto.teamName   }}</div> </ng-template>
+                </div>
 
-          <div appCustomColumn="name" class="w-[100px] flex-none">
-            <ng-template customHeaderCellDef><div class=" flex justify-center"> Победы</div> </ng-template>
-            <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center "> {{ element.wins }}</div> </ng-template>
-          </div>
-          <div appCustomColumn="name" class="w-[100px] flex-none">
-            <ng-template customHeaderCellDef><div class="flex justify-center"> Поражения</div> </ng-template>
-            <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center "> {{ element.losses }}</div> </ng-template>
-          </div>
+                <div appCustomColumn="name" class="w-[100px] flex-none">
+                  <ng-template customHeaderCellDef><div class=" flex justify-center text-md font-md"> Победы</div> </ng-template>
+                  <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center text-md font-sm " [ngClass]="{'mt-3':element.index!=0}"> {{ element.wins }} </div> </ng-template>
+                </div>
+                <div appCustomColumn="name" class="w-[100px] flex-none">
+                  <ng-template customHeaderCellDef><div class="flex justify-center text-md font-md"> Поражения</div> </ng-template>
+                  <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center text-md font-sm " [ngClass]="{'mt-3':element.index!=0}"> {{ element.losses }}</div> </ng-template>
+                </div>
 
-          <div appCustomColumn="weight" class="w-[150px] flex-none">
-            <ng-template customHeaderCellDef><div class=" flex justify-center"> Разница раундов</div> </ng-template>
-            <ng-template customCellDef let-element> <div class=" border-b-mainText-500 border-b flex justify-center">{{ element.roundDifference}}</div> </ng-template>
-          </div>
-          <div appCustomColumn="name" class="w-[100px] flex-none">
-            <ng-template customHeaderCellDef><div class="flex justify-center">Очки</div></ng-template>
-            <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center"> {{element.points}}</div> </ng-template>
-          </div>
-        </app-table>
+                <div appCustomColumn="weight" class="w-[180px] flex-none">
+                  <ng-template customHeaderCellDef><div class=" flex justify-center text-md font-md"> Разница раундов</div> </ng-template>
+                  <ng-template customCellDef let-element> <div class=" border-b-mainText-500 border-b flex justify-center text-md font-sm " [ngClass]="{'mt-3':element.index!=0}">{{ element.roundDifference}}</div> </ng-template>
+                </div>
+                <div appCustomColumn="name" class="w-[70px] flex-none">
+                  <ng-template customHeaderCellDef><div class="flex justify-center text-md font-md">Очки</div></ng-template>
+                  <ng-template customCellDef let-element><div class="  border-b-mainText-500 border-b flex justify-center text-md font-sm" [ngClass]="{'mt-3':element.index!=0}"> {{element.points}}</div> </ng-template>
+                </div>
+              </app-table>
+            </div>
           </app-info-card>
+
         }
         </div>
 <!--      {{stageData[selectedStage.id] |json}}-->
@@ -62,7 +65,6 @@
         </div>
       }
       @default {
-        {{stageData |json}}
 
       }
     }

@@ -137,27 +137,17 @@
 <!--  </div>-->
 <!--</div>-->
 
-<div class="bracket-container">
+<div class="">
   <div class="bracket disable-image">
     @for (column of list; track columnIndex; let columnIndex= $index) {
       <div class="column" cdkDropListGroup>
-        <div class="round-title">
-          @if (columnIndex === 0) {
-            First Round
-          } @else if (columnIndex === list.length - 1) {
-            Final
-          } @else {
-            Round {{ columnIndex + 1 }}
-          }
-        </div>
         @for (match of column; track matchIndex; let matchIndex= $index) {
-          <div class="match theme-dark">
-            <div class="w-full flex justify-between">
-              <p>Match {{ matchIndex + 1 }}</p>
+          <div class="match theme-dark gap-2">
+            <div class="w-full flex justify-between"><p>Match {{ matchIndex + 1 }}</p>
               <img [src]="'hrefIcon.svg' | imgURL" alt="Link icon">
             </div>
             <div
-              class="teams-container"
+              class="flex flex-col gap-2"
               cdkDropList
               [id]="getDropListId(columnIndex, matchIndex)"
               [cdkDropListData]="match"
@@ -165,36 +155,46 @@
               (cdkDropListDropped)="drop($event)">
               @for (team of match; track teamIndex; let teamIndex= $index) {
                 <div
-                  class="team"
+                  class="team gap-3"
+                  (contextmenu)="onRightClick($event, columnIndex, matchIndex, teamIndex)"
                   [class.winner]="match.length > 1 && isWinner(team, match[1 - teamIndex])"
                   [class.empty]="team.name === null"
                   cdkDrag
                   [cdkDragDisabled]=" !canDrag(team)">
-                  {{columnIndex}}, {{!canDrag(team)}} , {{columnIndex > 0 || !canDrag(team)}}
-                  <div class="drag-placeholder" *cdkDragPlaceholder></div>
+<!--                  {{columnIndex}}, {{!canDrag(team)}} , {{columnIndex > 0 || !canDrag(team)}}-->
+                  <div class="example-custom-placeholder"  *cdkDragPlaceholder>
+                  </div>
                   <img class="team-img" [src]="'UnknownUserImg.svg' | imgURL" alt="User">
-                  <div class="team-info">
+                  <div class="flex w-full justify-between items-center">
                     <span class="team-name">{{ team.name || 'TBD' }}</span>
                     <span class="team-score">{{ team.score }}</span>
                   </div>
                 </div>
               }
             </div>
-            <!-- Линии соединения матчей -->
-            @if (columnIndex < list.length - 1) {
-              <div class="match-lines right">
-                <div class="line horizontal"></div>
-              </div>
-            }
-            @if (columnIndex > 0) {
-              <div class="match-lines left">
-                <div class="line horizontal"></div>
-                <div class="line vertical"></div>
-              </div>
-            }
+<!--            &lt;!&ndash; Линии соединения матчей &ndash;&gt;-->
+<!--            @if (columnIndex < list.length - 1) {-->
+<!--              <div class="match-lines right">-->
+<!--                <div class="line horizontal"></div>-->
+<!--              </div>-->
+<!--            }-->
+<!--            @if (columnIndex > 0) {-->
+<!--              <div class="match-lines left">-->
+<!--                <div class="line horizontal"></div>-->
+<!--                <div class="line vertical"></div>-->
+<!--              </div>-->
+<!--            }-->
+            <div class="match-lines">
+              <div class="line one"></div>
+              <div class="line two"></div>
+            </div>
+<!--            <div class="match-lines alt">-->
+<!--              <div class="line one"></div>-->
+<!--            </div>-->
           </div>
         }
       </div>
     }
   </div>
 </div>
+{{list|json}}

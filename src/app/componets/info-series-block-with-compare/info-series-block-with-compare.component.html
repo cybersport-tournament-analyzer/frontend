@@ -1,4 +1,4 @@
-{{data}}
+
 <div class="w-full flex gap-3">
   <div class=" flex flex-col justify-center items-center gap-3 transform ease-in-out duration-1000"
        [ngClass]="{'w-1/4':selectedUsers[0]&&selectedUsers[1],'w-1/3':!(selectedUsers[0]&&selectedUsers[1])}"
@@ -56,7 +56,57 @@
 <!--          }-->
 <!--        }-->
         <div class="h-full flex justify-center items-center">
-          <app-button title="Сравнить" [classButton]="{'!bg-headerBackground':isSelected(player.playerSteamId)}" (click)="selectUser(player,$event)"></app-button>
+
+          <div
+            [ngClass]="{ '!bg-headerBackground': isSelectedToGameStats(player.playerSteamId) }"
+            class="cursor-pointer"
+            (click)="selectUserToGameStats(player)"
+          >
+            <svg
+              height="40px"
+              width="40px"
+              viewBox="-3 -3 56 56"
+              xmlns="http://www.w3.org/2000/svg"
+              [ngClass]="{
+    'fill-[#1FA2FF4C]': !isSelectedToGameStats(player.playerSteamId),
+    'fill-[#9fd3f9]': isSelectedToGameStats(player.playerSteamId)
+  }"
+            >
+              <path d="M9.037,40.763h4.286c0.552,0,1-0.447,1-1v-7.314c0-0.553-0.448-1-1-1H9.037c-0.552,0-1,0.447-1,1v7.314
+           C8.037,40.315,8.485,40.763,9.037,40.763z M10.037,33.448h2.286v5.314h-2.286V33.448z"/>
+              <path d="M21.894,40.763c0.552,0,1-0.447,1-1v-20.64c0-0.553-0.448-1-1-1h-4.286c-0.552,0-1,0.447-1,1v20.64
+           c0,0.553,0.448,1,1,1H21.894z M18.608,20.123h2.286v18.64h-2.286V20.123z"/>
+              <path d="M30.465,40.763c0.552,0,1-0.447,1-1V25.96c0-0.553-0.448-1-1-1H26.18c-0.552,0-1,0.447-1,1v13.803
+           c0,0.553,0.448,1,1,1H30.465z M27.18,26.96h2.286v11.803H27.18V26.96z"/>
+              <path d="M33.751,9.763v30c0,0.553,0.448,1,1,1h4.286c0.552,0,1-0.447,1-1v-30c0-0.553-0.448-1-1-1h-4.286
+           C34.199,8.763,33.751,9.21,33.751,9.763z M35.751,10.763h2.286v28h-2.286V10.763z"/>
+            </svg>
+
+          </div>
+
+          <div (click)="selectUser(player,$event)" class="cursor-pointer">
+            <svg
+              height="30px"
+              width="30px"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              [ngClass]="{
+    'fill-[#1FA2FF4C]': !isSelected(player.playerSteamId),
+    'fill-[#9fd3f9]': isSelected(player.playerSteamId)
+  }"
+            >
+            <path d="M1,8A1,1,0,0,1,2,7H9.586L7.293,4.707A1,1,0,1,1,8.707,3.293l4,4a1,1,0,0,1,0,1.414l-4,4a1,1,0,1,1-1.414-1.414L9.586,9H2A1,1,0,0,1,1,8Zm21,7H14.414l2.293-2.293a1,1,0,0,0-1.414-1.414l-4,4a1,1,0,0,0,0,1.414l4,4a1,1,0,0,0,1.414-1.414L14.414,17H22a1,1,0,0,0,0-2Z" />
+            </svg>
+
+
+          </div>
+<!--          <app-button title="Сравнить" [classButton]="{'!bg-headerBackground':isSelected(player.playerSteamId)}" (click)="selectUser(player,$event)"></app-button>-->
+
+<!--          <app-button title="Статистика"-->
+<!--                      [classButton]="{'!bg-headerBackground':isSelectedToGameStats(player.playerSteamId)}"-->
+<!--                      (click)="selectUserToGameStats(player)">-->
+
+<!--          </app-button>-->
         </div>
 
 
@@ -77,7 +127,49 @@
     @for(player of Object.values(data?.team2);track $index){
       <div class="w-full h-[82px] flex flex-row bg-headerBackground px-4 rounded-xl gap-2 justify-end">
         <div class="h-full flex justify-center items-center">
-          <app-button title="Сравнить" [classButton]="{'!bg-headerBackground':isSelected(player.playerSteamId)}" (click)="selectUser(player,$event)"></app-button>
+          <div (click)="selectUser(player,$event)" class="cursor-pointer">
+            <svg
+              height="30px"
+              width="30px"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              [ngClass]="{
+    'fill-[#1FA2FF4C]': !isSelected(player.playerSteamId),
+    'fill-[#9fd3f9]': isSelected(player.playerSteamId)
+  }"
+            >
+              <path d="M1,8A1,1,0,0,1,2,7H9.586L7.293,4.707A1,1,0,1,1,8.707,3.293l4,4a1,1,0,0,1,0,1.414l-4,4a1,1,0,1,1-1.414-1.414L9.586,9H2A1,1,0,0,1,1,8Zm21,7H14.414l2.293-2.293a1,1,0,0,0-1.414-1.414l-4,4a1,1,0,0,0,0,1.414l4,4a1,1,0,0,0,1.414-1.414L14.414,17H22a1,1,0,0,0,0-2Z" />
+            </svg>
+
+
+          </div>
+<!--          <app-button title="Сравнить" [classButton]="{'!bg-headerBackground':isSelected(player.playerSteamId)}" (click)="selectUser(player,$event)"></app-button>-->
+          <div
+            [ngClass]="{ '!bg-headerBackground': isSelectedToGameStats(player.playerSteamId) }"
+            class="cursor-pointer"
+            (click)="selectUserToGameStats(player)"
+          >
+            <svg
+              height="40px"
+              width="40px"
+              viewBox="-3 -3 56 56"
+              xmlns="http://www.w3.org/2000/svg"
+              [ngClass]="{
+    'fill-[#1FA2FF4C]': !isSelectedToGameStats(player.playerSteamId),
+    'fill-[#9fd3f9]': isSelectedToGameStats(player.playerSteamId)
+  }"
+            >
+              <path d="M9.037,40.763h4.286c0.552,0,1-0.447,1-1v-7.314c0-0.553-0.448-1-1-1H9.037c-0.552,0-1,0.447-1,1v7.314
+           C8.037,40.315,8.485,40.763,9.037,40.763z M10.037,33.448h2.286v5.314h-2.286V33.448z"/>
+              <path d="M21.894,40.763c0.552,0,1-0.447,1-1v-20.64c0-0.553-0.448-1-1-1h-4.286c-0.552,0-1,0.447-1,1v20.64
+           c0,0.553,0.448,1,1,1H21.894z M18.608,20.123h2.286v18.64h-2.286V20.123z"/>
+              <path d="M30.465,40.763c0.552,0,1-0.447,1-1V25.96c0-0.553-0.448-1-1-1H26.18c-0.552,0-1,0.447-1,1v13.803
+           c0,0.553,0.448,1,1,1H30.465z M27.18,26.96h2.286v11.803H27.18V26.96z"/>
+              <path d="M33.751,9.763v30c0,0.553,0.448,1,1,1h4.286c0.552,0,1-0.447,1-1v-30c0-0.553-0.448-1-1-1h-4.286
+           C34.199,8.763,33.751,9.21,33.751,9.763z M35.751,10.763h2.286v28h-2.286V10.763z"/>
+            </svg>
+
+          </div>
         </div>
         @if (player.stats){
           <div class="flex flex-col justify-center items-start ">
@@ -102,4 +194,67 @@
       </div>
     }
   </div>
+</div>
+
+<div>
+  @if(userGameStats()){
+  <div class=" w-full flex justify-start"><h2 class="font-md text-2xl mt-6 mb-6">Полная статистика игрока</h2></div>
+<app-game-stats [playerStats]="userGameStats()"></app-game-stats>}
+
+
+  <div class=" w-full flex justify-start"><h2 class="font-md text-2xl mt-6 mb-6">Исход дуэлей</h2></div>
+  <div class="px-5 border border-mainText-500 rounded-xl ">
+
+    <div class="w-full">
+  @if(matrixDuels().length!=0) {
+    <app-table [dataSource]="matrixDuels()">
+
+      <!-- Колонка имени киллера -->
+      <div appCustomColumn class="min-w-[100px] mr-6 ">
+        <ng-template customHeaderCellDef>
+
+        </ng-template>
+        <ng-template customCellDef let-element>
+          <div
+            class="flex justify-start items-center flex-1 text-lg font-md ">
+            {{  element.killerId | idToNickname: this.configNames }}
+            <!--                                          {{ element.killerId  }}-->
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Динамически создаем колонки по victimId -->
+      <ng-container *ngFor="let victimId of playerIds">
+        <div appCustomColumn class="min-w-[100px] flex justify-center  ">
+          <ng-template customHeaderCellDef>
+            <div
+              class="flex justify-center items-center text-lg font-md   ">
+              {{ String(victimId) | idToNickname: this.configNames }}
+              <!--                                            {{ String(victimId)  }}-->
+            </div>
+          </ng-template>
+          <ng-template customCellDef let-element>
+            <ng-container *ngIf="element[victimId] as duel">
+              <div
+                [ngClass]="{
+              'text-highRates': duel.percent >= 60,
+              'text-mediumRates': duel.percent >= 40 && duel.percent < 60,
+              'text-progress2': duel.percent < 40
+            }"
+                class=" w-full rounded px-2 py-1 text-center text-sm flex justify-center items-center"
+              >
+                {{ duel.kills }} ({{ duel.percent |number:'0.0-0'  }}%)
+              </div>
+            </ng-container>
+            <ng-container *ngIf="element[victimId] === null">
+              <div class="text-center text-gray-400">-</div>
+            </ng-container>
+          </ng-template>
+        </div>
+      </ng-container>
+
+    </app-table>
+  }
+    </div>
+</div>
 </div>

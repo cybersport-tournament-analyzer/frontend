@@ -1,0 +1,377 @@
+@if (playerStats){
+<div class=" w-full grid grid-cols-4 gap-4">
+  <app-info-card [cardClass]="' h-[429px] !rounded-xl  flex items-center' ">
+    <div class="h-full flex flex-col ">
+      <!--                                    <div class="border-b border-b-mainText-500 flex flex-col justify-start w-full">-->
+      <!--                                      <p>{{ gameStats()[$index][0].kills }}</p>-->
+      <!--                                      <p>Убийства</p>-->
+      <!--                                    </div>-->
+      <div class="border-b border-b-mainText-500 w-full  mt-5">
+        <p class="items-cent mb-3 text-md font-md">Основные показатели</p>
+
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Убийства</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.kills |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Смерти</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.deaths |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Помощи</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.assists |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">K/D</p>
+        <p class=" font-md text-sm">{{ playerStats.kd  |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Убийств за раунд</p>
+        <p class=" font-md text-sm">{{ playerStats.kpr |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Процент хедшотов</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.hsp * 100 |number :'0.0-0' }}
+          %</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">KAST</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.kast * 100  |number :'0.0-2' }}
+          %</p>
+
+      </div>
+
+    </div>
+  </app-info-card>
+
+
+  <app-info-card [cardClass]="' h-[429px] !rounded-xl  flex items-center' ">
+    <div class="h-full flex flex-col ">
+      <!--                                    <div class="border-b border-b-mainText-500 flex flex-col justify-start w-full">-->
+      <!--                                      <p>{{ gameStats()[$index][0].kills }}</p>-->
+      <!--                                      <p>Убийства</p>-->
+      <!--                                    </div>-->
+      <div class="border-b border-b-mainText-500 w-full mt-5 ">
+        <p class="items-cent mb-3 text-md font-md">Серии убийств</p>
+
+
+      </div>
+
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Всего серий убийств</p>
+        <p class=" font-md text-sm">{{ playerStats.totalKillingSpree |number :'0.0-2' }}</p>
+
+      </div>
+      <!--                                    <div-->
+      <!--                                      class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">-->
+      <!--                                      <p class="text-mainText-500 font-sm text-sm">Одно убийство</p>-->
+      <!--                                      <p class=" font-md text-sm">{{gameStats()[$index][0].kills - gameStats()[$index][0].totalKillingSpree |number :'0.0-2' }}</p>-->
+
+      <!--                                    </div>-->
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Двойные убийства</p>
+        <p class=" font-md text-sm">{{playerStats._2ks |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Тройные убийства</p>
+        <p class=" font-md text-sm">{{ playerStats._3ks |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Квадро убийства</p>
+        <p class=" font-md text-sm">{{ playerStats._4ks |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Эйс</p>
+        <p
+          class=" font-md text-sm">{{ playerStats._5ks  |number :'0.0-2' }}</p>
+
+      </div>
+
+
+    </div>
+  </app-info-card>
+
+
+  <app-info-card [cardClass]="' h-[429px] !rounded-xl  flex items-center' ">
+    <div class="h-full flex flex-col ">
+      <!--                                    <div class="border-b border-b-mainText-500 flex flex-col justify-start w-full">-->
+      <!--                                      <p>{{ gameStats()[$index][0].kills }}</p>-->
+      <!--                                      <p>Убийства</p>-->
+      <!--                                    </div>-->
+      <div class="border-b border-b-mainText-500 w-full mt-5 ">
+        <p class="items-cent mb-3 text-md font-md">Оружие</p>
+
+
+      </div>
+
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Лучшее оружие </p>
+        <p
+          class=" font-md text-sm">{{ playerStats.bestWeapon  }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Убийства пистолетами</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.killsWithPistol |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Убийства снайперскими<br> винтовками
+        </p>
+        <p
+          class=" font-md text-sm">{{ playerStats.killsWithSniper |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm "> Убийства штурмовыми<br> винтовками
+        </p>
+        <p
+          class=" font-md text-sm">{{ playerStats.riffleKills |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Убийства ножом</p>
+        <p
+          class=" font-md text-sm">{{playerStats.knifeKills |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Убийства зевсом</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.zeusKills |number :'0.0-2' }}</p>
+
+      </div>
+
+
+    </div>
+  </app-info-card>
+
+  <app-info-card [cardClass]="' h-[429px] !rounded-xl flex !items-end'">
+    <div class="h-full flex flex-col ">
+      <!--                                    <div class="border-b border-b-mainText-500 flex flex-col justify-start w-full">-->
+      <!--                                      <p>{{ gameStats()[$index][0].kills }}</p>-->
+      <!--                                      <p>Убийства</p>-->
+      <!--                                    </div>-->
+      <div class="border-b border-b-mainText-500 w-full  mt-5">
+        <p class="items-cent mb-3 text-md font-md">Урон и эффективность</p>
+
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5 ">
+        <p class="text-mainText-500 font-sm text-sm">Нанесенный урон</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.damageDealt |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Средний урон за раунд (ADR)</p>
+        <p class=" font-md text-sm">{{ playerStats.adr |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Полученный урон за раунд</p>
+        <p class=" font-md text-sm">{{ playerStats.dpr |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Урон гранатами</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.utilityDamage  |number :'0.0-2' }}</p>
+
+      </div>
+      <div
+        class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+        <p class="text-mainText-500 font-sm text-sm">Урон гранатами за раунд</p>
+        <p
+          class=" font-md text-sm">{{ playerStats.utilityDamagePerRound |number :'0.0-2' }}</p>
+
+      </div>
+
+    </div>
+  </app-info-card>
+  <div class="  col-span-2 ">
+    <app-info-card [cardClass]="'w-full h-[350px] !rounded-xl' ">
+      <div class="h-full flex flex-col ">
+        <!--                                    <div class="border-b border-b-mainText-500 flex flex-col justify-start w-full">-->
+        <!--                                      <p>{{ gameStats()[$index][0].kills }}</p>-->
+        <!--                                      <p>Убийства</p>-->
+        <!--                                    </div>-->
+        <div class="border-b border-b-mainText-500 w-full  mt-5">
+          <p class="items-cent mb-3 text-md font-md">Тактические показатели</p>
+        </div>
+        <div class="w-full flex justify-between items-start gap-12">
+          <div class="flex flex-col justify-center items-start w-1/2 pl-1">
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Попытки первых убийств</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.entryAttempts |number :'0.0-2' }}</p>
+
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Первые убийства</p>
+              <p
+                class=" font-md text-sm">{{playerStats.entrySuccesses |number :'0.0-2' }}</p>
+
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Процент успешных выходов</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.entryKillsRate *100 |number :'0.0-0' }}
+                %</p>
+
+            </div>
+
+          </div>
+          <div class="flex flex-col justify-center items-start w-1/2">
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Брошенных светошумовых</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.flashesThrown  |number :'0.0-2' }}</p>
+
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Успешных ослеплений</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.flashesSuccessful |number :'0.0-2' }}</p>
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Врагов ослеплено</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.flashesEnemiesBlinded |number :'0.0-2' }}</p>
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Убийств через дым</p>
+              <p
+                class=" font-md text-sm">{{playerStats.smokeKills |number :'0.0-2' }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </app-info-card>
+  </div>
+  <div class=" col-span-2 ">
+    <app-info-card [cardClass]="'w-full h-[350px] !rounded-xl' ">
+      <div class="h-full flex flex-col ">
+        <!--                                    <div class="border-b border-b-mainText-500 flex flex-col justify-start w-full">-->
+        <!--                                      <p>{{ gameStats()[$index][0].kills }}</p>-->
+        <!--                                      <p>Убийства</p>-->
+        <!--                                    </div>-->
+        <div class="border-b border-b-mainText-500 w-full  mt-5">
+          <p class="items-cent mb-3 text-md font-md"> Особые достижения и рекорды</p>
+        </div>
+        <div class="w-full flex justify-between items-start gap-12">
+          <div class="flex flex-col justify-center items-start w-1/2 pl-1">
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Убийства в ослеплении</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.blindk |number :'0.0-2' }}</p>
+
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Убийства при подрыве бомбы</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.bombk |number :'0.0-2' }}</p>
+
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Убийства через стены</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.wallbangs *100 |number :'0.0-0' }}
+                %</p>
+
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Убийства без прицела</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.noscopes  |number :'0.0-2' }}</p>
+
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Убийства кур</p>
+              <p
+                class=" font-md text-sm">{{playerStats.chickenk |number :'0.0-2' }}</p>
+            </div>
+
+          </div>
+          <div class="flex flex-col justify-center items-start w-1/2">
+
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Общий рейтинг</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.rating |number :'0.0-2' }}</p>
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Процент выигранных клатчей</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.clutchWinRate *100 |number :'0.0-2' }}%</p>
+            </div>
+            <div
+              class="border-b border-b-mainText-500 w-full flex items-center justify-between mt-5">
+              <p class="text-mainText-500 font-sm text-sm">Попадания в голову (без убийства)</p>
+              <p
+                class=" font-md text-sm">{{ playerStats.dinks |number :'0.0-2' }}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </app-info-card>
+  </div>
+
+
+</div>
+}

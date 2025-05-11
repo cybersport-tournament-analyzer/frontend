@@ -4,7 +4,24 @@
   </div>
   @switch (showRes){
     @case (false){
-      Result
+      <div class="w-full flex items-center flex-wrap gap-10 justify-start">
+        @for (map of tournamentStats();track $index){
+          @if(map.map != 'T' && map.map != 'CT'){
+        <app-info-card [cardClass]="'w-[600px]'">
+          <ng-template #iconTemplate ><div class="min-w-[70px] w-[220px] h-[130px] flex flex-col justify-center items-start"><img [src]="'maps/'+map.map+'.jfif'| imgURL" alt=""/></div></ng-template>
+          <div class="w-full flex-col items-start">
+            <div class="flex text-md font-md">Карта:<pre> </pre><p class="flex justify-center items-center text-sm font-sm">{{map.map}}</p> </div>
+            <div class="flex text-md font-md">Всего забанено: <pre> </pre><p class="flex justify-center items-center text-sm font-sm">{{map.bannedCount}}</p><p></p> </div>
+            <div class="flex text-md font-md">Матчей сыграно: <pre> </pre><p class="flex justify-center items-center text-sm font-sm">{{map.matchesPlayed}}</p> </div>
+            <div class="flex text-md font-md">Процент выбора: <pre> </pre><p class="flex justify-center items-center text-sm font-sm">{{map.pickRate *100 |number :'0.0-0'}} %</p></div>
+            <div class="flex text-md font-md">Процент бана:<pre> </pre><p class="flex justify-center items-center text-sm font-sm">{{map.banRate *100 |number :'0.0-0'}}%</p> </div>
+          </div>
+
+<!--          <p>{{ data()?.mode }} </p>-->
+        </app-info-card>
+          }
+        }
+      </div>
     }
     @default {
       <app-table [dataSource]="tournamentResult">

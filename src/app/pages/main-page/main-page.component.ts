@@ -14,22 +14,26 @@ import {InfoCardComponent} from '../../componets/info-card/info-card.component';
 import {TournamentStatusPipe} from '../../pipes/tournament-status.pipe';
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
 import {SpinnerComponent} from '../../features/spinner/spinner.component';
+import {
+    TournamentBracketPredictionComponent
+} from "../../features/tournament-bracket-prediction/tournament-bracket-prediction.component";
 
 
 @Component({
   selector: 'app-main-page',
-  imports: [
-    JsonPipe,
-    AsyncPipe,
-    RouterLink,
-    ReactiveFormsModule,
-    TournamentBracketComponent,
-    InfoCardComponent,
-    TournamentStatusPipe,
-    DatePipe,
-    ImgURLPipe,
-    SpinnerComponent
-  ],
+    imports: [
+        JsonPipe,
+        AsyncPipe,
+        RouterLink,
+        ReactiveFormsModule,
+        TournamentBracketComponent,
+        InfoCardComponent,
+        TournamentStatusPipe,
+        DatePipe,
+        ImgURLPipe,
+        SpinnerComponent,
+        TournamentBracketPredictionComponent
+    ],
   templateUrl: './main-page.component.html',
   standalone: true,
   styleUrl: './main-page.component.css'

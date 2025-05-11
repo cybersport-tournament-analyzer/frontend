@@ -21,6 +21,7 @@ import {TeamRegistrationComponent} from '../../componets/team-registration/team-
 import {SpinnerComponent} from '../../features/spinner/spinner.component';
 import {TimePipe} from '../../pipes/time.pipe';
 import {UserService} from '../../services/user/user.service';
+import {StatsService} from '../../services/stats.service';
 
 @Component({
   selector: 'app-tournament-page',
@@ -95,7 +96,10 @@ export class TournamentPageComponent implements OnInit{
   }
   data:WritableSignal<any|null>=signal(null)
   matchSchedule:any[]=[]
-  constructor(private tournamentService:TournamentService,private route: ActivatedRoute, protected utilService:UtilService, private userService:UserService) {
+  TOURNAMENT_ID:string
+
+  constructor(private tournamentService:TournamentService,private route: ActivatedRoute, protected utilService:UtilService, private userService:UserService, private statsService:StatsService) {
+    this.TOURNAMENT_ID= this.route.snapshot.paramMap.get('id')!
   }
   stages:any=signal(null)
 
@@ -133,6 +137,8 @@ export class TournamentPageComponent implements OnInit{
       console.log(data)
       this.stages.set(data)
     })
+
+
 
 
     // this.tournamentService.getTournamentData("a7d05b4c-9602-4a61-b9d5-3155600d1e79")
