@@ -4,7 +4,7 @@ import {UserDto} from '../../interfaces/user-dto';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../../services/user/user.service';
 import {SpinnerComponent} from '../../features/spinner/spinner.component';
-import {JsonPipe} from '@angular/common';
+import {DecimalPipe, JsonPipe} from '@angular/common';
 import {ButtonComponent} from '../../componets/globals/button/button.component';
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
 import {InfoCardComponent} from '../../componets/info-card/info-card.component';
@@ -20,6 +20,9 @@ import {ComparePlayersComponent} from '../../features/compare-players/compare-pl
 import {
   TournamentBracketPredictionComponent
 } from '../../features/tournament-bracket-prediction/tournament-bracket-prediction.component';
+import {Stats} from 'node:fs';
+import {StatsService} from '../../services/stats.service';
+import {GameStatsComponent} from '../../componets/game-stats/game-stats.component';
 
 @Component({
   selector: 'app-profile-page',
@@ -36,15 +39,21 @@ import {
     TournamentStatsComponent,
     ProgressBarComponent,
     ComparePlayersComponent,
-    TournamentBracketPredictionComponent
+    TournamentBracketPredictionComponent,
+    GameStatsComponent,
+    DecimalPipe
   ],
   templateUrl: './profile-page.component.html',
   standalone: true,
   styleUrl: './profile-page.component.css'
 })
 export class ProfilePageComponent implements OnInit{
-  constructor(private  authService:AuthService, private route:ActivatedRoute, private  userService:UserService) {
-
+  PLAYER_ID:string
+  gameStatsPlayer:WritableSignal<any>=signal(null)
+  metaStatsPlayer:WritableSignal<any>=signal(null)
+  weaponStatsPlayer:WritableSignal<any>=signal(null)
+  constructor(private  authService:AuthService, private route:ActivatedRoute, private  userService:UserService, private statsService:StatsService) {
+    this.PLAYER_ID = this.route.snapshot.paramMap.get('id')!
   }
   userData:WritableSignal<UserDto|null> = signal<UserDto|null>(null)
 
@@ -60,7 +69,85 @@ export class ProfilePageComponent implements OnInit{
         }
       }
     })
+
+    this.getGameStats()
+    this.getMetaStats()
+    this.getWeaponStats()
+
   }
+
+  getGameStats(){
+    this.statsService.getGameStatsByGlobalUsers(this.PLAYER_ID).subscribe((gameStats)=>{
+      this.gameStatsPlayer.set(gameStats)
+    })
+
+  }
+  getMetaStats(){
+
+    this.statsService.getMetaStatsByGlobalUsers(this.PLAYER_ID).subscribe((metaStats)=>{
+      this.metaStatsPlayer.set(metaStats)
+    })
+  }
+  getWeaponStats(){
+
+    this.statsService.getWeaponStatsByGlobalUsers(this.PLAYER_ID).subscribe((weaponStats)=>{
+      console.log("aaaa")
+      console.log(weaponStats)
+      this.weaponStatsPlayer.set(weaponStats)
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   list:any=[
   [
     [

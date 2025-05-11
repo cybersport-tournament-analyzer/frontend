@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit, signal, WritableSignal} from '@angular/core';
 import {TableComponent} from '../../features/table/table.component';
 
 import {ImgURLPipe} from '../../pipes/img-url.pipe';
@@ -10,6 +10,10 @@ import {
   CustomHeaderCellDefDirective
 } from '../../features/table/custom-column.directive';
 import {TournamentService} from '../../services/tournament/tournament.service';
+import {ActivatedRoute} from '@angular/router';
+import {StatsService} from '../../services/stats.service';
+import {DecimalPipe, JsonPipe} from '@angular/common';
+import {InfoCardComponent} from '../info-card/info-card.component';
 
 @Component({
   selector: 'app-tournament-stats',
@@ -21,13 +25,16 @@ import {TournamentService} from '../../services/tournament/tournament.service';
     ButtonComponent,
     CustomColumnDirective,
     CustomHeaderCellDefDirective,
-    CustomCellDefDirective
+    CustomCellDefDirective,
+    JsonPipe,
+    InfoCardComponent,
+    DecimalPipe
   ],
   templateUrl: './tournament-stats.component.html',
   standalone: true,
   styleUrl: './tournament-stats.component.css'
 })
-export class TournamentStatsComponent {
+export class TournamentStatsComponent implements OnInit{
   showRes:boolean=true
   @Input()
   tournamentResult:any[]=[
@@ -58,11 +65,22 @@ export class TournamentStatsComponent {
     }
   ]
 
-  constructor(private tournamentService:TournamentService) {
+  TOURNAMENT_ID:string
 
+
+  tournamentStats:WritableSignal<any>=signal(null)
+  constructor(private tournamentService:TournamentService, private route:ActivatedRoute, private statsService:StatsService) {
+    this.TOURNAMENT_ID= this.route.snapshot.paramMap.get('id')!
   }
+
 
   changeStats() {
     this.showRes=!this.showRes
+  }
+
+  ngOnInit(): void {
+    this.statsService.getTournamentStats(this.TOURNAMENT_ID).subscribe((stats:any)=>{
+      this.tournamentStats.set(stats)
+    })
   }
 }

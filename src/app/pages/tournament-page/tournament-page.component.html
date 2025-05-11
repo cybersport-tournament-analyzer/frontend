@@ -11,14 +11,13 @@
   </app-modal-window>
 
   <div class="w-[1400px] flex flex-col mx-auto  rounded-lg shadow-md p-6">
-    {{data() |json}}
     <!-- Заголовок -->
     <div class="flex w-full gap-3 mb-7 ">
       <div class="h-[186px] w-[186px] bg-mainBlue rounded-[50%]  border-4 border-mainBorder"></div>
       <div class="flex-col flex justify-center">
 
         <h1 class="text-3xl font-xl ">{{ data()?.tournamentMode }} - {{ data()?.tournamentName }}</h1>
-        <p class="text-md font-sm text-mainText-700">Приблизительно через 1 час - {{ this.utilService.formatDateToRussianGMT3(this.data()?.tournamentStartTime) }}</p>
+        <p class="text-md font-sm text-mainText-700">{{ this.utilService.formatTimeRemaining(this.data()?.tournamentStartTime) }} - {{ this.utilService.formatDateToRussianGMT3(this.data()?.tournamentStartTime) }}</p>
         <!--      <div class="mt-2 flex items-center text-green-500">-->
         <!--        <span class="mr-2">●</span>-->
         <!--        <span class="font-medium">Начнется через 59:23</span>-->
@@ -44,7 +43,7 @@
             ></div>
 
           </div>
-          <div class="w-11/12 flex justify-around">
+          <div class="w-11/12 flex ">
 
             @for (step of steps; track $index) {
 
