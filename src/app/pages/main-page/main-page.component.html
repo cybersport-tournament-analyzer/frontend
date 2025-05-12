@@ -57,14 +57,14 @@
 <!--    </div>-->
 <!--  </div>-->
 
-  <div class="w-full h-[905px] relative top-[64px]  ">
+  <div class="w-full h-[905px] relative top-[64px]   ">
 
   </div>
-  <div class="w-full absolute top-[64px] left-0 h-[905px]  flex justify-center items-center  ">
+  <div class="w-full absolute top-[64px] left-0 h-[905px]  flex justify-center items-center   ">
     <div class=" w-full h-[905px]   overflow-y-hidden relative">
       <div class=" w-full h-[905px]  absolute top-0  z-2 glass text-[32px] font-lg flex justify-center items-center ">
         <div class="max-w-[1920px] w-full h-full flex justify-center items-center">
-          <div class="w-[1400px] h-[568px] flex flex-col gap-10">
+          <div class="w-[1400px] h-[568px] flex flex-col ">
             <div class="w-full flex justify-between ">
               <div class="w-1/2 flex flex-col gap-2">
                 <p class="font-lg text-3xl">GPoint — твоя арена для киберспортивных баттлов в CS2!</p>
@@ -80,7 +80,7 @@
                 </video>
                  </div>
             </div>
-            <div class="w-full flex gap-2 justify-between">
+            <div class="w-full flex gap-2 justify-between mt-3">
               <app-info-card [cardClass]="'w-[445px] h-[129px] bg-mainBlue border border-mainBorder rounded-xl flex flex-row py-2'">
 
                 <ng-template #iconTemplate ><div class=" h-full flex  justify-center items-center"><img [src]="'whiteCup.svg'| imgURL" alt=""/></div></ng-template>
@@ -144,7 +144,7 @@
   </div>
   } @else {
   <app-spinner/>
-    <app-tournament-bracket-prediction ></app-tournament-bracket-prediction>
+<!--    <app-tournament-bracket-prediction ></app-tournament-bracket-prediction>-->
 }
 </div>
 
