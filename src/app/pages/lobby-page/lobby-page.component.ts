@@ -160,17 +160,50 @@ export class LobbyPageComponent implements OnInit, OnDestroy{
   }
 
   showToast:boolean = false
+  // copyToClipboard(text: string) {
+  //   console.log("aaa" ,text)
+  //   navigator.clipboard.writeText(text.split('+')[1]).then(() => {
+  //     this.showToast = true;
+  //     // Скрываем уведомление через 2.5 секунды
+  //     setTimeout(() => {
+  //       this.showToast = false;
+  //     }, 2500);
+  //   }).catch(err => {
+  //     console.error('Ошибка копирования:', err);
+  //   });
+  // }
+
   copyToClipboard(text: string) {
-    console.log("aaa" ,text)
-    navigator.clipboard.writeText(text.split('+')[1]).then(() => {
-      this.showToast = true;
-      // Скрываем уведомление через 2.5 секунды
-      setTimeout(() => {
-        this.showToast = false;
-      }, 2500);
-    }).catch(err => {
-      console.error('Ошибка копирования:', err);
-    });
+    // // Проверка наличия '+'
+    // const parts = text.split('+');
+    // if (parts.length < 2) return;
+    //
+    // const textToCopy = parts[1];
+    //
+    // // Fallback-метод
+    // const legacyCopy = () => {
+    //   const textarea = document.createElement('textarea');
+    //   textarea.value = textToCopy;
+    //   document.body.appendChild(textarea);
+    //   textarea.select();
+    //   document.execCommand('copy');
+    //   document.body.removeChild(textarea);
+    // };
+    //
+    // // Исправленная проверка безопасного контекста
+    // const isSecure = window.location.protocol === 'https:' ||
+    //   window.location.hostname === 'localhost' ||
+    //   window.location.hostname === '127.0.0.1';
+    //
+    // if (!navigator.clipboard || !isSecure) {
+    //   legacyCopy();
+    // } else {
+    //   navigator.clipboard.writeText(textToCopy)
+    //     .catch(() => legacyCopy());
+    // }
+    //
+    // this.showToast = true;
+    // setTimeout(() => { this.showToast = false; }, 2500);
   }
   constructor(private wsService: WebSocketService,private route: ActivatedRoute, private profileService:AuthService, private router:Router) {
     this.router.events.subscribe(event => {

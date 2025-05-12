@@ -14,6 +14,8 @@
         <div class="flex items-center shrink-0 gap-2 ">
           @if(player.captain){
             <img class="w-[15px] h-[15px] " [src]="'Star.svg' | imgURL" >
+          } @else {
+            <div class="w-[15px] h-[15px] " ></div>
           }
           @if(player.imgUrl){
             <img class="w-[50px] h-[50px]" [src]="player.imgUrl | imgURL" >
@@ -40,6 +42,17 @@
                     <app-button [classButton]="' flex justify-center ' " (click)="onButtonClick(player.ready)" [title]="'Готов'"></app-button>
                   } @else {
                     <app-button [classButton]="'w-[110px] flex justify-center !bg-headerBackground' " (click)="onButtonClick(player.ready)" [title]="'Не готов'"></app-button>
+                  }
+<!--                  test-->
+                  @if (data().pickBanSession?.maps != null){
+                    <div class="flex flex-col justify-center items-center shrink-0 ">
+                      @if (player.ready != null){
+                        @if(player.ready){
+                          Готов
+                        } @else {
+                          Не готов
+                        }}
+                    </div>
                   }
 
                 </div>
@@ -100,6 +113,16 @@
             } @else {
               <app-button [classButton]="'w-[110px] flex justify-center !bg-headerBackground' " (click)="onButtonClick(player.ready)" [title]="'Не готов'"></app-button>
             }
+            @if (data().pickBanSession?.maps != null){
+              <div class="flex flex-col justify-center items-center shrink-0 ">
+                @if (player.ready != null){
+                  @if(player.ready){
+                    Готов
+                  } @else {
+                    Не готов
+                  }}
+              </div>
+            }
 
           </div>
         } @else {
@@ -137,6 +160,8 @@
           }
           @if(player.captain){
             <img class="w-[15px] h-[15px] " [src]="'Star.svg' | imgURL" >
+          }@else {
+            <div class="w-[15px] h-[15px] " ></div>
           }
         </div>
       </div>
