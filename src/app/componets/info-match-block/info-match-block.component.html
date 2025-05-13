@@ -38,13 +38,13 @@
               @if (Number(user?.steamId) == Number(player.playerSteamId)) {
                 <div class="h-full flex justify-center items-center  ">
 
+                  @if (data.pickBanSession?.maps == null){
                   @if (player.ready){
                     <app-button [classButton]="' flex justify-center ' " (click)="onButtonClick(player.ready)" [title]="'Готов'"></app-button>
                   } @else {
                     <app-button [classButton]="'w-[110px] flex justify-center !bg-headerBackground' " (click)="onButtonClick(player.ready)" [title]="'Не готов'"></app-button>
-                  }
-<!--                  test-->
-                  @if (data().pickBanSession?.maps != null){
+                  }}
+                  @if (data.pickBanSession?.maps != null){
                     <div class="flex flex-col justify-center items-center shrink-0 ">
                       @if (player.ready != null){
                         @if(player.ready){
@@ -54,6 +54,8 @@
                         }}
                     </div>
                   }
+<!--                  {{data.pickBanSession| json}}-->
+<!--                  {{data()}}-->
 
                 </div>
               } @else {
@@ -113,7 +115,7 @@
             } @else {
               <app-button [classButton]="'w-[110px] flex justify-center !bg-headerBackground' " (click)="onButtonClick(player.ready)" [title]="'Не готов'"></app-button>
             }
-            @if (data().pickBanSession?.maps != null){
+            @if (data.pickBanSession?.maps != null){
               <div class="flex flex-col justify-center items-center shrink-0 ">
                 @if (player.ready != null){
                   @if(player.ready){
@@ -123,6 +125,7 @@
                   }}
               </div>
             }
+
 
           </div>
         } @else {
