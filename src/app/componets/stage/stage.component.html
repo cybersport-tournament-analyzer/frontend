@@ -60,8 +60,42 @@
       }
       @case ('Single Elimination') {
 
-        <div class="overflow-x-scroll" >
-          <app-tournament-bracket [list]="stageData[selectedStage.id]"/>
+        <div class="w-full flex flex-col justify-center items-center">
+          <div class="w-full flex justify-start">
+          <h3 class="text-xl font-semibold mb-4 ">Сетка</h3>
+        </div>
+          <div class="overflow-x-scroll" >
+            <app-tournament-bracket [list]="stageData[selectedStage.id]"/>
+          </div>
+        <div class="mt-8 w-full">
+          
+          <h3 class="text-xl font-semibold mb-4">Предсказания</h3>
+          
+          <div class="w-full flex flex-col gap-4 justify-center items-center">
+            @for (prediction of stagePredictions[selectedStage.id]; track $index) {
+              <div class="w-1/2 ">
+              <app-info-card [cardClass]="'w-full'">
+                <div class="p-4 flex justify-between items-center">
+                  <div class="font-medium mb-2 text-lg">
+                    {{ prediction.userNickname }}
+                  </div>
+                  <div class="flex justify-between items-center gap-4">
+                    <div class="text-lg flex flex-col items-center justify-center">
+                      <p>Место:</p>
+                      <p> {{ $index +1}}</p>
+                    </div>
+                    <div class="text-lg flex flex-col items-center justify-center">
+                      <p>Счет:</p>
+                      <p> {{ prediction.score }}</p>
+                    </div>
+                  </div>
+                
+                </div>
+              </app-info-card>
+            </div>
+            }
+          </div>
+        </div>
         </div>
       }
       @default {

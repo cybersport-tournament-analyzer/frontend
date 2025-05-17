@@ -201,13 +201,13 @@
 
 
 
-
 <div class="">
   <div class="bracket disable-image">
     @for (column of list; track $index){
       <div class= "column" cdkDropListGroup>
         @for (match of column;track $index){
-          <div class="match theme-dark gap-2">
+          <div class="match theme-dark gap-2"
+          >
             <div class="w-full flex justify-between"><p>Матч {{$index}}</p>
             <img [src]="'hrefIcon.svg'|imgURL">
             </div>

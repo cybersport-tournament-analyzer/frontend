@@ -239,6 +239,15 @@ export class TournamentService {
     );
   }
 
+  getTeamById(teamId: string) {
+    return this.http.get<any>(`${environment.tournamentSource}/teams/${teamId}`).pipe(
+      catchError(error => {
+        console.error("Ошибка при получении данных команды:", error);
+        return of(false);
+      })
+    );
+  }
+
   test(){
     return this.http.get<any>(`http://176.98.178.99:8083/stats/tournaments/1d0d1118-d419-4b03-8a20-018b172e012a`).pipe(
       // tap(data => {
@@ -251,6 +260,15 @@ export class TournamentService {
       // }),
       catchError(error => {
         console.error("Ошибка при получении результатов турнира :", error);
+        return of(false);
+      })
+    );
+  }
+
+  getStagePredictions(stageId: string) {
+    return this.http.get<any>(`${environment.tournamentSource}/predictions/${stageId}`).pipe(
+      catchError(error => {
+        console.error("Ошибка при получении предсказаний:", error);
         return of(false);
       })
     );

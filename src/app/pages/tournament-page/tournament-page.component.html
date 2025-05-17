@@ -216,6 +216,33 @@
       <ng-template appTab="Результаты турнира">
         <app-tournament-stats [tournamentResult]="stages()" />
       </ng-template>
+      <ng-template appTab="Команды">
+        <div class="w-full flex flex-col gap-4">
+          @for (team of teams(); track team.id) {
+            <app-info-card [cardClass]="'w-full'">
+              <div class="flex items-center justify-between p-4">
+                <div class="flex items-center gap-4">
+                  <div class="h-[50px] w-[50px] bg-mainBlue rounded-[50%]  border-4 border-mainBorder"></div>
+                  <span class="text-lg font-medium">{{team.teamName}}</span>
+                </div>
+                <div class="flex gap-6">
+                <div class="flex flex-col items-center">
+                  <span class="text-mainText-700">Флаг:</span>
+                  <span class="font-medium">{{team.flag}}</span>
+                </div>
+                <div class="flex flex-col items-center">
+                  <span class="text-mainText-700">Игроков:</span>
+                  <span class="font-medium">{{team.players.length}}</span>
+                </div>
+                <div class="flex items-center gap-2 cursor-pointer ">
+                  <img [src]="'hrefIcon.svg'|imgURL">
+                </div>
+              </div>
+              </div>
+            </app-info-card>
+          }
+        </div>
+      </ng-template>
     </app-tabs>
 
 

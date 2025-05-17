@@ -492,27 +492,25 @@
                                   <app-table [dataSource]="matrixDuels()[$index]">
 
                                     <!-- Колонка имени киллера -->
-                                    <div appCustomColumn class="min-w-[100px] mr-6 ">
+                                    <div appCustomColumn class="min-w-[100px] w-auto mr-6 ">
                                       <ng-template customHeaderCellDef>
 
                                       </ng-template>
                                       <ng-template customCellDef let-element>
                                         <div
-                                          class="flex justify-start items-center flex-1 text-lg font-md ">
-                                          {{  element.killerId | idToNickname: this.config }}
-<!--                                          {{ element.killerId  }}-->
+                                          class="flex justify-start items-center flex-1 text-lg font-md shrink-0">
+                                          <div class="whitespace-nowrap"> {{  element.killerId | idToNickname: this.config }} </div>
                                         </div>
                                       </ng-template>
                                     </div>
 
                                     <!-- Динамически создаем колонки по victimId -->
                                     <ng-container *ngFor="let victimId of playerIds">
-                                      <div appCustomColumn class="min-w-[100px] flex justify-center  ">
+                                      <div appCustomColumn class="min-w-[100px] w-[200px] flex justify-center">
                                         <ng-template customHeaderCellDef>
                                           <div
-                                            class="flex justify-center items-center text-lg font-md   ">
+                                            class="flex justify-center items-center text-lg font-md whitespace-nowrap shrink-0">
                                             {{ String(victimId) | idToNickname: this.config }}
-<!--                                            {{ String(victimId)  }}-->
                                           </div>
                                         </ng-template>
                                         <ng-template customCellDef let-element>

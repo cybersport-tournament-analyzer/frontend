@@ -10,9 +10,11 @@ import {
   CustomColumnDirective,
   CustomHeaderCellDefDirective
 } from '../../features/table/custom-column.directive';
-import {JsonPipe, NgClass} from '@angular/common';
+import {JsonPipe, NgClass, NgFor, NgIf} from '@angular/common';
 import {StagesPipe} from '../../pipes/stages.pipe';
 import {TournamentService} from '../../services/tournament/tournament.service';
+import {UserService} from '../../services/user/user.service';
+import { forkJoin, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-stage',
@@ -28,7 +30,9 @@ import {TournamentService} from '../../services/tournament/tournament.service';
     CustomHeaderCellDefDirective,
     JsonPipe,
     StagesPipe,
-    NgClass
+    NgClass,
+    NgFor,
+    NgIf
   ],
   templateUrl: './stage.component.html',
   standalone: true,
@@ -38,6 +42,9 @@ export class StageComponent implements OnInit{
   // stages:any[]=[{description:'Группа',name:'group'},{description:'Выбывание после 1 поражения',name:'bracket'}]
   @Input()stages!:any[]
   selectedStage:any =null
+  stagePredictions: any = {};
+  predictionUsers: {[key: string]: any} = {};
+  $element: any; // Add this to fix the template binding error
 
   groupData:any[]=[
     {
@@ -172,14 +179,45 @@ export class StageComponent implements OnInit{
     }
   ]
   dataStages:any=[]
-  constructor(private tournamentService:TournamentService) {
+  constructor(
+    private tournamentService:TournamentService,
+    private userService: UserService
+  ) {
 
     // this.groupData=temp
   }
   selectStage(stage:any){
     console.log(stage)
     this.selectedStage=stage;
+    this.loadStagePredictions(stage.id);
   }
+
+  loadStagePredictions(stageId: string) {
+    this.tournamentService.getStagePredictions(stageId).subscribe(
+      (predictions: any[]) => {
+        // Создаем массив запросов для получения информации о пользователях
+        const userRequests = predictions.map(prediction => 
+          this.userService.getUserById(prediction.userId).pipe(
+            map((user:any) => (
+              {
+              ...prediction,
+              userNickname: user?.steamUsername
+            }))
+          )
+        );
+
+        // Выполняем все запросы параллельно
+        forkJoin(userRequests).subscribe(
+          (predictionsWithUsers) => {
+            console.log("predictionsWithUsers")
+            console.log(predictionsWithUsers)
+            this.stagePredictions[stageId] = predictionsWithUsers;
+          }
+        );
+      }
+    );
+  }
+
   stageData:any={}
 
   ngOnInit(): void {

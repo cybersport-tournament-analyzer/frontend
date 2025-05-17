@@ -97,6 +97,7 @@ export class TournamentPageComponent implements OnInit{
   data:WritableSignal<any|null>=signal(null)
   matchSchedule:any[]=[]
   TOURNAMENT_ID:string
+  teams:WritableSignal<any[]> = signal([])
 
   constructor(private tournamentService:TournamentService,private route: ActivatedRoute, protected utilService:UtilService, private userService:UserService, private statsService:StatsService) {
     this.TOURNAMENT_ID= this.route.snapshot.paramMap.get('id')!
@@ -108,6 +109,7 @@ export class TournamentPageComponent implements OnInit{
       console.log("TOURNAMENT INIT")
       console.log(data)
       this.data.set(data)
+      this.teams.set(data.teams || [])
     // this.data=data
     // this.data.tournamentStatus='REGISTRATION'
       this.currentStep=this.data().tournamentStatus
